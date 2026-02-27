@@ -1,6 +1,6 @@
 ---
-  layout: default.md
-  title: "About Us"
+layout: default.md
+title: "About Us"
 ---
 
 # About Us
@@ -31,14 +31,14 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Team Lead
 * Responsibilities: UI
 
-### Johnny Doe
+### Hunter Raiyu Dinh
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/dinhcodes.png" width="200px" alt="Hunter">
 
-[[github](http://github.com/johndoe)] [[portfolio](team/johndoe.md)]
+[[github](http://github.com/dinhcodes)]
 
 * Role: Developer
-* Responsibilities: Data
+* Responsibilities: Full stack, UI when needed
 
 ### Jean Doe
 
