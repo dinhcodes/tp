@@ -9,7 +9,8 @@
         "project-team": "Project team",
         "jain-ananya": "Jain Ananya",
         "pooja-raju": "Pooja Raju",
-        "achar-pavithra": "Achar Pavithra"
+        "achar-pavithra": "Achar Pavithra",
+        "hunter-raiyu-dinh": "Hunter Raiyu Dinh"
       },
       "headingKeywords": {}
     },
@@ -135,6 +136,14 @@
     },
     {
       "src": "team/ananyaj1515.md",
+      "title": "John Doe's Project Portfolio Page",
+      "headings": {
+        "project-addressbook-level-3": "Project: AddressBook Level 3"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "team/dinhcodes.md",
       "title": "John Doe's Project Portfolio Page",
       "headings": {
         "project-addressbook-level-3": "Project: AddressBook Level 3"
