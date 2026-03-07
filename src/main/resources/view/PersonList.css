@@ -5,6 +5,13 @@
     -fx-padding: 0 0 0 0;
 }
 
+.list-cell:empty {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+}
+
 .list-cell:filled:even {
     -fx-background-color: derive(medium-grey, +20%);
 }
