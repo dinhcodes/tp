@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <fx:root type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-         title="Address App" minWidth="450" minHeight="600" onCloseRequest="#handleExit">
+         title="Address App" minWidth="800.0" minHeight="700.0" onCloseRequest="#handleExit">
   <icons>
     <Image url="@/images/address_book_32.png" />
   </icons>
@@ -22,8 +22,9 @@
         <URL value="@DarkTheme.css" />
       </stylesheets>
 
-      <VBox>
-        <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
+      <VBox maxHeight="1.7976931348623157E308" styleClass="stack-pane">
+        <!-- Menu Bar -->
+        <MenuBar fx:id="menuBar" minHeight="0.0" VBox.vgrow="NEVER">
           <Menu mnemonicParsing="false" text="File">
             <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Exit" />
           </Menu>
@@ -32,27 +33,44 @@
           </Menu>
         </MenuBar>
 
-        <StackPane VBox.vgrow="NEVER" fx:id="commandBoxPlaceholder" styleClass="pane-without-border">
+        <!-- Command Box -->
+        <StackPane fx:id="commandBoxPlaceholder" styleClass="pane-without-border" VBox.vgrow="NEVER">
           <padding>
-            <Insets top="5" right="10" bottom="5" left="10" />
+            <Insets bottom="5" left="10" right="10" top="5" />
           </padding>
         </StackPane>
 
-        <StackPane VBox.vgrow="NEVER" fx:id="resultDisplayPlaceholder" styleClass="pane-without-border"
-                   minHeight="100" prefHeight="100" maxHeight="100">
+        <!-- Result Display -->
+        <StackPane fx:id="resultDisplayPlaceholder" maxHeight="100" minHeight="100" prefHeight="100"
+                   styleClass="stack-pane">
           <padding>
-            <Insets top="5" right="10" bottom="5" left="10" />
+            <Insets bottom="5" left="10" right="10" top="5" />
           </padding>
+          <VBox.margin>
+            <Insets bottom="10.0" />
+          </VBox.margin>
         </StackPane>
 
-        <VBox fx:id="personList" styleClass="pane-without-border" minWidth="340" prefWidth="340" VBox.vgrow="ALWAYS">
-          <padding>
-            <Insets top="10" right="10" bottom="10" left="10" />
-          </padding>
-          <StackPane fx:id="personListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
-        </VBox>
+        <!-- SplitPane with Tab section and Person list section -->
+        <SplitPane dividerPositions="0.65" VBox.vgrow="ALWAYS">
+          <items>
+            <!-- Left side: tab / directory section placeholder (can be filled by PersonDetailTab, etc.) -->
+            <StackPane fx:id="tabSectionPlaceholder" VBox.vgrow="ALWAYS" />
 
-        <StackPane fx:id="statusbarPlaceholder" VBox.vgrow="NEVER" />
+            <!-- Right side: person list section -->
+            <StackPane fx:id="personListPanelPlaceholder" VBox.vgrow="ALWAYS" minWidth="200.0" />
+          </items>
+        </SplitPane>
+
+        <!-- Status bar -->
+        <StackPane fx:id="statusbarPlaceholder" styleClass="stack-pane" VBox.vgrow="NEVER">
+          <VBox.margin>
+            <Insets />
+          </VBox.margin>
+          <padding>
+            <Insets bottom="2.0" left="3.0" right="3.0" top="2.0" />
+          </padding>
+        </StackPane>
       </VBox>
     </Scene>
   </scene>
