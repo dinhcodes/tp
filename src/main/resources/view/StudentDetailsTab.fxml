@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" stylesheets="@../../../../css/Main.css" VBox.vgrow="ALWAYS"
+<VBox xmlns:fx="http://javafx.com/fxml/1" stylesheets="@DarkTheme.css" VBox.vgrow="ALWAYS"
       xmlns="http://javafx.com/javafx/17">
     <children>
         <TabPane fx:id="studentDetailsTabPane" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
