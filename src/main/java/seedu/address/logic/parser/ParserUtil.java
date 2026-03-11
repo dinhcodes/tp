@@ -147,6 +147,10 @@ public class ParserUtil {
         return new Tag(type, trimmedTag); // uses the simple constructor
     }
 
+    /**
+     * Parses a {@code Collection<String> tags and TagType } into a {@code Set<Tag>}.
+     * This method needs to be updated in the next milestone to accommodate the new TagType parameter.
+     */
     public static Set<Tag> parseTags(Collection<String> tags, TagType type) throws ParseException {
         requireNonNull(tags);
         final Set<Tag> tagSet = new HashSet<>();
