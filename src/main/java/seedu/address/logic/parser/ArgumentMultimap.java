@@ -75,4 +75,38 @@ public class ArgumentMultimap {
             throw new ParseException(Messages.getErrorMessageForDuplicatePrefixes(duplicatedPrefixes));
         }
     }
+
+    /**
+     * Returns a new ArgumentMultimap with all empty string values removed.
+     * If a prefix has only empty string values, that prefix will be removed from the map entirely.
+     *
+     * @return a new {@code ArgumentMultimap} with empty string values removed
+     */
+    public ArgumentMultimap removeEmptyValues() {
+        ArgumentMultimap cleanedMap = new ArgumentMultimap();
+        for (Map.Entry<Prefix, List<String>> entry : argMultimap.entrySet()) {
+            List<String> nonEmptyValues = new ArrayList<>();
+            for (String value : entry.getValue()) {
+                if (!value.trim().isEmpty()) {
+                    nonEmptyValues.add(value);
+                }
+            }
+            if (!nonEmptyValues.isEmpty()) {
+                cleanedMap.argMultimap.put(entry.getKey(), nonEmptyValues);
+            }
+        }
+        return cleanedMap;
+    }
+
+    /**
+     * Returns true if the map contains no prefix-argument mappings,
+     * or only contains prefixes that map to empty string values (after trimming).
+     */
+    public boolean hasEmptyPrefixArguments() {
+        return argMultimap
+                .values().stream()
+                .skip(1) // Skip the preamble
+                .allMatch(valueList -> valueList.isEmpty()
+                        || valueList.stream().allMatch(s -> s.trim().isEmpty()));
+    }
 }
