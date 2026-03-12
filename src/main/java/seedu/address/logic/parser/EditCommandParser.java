@@ -21,6 +21,7 @@ import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.tag.TagType;
 
 
 /**
@@ -101,6 +102,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         Collection<String> tagSet = tags.size() == 1 && tags.contains("")
             ? Collections.emptySet() // "t/" with no value = clear tags
             : tags;
-        return Optional.of(ParserUtil.parseTags(tagSet));
+        // TODO: This is not the correct return statement.
+        return Optional.of(ParserUtil.parseTags(tagSet, TagType.YEAR));
     }
 }
