@@ -76,7 +76,7 @@ public class Person {
     }
 
     /**
-     * @return the gender tag(s) of this person, if they exist.
+     * @return the gender tag(s) of this person, if they exist
      */
     public Set<Tag> getGender() {
         Set<Tag> genderTags = tags.stream()
@@ -87,7 +87,7 @@ public class Person {
     }
 
     /*
-     * @return the year tags of this person, if they exist.
+     * @return the year tags of this person
      */
     public Set<Tag> getYear() {
         Set<Tag> yearTags = tags.stream()
