@@ -101,6 +101,7 @@ public class FindCommandParser implements Parser<FindCommand> {
         filterDetails.setTagMajorKeywords(tagMajorKeywords);
         filterDetails.setTagGenderKeywords(tagGenderKeywords);
 
+//        System.out.println(filterDetails);
         return filterDetails;
     }
 

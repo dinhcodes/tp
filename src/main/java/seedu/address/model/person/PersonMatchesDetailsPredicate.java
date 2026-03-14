@@ -40,7 +40,7 @@ public class PersonMatchesDetailsPredicate implements Predicate<Person> {
                 & isFuzzyOrSubStringMatchIgnoreCase(person.getStudentId().value, filterDetails.getStudentIdKeywords())
                 & isExactMatchIgnoreCase(person.getEmergencyContact().value, filterDetails.getEmergencyContactKeywords())
                 & matchesExactTagsIgnoresCase(person.getYear(), filterDetails.getTagYearKeywords())
-                & matchesFuzzyTagsIgnoreCase(person.getMajor(), filterDetails.getTagMajorKeywords())
+                & matchesFuzzyOrSubstringTagsIgnoreCase(person.getMajor(), filterDetails.getTagMajorKeywords())
                 & matchesExactTagsIgnoresCase(person.getGender(), filterDetails.getTagGenderKeywords());
     }
 
@@ -49,51 +49,59 @@ public class PersonMatchesDetailsPredicate implements Predicate<Person> {
      * Name matching is done using {@link NameContainsKeywordsPredicate#test(Person)}.
      */
     private boolean isNameMatch(Person person) {
+        if (filterDetails.getNameKeywords().isEmpty()) {
+            return true;
+        }
         NameContainsKeywordsPredicate predicate =
                 new NameContainsKeywordsPredicate(filterDetails.getNameKeywords().stream().toList());
         return predicate.test(person);
     }
 
-    // Exact keyword matching (not case-sensitive)
+    /**
+     * Checks if the given {@code personValue} matches any of the {@code keywords} exactly (case-insensitive).
+     */
     private boolean isExactMatchIgnoreCase(String personValue, Set<String> keywords) {
         assert keywords != null : "keywords set should be non-null";
         if (personValue.isEmpty()) {
-            System.out.println("Person value: " + personValue + " is empty, returning false");
             return false;
         }
         if (keywords.isEmpty()) {
-            System.out.println("Keywords set " + keywords.toString() + " is empty, returning true");
             return true;
         }
         assert keywords != null : "keywords set should be non-null";
         return StringUtil.matchesWordInSetIgnoreCase(personValue, keywords);
     }
 
-    // Fuzzy keyword matching (not case-sensitive)
-    private boolean isFuzzyMatchIgnoreCase(String personValue, Set<String> keywords) {
+    /**
+     * Checks if the given {@code personValue} matches any of the {@code keywords} via fuzzy matching or
+     * substring matching (case-insensitive).
+     * Fuzzy matching allows for minor typos or differences. Substring matching checks if the keyword is
+     * contained within the value.
+     */
+    private boolean isFuzzyOrSubStringMatchIgnoreCase(String personValue, Set<String> keywords) {
         assert keywords != null : "keywords set should be non-null";
-        if (personValue.isEmpty()) {
-            System.out.println("Person value: " + personValue + " is empty, returning false");
-            return false;
-        }
         if (keywords.isEmpty()) {
-            System.out.println("Keywords set " + keywords.toString() + " is empty, returning true");
             return true;
         }
-
+        if (personValue.isEmpty()) {
+            return false;
+        }
         return StringUtil.fuzzyMatchesWordInSetIgnoreCase(personValue, keywords)
                 || StringUtil.matchesSubstringInSetIgnoreCase(personValue, keywords);
     }
 
-    // Exact tag matching (not case-sensitive)
-    private boolean matchesFuzzyTagsIgnoreCase(Set<Tag> personTags, Set<String> keywords) {
-        return matchesExactTags(personTags, keywords);
+    /**
+     * Checks if any of the {@code personTags} match any of the {@code keywords}.
+     * Fuzzy matching allows for minor typos or differences. Substring matching checks if the keyword is contained
+     * within the value.
+     */
+    private boolean matchesFuzzyOrSubstringTagsIgnoreCase(Set<Tag> personTags, Set<String> keywords) {
         assert keywords != null : "tag keyword set should be non-null";
-        if (personTags.isEmpty()) {
-            return false;
-        }
         if (keywords.isEmpty()) {
             return true;
+        }
+        if (personTags.isEmpty()) {
+            return false;
         }
         return personTags
                 .stream()
@@ -112,7 +120,7 @@ public class PersonMatchesDetailsPredicate implements Predicate<Person> {
     private boolean matchesExactTagsIgnoresCase(Set<Tag> personTags, Set<String> keywords) {
         assert keywords != null : "tag keyword set should be non-null";
         if (personTags.isEmpty()) {
-            return false;
+            return true;
         }
         if (keywords.isEmpty()) {
             return true;
@@ -128,7 +136,6 @@ public class PersonMatchesDetailsPredicate implements Predicate<Person> {
         if (other == this) {
             return true;
         }
-
         if (!(other instanceof PersonMatchesDetailsPredicate)) {
             return false;
         }
