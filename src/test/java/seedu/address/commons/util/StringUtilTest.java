@@ -58,25 +58,30 @@ public class StringUtilTest {
      */
 
     @Test
-    public void containsWordIgnoreCase_nullWord_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> StringUtil.containsWordIgnoreCase("typical sentence", null));
+    public void fuzzyMatchesWordIgnoreCase_nullWord_InSentence_throwsNullPointerException() {
+        assertThrows(NullPointerException.class,
+                () -> StringUtil
+                        .fuzzyMatchesWordInSentenceIgnoreCase("typical sentence", null));
     }
 
     @Test
-    public void containsWordIgnoreCase_emptyWord_throwsIllegalArgumentException() {
+    public void fuzzyMatchesWordIgnoreCase_emptyWord_InSentence_throwsIllegalArgumentException() {
         assertThrows(IllegalArgumentException.class, "Word parameter cannot be empty", ()
-            -> StringUtil.containsWordIgnoreCase("typical sentence", "  "));
+            -> StringUtil.fuzzyMatchesWordInSentenceIgnoreCase("typical sentence", "  "));
     }
 
     @Test
-    public void containsWordIgnoreCase_multipleWords_throwsIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class, "Word parameter should be a single word", ()
-            -> StringUtil.containsWordIgnoreCase("typical sentence", "aaa BBB"));
+    public void fuzzyMatchesWordInSentenceIgnoreCase_multipleWords_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, "Word parameter should be a single word",
+                () -> StringUtil.fuzzyMatchesWordInSentenceIgnoreCase(
+                        "typical sentence",
+                        "aaa BBB"));
     }
 
     @Test
-    public void containsWordIgnoreCase_nullSentence_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> StringUtil.containsWordIgnoreCase(null, "abc"));
+    public void fuzzyMatchesWordInSentenceIgnoreCase_nullSentence_throwsNullPointerException() {
+        assertThrows(NullPointerException.class,
+                () -> StringUtil.fuzzyMatchesWordInSentenceIgnoreCase(null, "abc"));
     }
 
     /*
@@ -105,25 +110,28 @@ public class StringUtilTest {
      */
 
     @Test
-    public void containsWordIgnoreCase_validInputs_correctResult() {
+    public void fuzzyMatchesWordInSentenceIgnoreCase_validInputs_correctResult() {
 
         // Empty sentence
-        assertFalse(StringUtil.containsWordIgnoreCase("", "abc")); // Boundary case
-        assertFalse(StringUtil.containsWordIgnoreCase("    ", "123"));
+        assertThrows(IllegalArgumentException.class, () ->
+                StringUtil.fuzzyMatchesWordInSentenceIgnoreCase("", "abc")); // Boundary case
+        assertThrows(IllegalArgumentException.class, () ->
+                StringUtil.fuzzyMatchesWordInSentenceIgnoreCase("    ", "123"));
 
         // Matches a partial word only
-        assertFalse(StringUtil.containsWordIgnoreCase("aaa bbb ccc", "bb")); // Sentence word bigger than query word
-        assertFalse(StringUtil.containsWordIgnoreCase("aaa bbb ccc", "bbbb")); // Query word bigger than sentence word
+        assertFalse(StringUtil.fuzzyMatchesWordInSentenceIgnoreCase("aaa bbb ccc", "bb")); // Query word is 2 characters, does
+        // not activate fuzzy match
+        assertTrue(StringUtil.fuzzyMatchesWordInSentenceIgnoreCase("aaa bbb ccc", "bbbb")); // Query word bigger than sentence word
 
         // Matches word in the sentence, different upper/lower case letters
-        assertTrue(StringUtil.containsWordIgnoreCase("aaa bBb ccc", "Bbb")); // First word (boundary case)
-        assertTrue(StringUtil.containsWordIgnoreCase("aaa bBb ccc@1", "CCc@1")); // Last word (boundary case)
-        assertTrue(StringUtil.containsWordIgnoreCase("  AAA   bBb   ccc  ", "aaa")); // Sentence has extra spaces
-        assertTrue(StringUtil.containsWordIgnoreCase("Aaa", "aaa")); // Only one word in sentence (boundary case)
-        assertTrue(StringUtil.containsWordIgnoreCase("aaa bbb ccc", "  ccc  ")); // Leading/trailing spaces
+        assertTrue(StringUtil.fuzzyMatchesWordInSentenceIgnoreCase("aaa bBb ccc", "Bbb")); // First word (boundary case)
+        assertTrue(StringUtil.fuzzyMatchesWordInSentenceIgnoreCase("aaa bBb ccc@1", "CCc@1")); // Last word (boundary case)
+        assertTrue(StringUtil.fuzzyMatchesWordInSentenceIgnoreCase("  AAA   bBb   ccc  ", "aaa")); // Sentence has extra spaces
+        assertTrue(StringUtil.fuzzyMatchesWordInSentenceIgnoreCase("Aaa", "aaa")); // Only one word in sentence (boundary case)
+        assertTrue(StringUtil.fuzzyMatchesWordInSentenceIgnoreCase("aaa bbb ccc", "  ccc  ")); // Leading/trailing spaces
 
         // Matches multiple words in sentence
-        assertTrue(StringUtil.containsWordIgnoreCase("AAA bBb ccc  bbb", "bbB"));
+        assertTrue(StringUtil.fuzzyMatchesWordInSentenceIgnoreCase("AAA bBb ccc  bbb", "bbB"));
     }
 
     //---------------- Tests for matchesWordInSetIgnoreCase --------------------------------------

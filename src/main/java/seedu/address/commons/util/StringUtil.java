@@ -6,6 +6,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.text.similarity.LevenshteinDistance;
@@ -27,19 +28,21 @@ public class StringUtil {
      * @param sentence cannot be null
      * @param word cannot be null, cannot be empty, must be a single word
      */
-    public static boolean fuzzyMatchesWordIgnoreCase(String sentence, String word) {
+    public static boolean fuzzyMatchesWordInSentenceIgnoreCase(String sentence, String word) {
         requireNonNull(sentence);
         requireNonNull(word);
 
         String preppedWord = word.trim();
+        String preppedSentence = sentence.trim();
+
         checkArgument(!preppedWord.isEmpty(), "Word parameter cannot be empty");
-        checkArgument(preppedWord.split("\\s+").length == 1, "Word parameter should be a single word");
+        checkArgument(!sentence.isEmpty(), "Sentence parameter cannot be empty");
+        checkArgument(preppedWord.split("\\s+").length == 1,
+                "Word parameter should be a single word");
 
-        String preppedSentence = sentence;
-        String[] wordsInPreppedSentence = preppedSentence.split("\\s+");
+        Set<String> wordsInPreppedSentence = new HashSet<>(Arrays.asList(preppedSentence.split("\\s+")));
 
-        return Arrays.stream(wordsInPreppedSentence)
-                .anyMatch(w -> fuzzyMatchesIgnoresCase(w, preppedWord));
+        return fuzzyMatchesWordInSetIgnoreCase(preppedWord, wordsInPreppedSentence);
     }
 
     /**
