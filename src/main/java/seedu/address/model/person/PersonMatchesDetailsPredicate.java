@@ -69,7 +69,7 @@ public class PersonMatchesDetailsPredicate implements Predicate<Person> {
             return false;
         }
         assert keywords != null : "keywords set should be non-null";
-        return StringUtil.matchesWordInSetIgnoreCase(personValue, keywords);
+        return StringUtil.equalsAnyIgnoreCase(personValue, keywords);
     }
 
     /**
@@ -86,8 +86,8 @@ public class PersonMatchesDetailsPredicate implements Predicate<Person> {
         if (personValue.isEmpty()) {
             return false;
         }
-        return StringUtil.fuzzyMatchesWordInSetIgnoreCase(personValue, keywords)
-                || StringUtil.matchesSubstringInSetIgnoreCase(personValue, keywords);
+        return StringUtil.fuzzyMatchesAnyIgnoreCase(personValue, keywords)
+                || StringUtil.isSubstringOfAnyIgnoreCase(personValue, keywords);
     }
 
     /**
@@ -106,8 +106,8 @@ public class PersonMatchesDetailsPredicate implements Predicate<Person> {
         return personTags
                 .stream()
                 .map(tag -> tag.getTagName())
-                .anyMatch(tag -> StringUtil.fuzzyMatchesWordInSetIgnoreCase(tag, keywords)
-                    || StringUtil.matchesSubstringInSetIgnoreCase(tag, keywords));
+                .anyMatch(tag -> StringUtil.fuzzyMatchesAnyIgnoreCase(tag, keywords)
+                    || StringUtil.isSubstringOfAnyIgnoreCase(tag, keywords));
     }
 
     /**
@@ -128,7 +128,7 @@ public class PersonMatchesDetailsPredicate implements Predicate<Person> {
         return personTags
                 .stream()
                 .map(tag -> tag.getTagName())
-                .anyMatch(tag -> StringUtil.matchesWordInSetIgnoreCase(tag, keywords));
+                .anyMatch(tag -> StringUtil.equalsAnyIgnoreCase(tag, keywords));
     }
 
     @Override

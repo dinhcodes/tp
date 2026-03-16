@@ -31,7 +31,7 @@ public class NameContainsKeywordsPredicate implements Predicate<Person> {
     @Override
     public boolean test(Person person) {
         Set<String> keywordsSet = Set.copyOf(keywords);
-        return StringUtil.fuzzyMatchesWordInSetIgnoreCase(person.getName().fullName, keywordsSet);
+        return StringUtil.fuzzyMatchesAnyIgnoreCase(person.getName().fullName, keywordsSet);
     }
 
     @Override

@@ -17,14 +17,20 @@ import org.apache.commons.text.similarity.LevenshteinDistance;
 public class StringUtil {
 
     /**
-     * Returns true if any of the words in the {@code wordSet} exactly matches the {@code word}.
+     * Checks if a word is an exact match for any word in a given set, ignoring case.
      * <br>
-     * Ignores case, a full word match is required.
-     * @param word word to be checked against the wordSet, cannot be null or empty
-     * @param wordSet set of words to be checked against the word, cannot be null or empty
-     * @return true if any of the words in the wordSet is an exact match, false otherwise
+     * Examples:
+     * <pre>
+     *      equalsAnyIgnoreCase("abc", Set.of("abc", "xyz")) == true // exact match found
+     *      equalsAnyIgnoreCase("abc", Set.of("ABC", "xyz")) == true // exact match found, ignoring case
+     *      equalsAnyIgnoreCase("abc", Set.of("ab", "xyz")) == false // no exact match found
+     * </pre>
+     *
+     * @param word    The word to check. Cannot be null or empty.
+     * @param wordSet The set of words to compare against. Cannot be null or empty.
+     * @return true if an exact match is found.
      */
-    public static boolean matchesWordInSetIgnoreCase(String word, Set<String> wordSet) {
+    public static boolean equalsAnyIgnoreCase(String word, Set<String> wordSet) {
         requireNonNull(word);
         requireNonNull(wordSet);
 
@@ -38,14 +44,23 @@ public class StringUtil {
     }
 
     /**
-     * Returns true if any of the words in the {@code wordSet} contains the {@code word}.
+     * Checks if a word is a substring of any words in the word set, ignoring case.
      * <br>
-     * Ignores case, only a substring match is required.
-     * @param word word to be checked against the wordSet, cannot be null or empty
-     * @param wordSet set of words to be checked against the word, cannot be null or empty
-     * @return true if any of the words in the wordSet contains word as a substring, false otherwise
+     * Examples:
+     * <pre>
+     *      isSubstringOfAnyIgnoreCase("abc", Set.of("abc", "xyz")) == true
+     *              // "abc" is a substring of "abc"
+     *      isSubstringOfAnyIgnoreCase("abc", Set.of("ABCdef")) == true
+     *              // "abc" is a substring of "ABCdef", ignoring case
+     *      isSubstringOfAnyIgnoreCase("abc", Set.of("ab", "xyz")) == false
+     *              // "abc" is not a substring of any
+     * </pre>
+     *
+     * @param word    The text to check. Cannot be null or empty.
+     * @param wordSet The set of words to look for. Cannot be null or empty.
+     * @return true if {@code word} is a substring of any in {@code wordSet}.
      */
-    public static boolean matchesSubstringInSetIgnoreCase(String word, Set<String> wordSet) {
+    public static boolean isSubstringOfAnyIgnoreCase(String word, Set<String> wordSet) {
         requireNonNull(word);
         requireNonNull(wordSet);
 
@@ -54,17 +69,26 @@ public class StringUtil {
         checkArgument(!wordSet.isEmpty(), "Word set cannot be empty");
 
         return wordSet.stream()
-                .map(k -> k.toLowerCase().trim())
-                .anyMatch(preppedWord::contains);
+                .map(w -> w.toLowerCase().trim())
+                .anyMatch(w -> w.contains(preppedWord));
     }
 
     /**
-     * Returns true if any of the words in the {@code wordSet} fuzzy matches the {@code word}.
+     * Checks if word fuzzy matches any word in the word set , ignoring case.
      * <br>
-     * Ignores case, fuzzy match is done through the Levenshtein distance
-     * algorithm in {@link #fuzzyMatchesIgnoresCase(String, String)}.
+     * Fuzzy matching is defined as ana algorithm in {@link #fuzzyMatchesIgnoresCase(String, String)}.
+     * <br>
+     * Examples:
+     * <pre>
+     *      fuzzyMatchesAnyIgnoreCase("abc", Set.of("abc", "xyz")) == true
+     *              // "abc" fuzzy matches "abc"
+     *      fuzzyMatchesAnyIgnoreCase("abc", Set.of("ABCdefghi")) == true
+     *              // "abc" is a 3 character-long substring of "ABCdefghi", so it is considered a fuzzy match
+     *      fuzzyMatchesAnyIgnoreCase("abc", Set.of("ab", "xyz")) == true
+     *              // "abc" is a 1 edit distance away from "ab", so it is considered a fuzzy match
+     * </pre>
      */
-    public static boolean fuzzyMatchesWordInSetIgnoreCase(String word, Set<String> wordSet) {
+    public static boolean fuzzyMatchesAnyIgnoreCase(String word, Set<String> wordSet) {
         requireNonNull(word);
         requireNonNull(wordSet);
 
@@ -78,41 +102,51 @@ public class StringUtil {
     }
 
     /**
-     * Returns {@code true} if the two strings are similar enough to be considered a match.
-     * <br>
-     * Exact matches are always returned as true.
-     * For strings longer than 2 characters, a Levenshtein distance of up to 2 edits is allowed for small typos.
-     * Read more about Levenshtein distance <a href="https://en.wikipedia.org/wiki/Levenshtein_distance">here</a>
-     * <br>
-     * examples:<pre>
-     *    fuzzyMatchIgnoresCase("ABc", "abc") == true
-     *    fuzzyMatchIgnoresCase("abc", "acd") == true // delete c, add d
-     *    fuzzyMatchIgnoresCase("abc", "ccc") == false // requires 3 edits
-     *    </pre>
-     * @param s1 String to compare
-     * @param s2 String to compare
-     * @return true if the strings match exactly or fall within the typo threshold
+     * Checks if two strings are similar enough to be considered a fuzzy match.
+     * <p>
+     * The matching rules are applied after trimming and converting to lower case:
+     * <ol>
+     *     <li>Exact matches are always true.</li>
+     *     <li>If either string is 2 characters or shorter, only exact matches return true (fuzzy logic is disabled).</li>
+     *     <li>If the {@code query} is a substring of the {@code target}, returns true.</li>
+     *     <li>If the Levenshtein distance is 2 or less, returns true (tolerating small typos).</li>
+     * </ol>
+     *
+     * <br>Examples:
+     * <pre>
+     *    fuzzyMatchesIgnoresCase("ABc", "abc") == true  // exact match
+     *    fuzzyMatchesIgnoresCase("abc", "acd") == true  // 2 edits (b->c, c->d) -> match
+     *    fuzzyMatchesIgnoresCase("abc", "ab")  == false // too short for fuzzy matching rules
+     * </pre>
+     *
+     * @param query The string to search for. Cannot be null or empty.
+     * @param target The string to compare against. Cannot be null or empty.
+     * @return true if the strings match exactly or fall within the fuzzy threshold.
      */
-    public static boolean fuzzyMatchesIgnoresCase(String s1, String s2) {
-        requireNonNull(s1);
-        requireNonNull(s2);
+    public static boolean fuzzyMatchesIgnoresCase(String query, String target) {
+        requireNonNull(query);
+        requireNonNull(target);
 
-        checkArgument(!s1.isEmpty(), "Word parameter cannot be empty");
-        checkArgument(!s2.isEmpty(), "Word parameter cannot be empty");
+        checkArgument(!query.isEmpty(), "Query parameter cannot be empty");
+        checkArgument(!target.isEmpty(), "Target parameter cannot be empty");
 
-        String s1Processed = s1.toLowerCase().trim();
-        String s2Processed = s2.toLowerCase().trim();
+        String queryProcessed = query.toLowerCase().trim();
+        String targetProcessed = target.toLowerCase().trim();
 
-        if (s1Processed.equals(s2Processed)) {
+        if (queryProcessed.equals(targetProcessed)) {
             return true;
         }
 
-        if (s1Processed.length() <= 2 || s2Processed.length() <= 2) {
+        if (queryProcessed.length() <= 2 || targetProcessed.length() <= 2) {
             return false;
         }
 
+        if (targetProcessed.contains(queryProcessed)) {
+            return true;
+        }
+
         LevenshteinDistance levenshtein = new LevenshteinDistance(2);
-        Integer distance = levenshtein.apply(s1Processed, s2Processed);
+        Integer distance = levenshtein.apply(queryProcessed, targetProcessed);
 
         return distance != null && distance != -1;
     }
@@ -132,6 +166,7 @@ public class StringUtil {
      * e.g. 1, 2, 3, ..., {@code Integer.MAX_VALUE} <br>
      * Will return false for any other non-null string input
      * e.g. empty string, "-1", "0", "+1", and " 2 " (untrimmed), "3 0" (contains whitespace), "1 a" (contains letters)
+     *
      * @throws NullPointerException if {@code s} is null.
      */
     public static boolean isNonZeroUnsignedInteger(String s) {
