@@ -74,9 +74,9 @@ public class StringUtil {
     }
 
     /**
-     * Checks if word fuzzy matches any word in the word set , ignoring case.
+     * Checks if word fuzzy matches any word in the word set, ignoring case.
      * <br>
-     * Fuzzy matching is defined as ana algorithm in {@link #fuzzyMatchesIgnoresCase(String, String)}.
+     * Fuzzy matching is defined as an algorithm in {@link #fuzzyMatchesIgnoresCase(String, String)}.
      * <br>
      * Examples:
      * <pre>
@@ -116,7 +116,8 @@ public class StringUtil {
      * <pre>
      *    fuzzyMatchesIgnoresCase("ABc", "abc") == true  // exact match
      *    fuzzyMatchesIgnoresCase("abc", "acd") == true  // 2 edits (b->c, c->d) -> match
-     *    fuzzyMatchesIgnoresCase("abc", "ab")  == false // too short for fuzzy matching rules
+     *    fuzzyMatchesIgnoresCase("abc", "abcde") == true  // {@code query} is a substring of {@code target} -> match
+     *    fuzzyMatchesIgnoresCase("ab", "abcde")  == false // too short for fuzzy matching
      * </pre>
      *
      * @param query The string to search for. Cannot be null or empty.
