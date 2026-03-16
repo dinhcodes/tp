@@ -10,42 +10,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.text.similarity.LevenshteinDistance;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Helper functions for handling strings.
  */
 public class StringUtil {
-
-    /**
-     * Returns true if the {@code sentence} contains the {@code word}.
-     *   Ignores case, allows fuzzy match as described by {@link #fuzzyMatchesIgnoresCase(String, String)}.
-     *   <br>examples:<pre>
-     *       containsWordIgnoreCase("ABc def", "abc") == true
-     *       containsWordIgnoreCase("ABc def", "DEF") == true
-     *       containsWordIgnoreCase("ABc def", "Adc") == true // fuzzy match, delete B, add D
-     *       containsWordIgnoreCase("ABcdefe def", "AB") == false // not a fuzzy match
-     *       </pre>
-     * @param sentence cannot be null
-     * @param word cannot be null, cannot be empty, must be a single word
-     */
-    public static boolean fuzzyMatchesWordInSentenceIgnoreCase(String sentence, String word) {
-        requireNonNull(sentence);
-        requireNonNull(word);
-
-        String preppedWord = word.trim();
-        String preppedSentence = sentence.trim();
-
-        checkArgument(!preppedWord.isEmpty(), "Word parameter cannot be empty");
-        checkArgument(!sentence.isEmpty(), "Sentence parameter cannot be empty");
-        checkArgument(preppedWord.split("\\s+").length == 1,
-                "Word parameter should be a single word");
-
-        Set<String> wordsInPreppedSentence = new HashSet<>(Arrays.asList(preppedSentence.split("\\s+")));
-
-        return fuzzyMatchesWordInSetIgnoreCase(preppedWord, wordsInPreppedSentence);
-    }
 
     /**
      * Returns true if any of the words in the {@code wordSet} exactly matches the {@code word}.

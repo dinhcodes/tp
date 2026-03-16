@@ -37,7 +37,7 @@ public class PersonMatchesDetailsPredicate implements Predicate<Person> {
                 & isFuzzyOrSubStringMatchIgnoreCase(person.getPhone().value, filterDetails.getPhoneNumberKeywords())
                 & isExactMatchIgnoreCase(person.getRoomNumber().value, filterDetails.getRoomNumberKeywords())
                 & isFuzzyOrSubStringMatchIgnoreCase(person.getStudentId().value, filterDetails.getStudentIdKeywords())
-                & isExactMatchIgnoreCase(person.getEmergencyContact().value,
+                & isFuzzyOrSubStringMatchIgnoreCase(person.getEmergencyContact().value,
                 filterDetails.getEmergencyContactKeywords())
                 & matchesExactTagsIgnoresCase(person.getYear(), filterDetails.getTagYearKeywords())
                 & matchesFuzzyOrSubstringTagsIgnoreCase(person.getMajor(), filterDetails.getTagMajorKeywords())
