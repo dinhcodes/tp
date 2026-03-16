@@ -22,7 +22,7 @@ public class NameContainsKeywordsPredicate implements Predicate<Person> {
     }
 
     /**
-     * Returns true if the person's name fuzzy matches any of the keywords.
+     * Returns true if any part of the person's full name fuzzy matches any of the keywords.
      * Fuzzy matching is done by {@link StringUtil#fuzzyMatchesIgnoresCase(String, String)}.
      * <br>
      * @param person the person to be tested against the keywords
@@ -31,7 +31,18 @@ public class NameContainsKeywordsPredicate implements Predicate<Person> {
     @Override
     public boolean test(Person person) {
         Set<String> keywordsSet = Set.copyOf(keywords);
-        return StringUtil.fuzzyMatchesAnyIgnoreCase(person.getName().fullName, keywordsSet);
+        Set<String> nameWordsSet = StringUtil.splitSentenceIntoWords(person.getName().fullName);
+
+        if (keywordsSet.isEmpty()) {
+            return true;
+        }
+
+        if (nameWordsSet.isEmpty()) {
+            return false;
+        }
+
+        return nameWordsSet.stream()
+                .anyMatch(nameWord -> StringUtil.fuzzyMatchesAnyIgnoreCase(nameWord, keywordsSet));
     }
 
     @Override
