@@ -117,7 +117,7 @@ public class Person {
     }
 
     /**
-     * Returns true if both persons have the same name.
+     * Returns true if both persons have the same studentId.
      * This defines a weaker notion of equality between two persons.
      */
     public boolean isSamePerson(Person otherPerson) {
@@ -126,7 +126,18 @@ public class Person {
         }
 
         return otherPerson != null
-                && otherPerson.getName().equals(getName());
+                && otherPerson.getStudentId().equals(getStudentId());
+    }
+
+    /**
+     * Returns true if both persons have the same room
+     */
+    public boolean hasSameRoom(Person otherPerson) {
+        if (otherPerson == this) {
+            return true;
+        }
+        return otherPerson != null
+                && otherPerson.getRoomNumber().equals(getRoomNumber());
     }
 
     /**

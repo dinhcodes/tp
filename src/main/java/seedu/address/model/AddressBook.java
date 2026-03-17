@@ -68,6 +68,14 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
+     * Returns true if a person with the same room number as {@code person} exists in the address book.
+     */
+    public boolean hasPersonWithSameRoom(Person person) {
+        requireNonNull(person);
+        return persons.isRoomOccupied(person);
+    }
+
+    /**
      * Adds a person to the address book.
      * The person must not already exist in the address book.
      */
@@ -93,6 +101,8 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void removePerson(Person key) {
         persons.remove(key);
     }
+
+
 
     //// util methods
 

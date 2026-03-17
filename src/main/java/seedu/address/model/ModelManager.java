@@ -106,6 +106,12 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public boolean hasPersonWithSameRoom(Person person) {
+        requireNonNull(person);
+        return addressBook.hasPersonWithSameRoom(person);
+    }
+
+    @Override
     public void setPerson(Person target, Person editedPerson) {
         requireAllNonNull(target, editedPerson);
 

@@ -149,6 +149,11 @@ public class AddCommandTest {
         }
 
         @Override
+        public boolean hasPersonWithSameRoom(Person person) {
+            return false;
+        }
+
+        @Override
         public ObservableList<Person> getFilteredPersonList() {
             throw new AssertionError("This method should not be called.");
         }
