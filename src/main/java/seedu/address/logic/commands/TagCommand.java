@@ -30,12 +30,14 @@ public class TagCommand extends Command {
             + "by the index number used in the displayed resident list."
             + "Existing tags will be overwritten by the input tags.\n"
             + "Parameters: INDEX (must be a positive integer)"
-            + "[" + PREFIX_TAG_YEAR + "YEAR]"
-            + "[" + PREFIX_TAG_MAJOR + "MAJOR]"
-            + "[" + PREFIX_TAG_GENDER + "GENDER]"
-            + "Example: " + COMMAND_WORD + "1"
-            + PREFIX_TAG_YEAR + "2"
-            + PREFIX_TAG_MAJOR + "CS";
+            + "[" + PREFIX_TAG_YEAR + "YEAR] "
+            + "[" + PREFIX_TAG_MAJOR + "MAJOR] "
+            + "[" + PREFIX_TAG_GENDER + "GENDER] "
+            + "Example: " + COMMAND_WORD + "1 "
+            + PREFIX_TAG_YEAR + "2 "
+            + PREFIX_TAG_MAJOR + "CS "
+            + "Note if the student has a double major specify like "
+            +  "[" + PREFIX_TAG_MAJOR + "MAJOR1 & MAJOR2]";
 
     public static final String TAG_SUCCESS = "Added Tag to Resident: %1$s";
     public static final String TAG_NOT_ADDED = "At least one tag (year / major / gender) must be provided.";
