@@ -28,8 +28,8 @@ public class FindCommand extends Command {
             + "Example: " + COMMAND_WORD + " alice bob charlie\n"
             + "\n"
             + "Method 2: Find by multiple attributes\n"
-            + "Parameters: [n=NAME] [p=PHONE] [e=EMAIL] [r=ROOM_NUM] [s=STUDENT_ID] [ec=EMERGENCY_CONTACT] [y=YEAR] " +
-            "[m=MAJOR] [g=GENDER]\n"
+            + "Parameters: [n=NAME] [p=PHONE] [e=EMAIL] [r=ROOM_NUM] [s=STUDENT_ID] [ec=EMERGENCY_CONTACT] [y=YEAR] "
+            + "[m=MAJOR] [g=GENDER]\n"
             + "Example: " + COMMAND_WORD + " n/Alice p/91234567 y/1";
 
     private final Predicate<Person> predicate;
