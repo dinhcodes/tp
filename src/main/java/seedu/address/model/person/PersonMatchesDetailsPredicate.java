@@ -1,11 +1,12 @@
 package seedu.address.model.person;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import seedu.address.commons.util.StringUtil;
 import seedu.address.model.FilterDetails;
 import seedu.address.model.tag.Tag;
 
@@ -33,9 +34,9 @@ public class PersonMatchesDetailsPredicate implements Predicate<Person> {
                 & isExactMatch(person.getRoomNumber().value, filterDetails.getRoomNumberKeywords())
                 & isFuzzyMatch(person.getStudentId().value, filterDetails.getStudentIdKeywords())
                 & isExactMatch(person.getEmergencyContact().value, filterDetails.getEmergencyContactKeywords())
-                & matchesExactTags(person, filterDetails.getTagYearKeywords())
-                & matchesExactTags(person, filterDetails.getTagMajorKeywords())
-                & matchesExactTags(person, filterDetails.getTagGenderKeywords());
+                & isExactMatchTags(new HashSet<>(person.getTags().values()), filterDetails.getTagYearKeywords())
+                & isExactMatchTags(new HashSet<>(person.getTags().values()), filterDetails.getTagMajorKeywords())
+                & isExactMatchTags(new HashSet<>(person.getTags().values()), filterDetails.getTagGenderKeywords());
     }
 
     private boolean isNameMatch(Person person) {
@@ -43,7 +44,7 @@ public class PersonMatchesDetailsPredicate implements Predicate<Person> {
             return true;
         }
         NameContainsKeywordsPredicate predicate =
-                new NameContainsKeywordsPredicate(listOfKeywords);
+                new NameContainsKeywordsPredicate(new ArrayList<>(filterDetails.getNameKeywords()));
         return predicate.test(person);
     }
 
@@ -81,7 +82,7 @@ public class PersonMatchesDetailsPredicate implements Predicate<Person> {
         if (keywords.isEmpty()) {
             return true;
         }
-        return person.getTags().values().stream().anyMatch(tag -> {
+        return personTags.stream().anyMatch(tag -> {
             String lowerTag = tag.tagName.toLowerCase(Locale.ROOT);
             return keywords.stream()
                     .map(k -> k.toLowerCase(Locale.ROOT))
@@ -101,7 +102,7 @@ public class PersonMatchesDetailsPredicate implements Predicate<Person> {
         if (keywords.isEmpty()) {
             return true;
         }
-        return person.getTags().values().stream()
+        return personTags.stream()
                 .anyMatch(tag -> keywords.stream()
                         .anyMatch(keyword -> tag.tagName.equalsIgnoreCase(keyword)));
     }

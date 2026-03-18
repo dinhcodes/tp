@@ -66,6 +66,10 @@ public class EditCommandParser implements Parser<EditCommand> {
             editPersonDescriptor.setRoomNumber(ParserUtil.parseRoomNumber(argMultimap
                     .getValue(PREFIX_ROOM_NUMBER).get()));
         }
+        if (argMultimap.getValue(PREFIX_EMERGENCY_CONTACT).isPresent()) {
+            editPersonDescriptor.setEmergencyContact(ParserUtil.parseEmergencyContact(argMultimap
+                    .getValue(PREFIX_EMERGENCY_CONTACT).get()));
+        }
 
         if (!editPersonDescriptor.isAnyFieldEdited()) {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
