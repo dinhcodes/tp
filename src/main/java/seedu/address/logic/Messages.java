@@ -52,9 +52,9 @@ public class Messages {
                 .append(person.getEmergencyContact())
                 .append("; Tags: ");
         person.getTags().entrySet().stream()
-                .sorted(Map.Entry.comparingByKey()) // sort by TagType enum order
+                .sorted(Map.Entry.comparingByKey())
                 .map(e -> "[" + e.getValue().getTagName() + "]")
-                .collect(Collectors.joining());
+                .forEach(tag -> builder.append(tag));
         return builder.toString();
     }
 

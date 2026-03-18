@@ -9,11 +9,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.StudentId;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.TagType;
 
@@ -29,7 +29,7 @@ public class TagCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ":Adds a tag to the resident in the hall ledger"
             + "by the index number used in the displayed resident list."
             + "Existing tags will be overwritten by the input tags.\n"
-            + "Parameters: INDEX (must be a positive integer)"
+            + "Parameters: i=STUDENT_ID (must be a valid student ID) "
             + "[" + PREFIX_TAG_YEAR + "YEAR] "
             + "[" + PREFIX_TAG_MAJOR + "MAJOR] "
             + "[" + PREFIX_TAG_GENDER + "GENDER] "
@@ -42,17 +42,17 @@ public class TagCommand extends Command {
     public static final String TAG_SUCCESS = "Added Tag to Resident: %1$s";
     public static final String TAG_NOT_ADDED = "At least one tag (year / major / gender) must be provided.";
 
-    public final Index index;
+    public final StudentId studentId;
     public final Map<TagType, Tag> tags;
 
     /**
-     * @param index of the person in the filtered person list to edit
+     * @param studentId of the person in the filtered person list to edit
      * @param tags list of tags to add to the person
      */
-    public TagCommand(Index index, Map<TagType, Tag> tags) {
-        requireNonNull(index);
+    public TagCommand(StudentId studentId, Map<TagType, Tag> tags) {
+        requireNonNull(studentId);
         requireNonNull(tags);
-        this.index = index;
+        this.studentId = studentId;
         this.tags = tags;
     }
 
@@ -65,11 +65,19 @@ public class TagCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         List<Person> lastShownList = model.getFilteredPersonList();
 
-        if (index.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        Person personToTag = null;
+        for (Person person : lastShownList) {
+            if (person.getStudentId().equals(studentId)) {
+                personToTag = person;
+                break;
+            }
         }
 
-        Person personToTag = lastShownList.get(index.getZeroBased());
+        if (personToTag == null) {
+            throw new CommandException(String.format("ResidentNotFound: No resident "
+                    + "found with student ID %s.", studentId));
+        }
+
         HashMap<TagType, Tag> updatedTags = new HashMap<>(personToTag.getTags());
         updatedTags.putAll(tags);
         //checkTagLimits(updatedTags);
@@ -89,17 +97,4 @@ public class TagCommand extends Command {
 
         return new CommandResult(String.format(TAG_SUCCESS, Messages.format(taggedPerson)));
     }
-
-    //    private void checkTagLimits(HashMap<Tag, TagType> updatedTags) throws CommandException {
-    //        for (TagType type : TagType.values()) {
-    //            long countOfTagsPerType = updatedTags.stream()
-    //                    .filter(tag -> tag.getTagType() == type)
-    //                    .count();
-    //            if (countOfTagsPerType > type.getMaxTagsPerType()) {
-    //                throw new CommandException(
-    //                        "Tag type " + type + " allows at most " + type.getMaxTagsPerType() + " tag(s) per person."
-    //                );
-    //            }
-    //        }
-    //    }
 }

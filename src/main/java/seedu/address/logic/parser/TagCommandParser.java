@@ -3,13 +3,14 @@ package seedu.address.logic.parser;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.TagCommand.MESSAGE_USAGE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_STUDENT_ID;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.TagCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.person.StudentId;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.TagType;
 
@@ -27,17 +28,16 @@ public class TagCommandParser implements Parser<TagCommand> {
         requireNonNull(args);
         ArgumentMultimap argumentMultimap =
                 ArgumentTokenizer.tokenize(args,
+                        PREFIX_STUDENT_ID,
                         CliSyntax.PREFIX_TAG_GENDER,
                         CliSyntax.PREFIX_TAG_MAJOR,
                         CliSyntax.PREFIX_TAG_YEAR);
 
-        Index index;
-
-        try {
-            index = ParserUtil.parseIndex(argumentMultimap.getPreamble());
-        } catch (ParseException e) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE), e);
+        if (!argumentMultimap.getValue(PREFIX_STUDENT_ID).isPresent() || !argumentMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
         }
+
+        StudentId studentId = ParserUtil.parseStudentId(argumentMultimap.getValue(PREFIX_STUDENT_ID).get());
 
         Map<TagType, Tag> tags = new HashMap<>();
 
@@ -54,6 +54,6 @@ public class TagCommandParser implements Parser<TagCommand> {
             throw new ParseException(TagCommand.TAG_NOT_ADDED);
         }
 
-        return new TagCommand(index, tags);
+        return new TagCommand(studentId, tags);
     }
 }
