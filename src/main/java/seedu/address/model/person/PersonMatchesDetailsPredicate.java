@@ -1,5 +1,6 @@
 package seedu.address.model.person;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
@@ -15,6 +16,9 @@ public class PersonMatchesDetailsPredicate implements Predicate<Person> {
 
     private final FilterDetails filterDetails;
 
+    /**
+     * Creates a {@code PersonMatchesDetailsPredicate} with the given {@code FilterDetails}.
+     */
     public PersonMatchesDetailsPredicate(FilterDetails filterDetails) {
         this.filterDetails = Objects.requireNonNull(filterDetails);
     }
@@ -28,19 +32,26 @@ public class PersonMatchesDetailsPredicate implements Predicate<Person> {
                 & isFuzzyMatch(person.getStudentId().value, filterDetails.getStudentIdKeywords())
                 & isExactMatch(person.getEmergencyContact().value, filterDetails.getEmergencyContactKeywords())
                 & matchesExactTags(person, filterDetails.getTagYearKeywords())
-                & matchesExactTags(person, filterDetails.getTagMajorKeywords())
+                & matchesFuzzyTags(person, filterDetails.getTagMajorKeywords())
                 & matchesExactTags(person, filterDetails.getTagGenderKeywords());
     }
 
+    /**
+     * Checks if the person's name matches any of the keywords specified in {@code FilterDetails}.
+     * Name matching is done using {@link NameContainsKeywordsPredicate#test(Person)}.
+     */
     private boolean isNameMatch(Person person) {
         if (filterDetails.getNameKeywords().isEmpty()) {
             return true;
         }
-        NameContainsKeywordsPredicate predicate =
-                new NameContainsKeywordsPredicate(filterDetails.getNameKeywords().stream().toList());
+        List<String> listOfKeywords = filterDetails.getNameKeywords().stream().toList();
+        NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(listOfKeywords);
         return predicate.test(person);
     }
 
+    /**
+     * Checks if the given {@code fieldValue} exactly matches any of the {@code keywords} (case-insensitive).
+     */
     private boolean isExactMatch(String fieldValue, Set<String> keywords) {
         assert keywords != null : "keywords set should be non-null";
         if (keywords.isEmpty()) {
@@ -53,6 +64,10 @@ public class PersonMatchesDetailsPredicate implements Predicate<Person> {
         return keywords.stream().map(k -> k.toLowerCase(Locale.ROOT)).anyMatch(lower::equals);
     }
 
+    /**
+     * Checks if the given {@code fieldValue} matches any of the {@code keywords} via substring matching
+     * (case-insensitive).
+     */
     private boolean isFuzzyMatch(String fieldValue, Set<String> keywords) {
         assert keywords != null : "keywords set should be non-null";
         if (keywords.isEmpty()) {
@@ -65,6 +80,11 @@ public class PersonMatchesDetailsPredicate implements Predicate<Person> {
         return keywords.stream().map(k -> k.toLowerCase(Locale.ROOT)).anyMatch(lower::contains);
     }
 
+    /**
+     * Checks if any of the person's tags match any of the {@code keywords} via substring matching
+     * (case-insensitive). The keyword must be a substring of the tag name, not the other way around,
+     * to avoid e.g. "cs" matching "statistics".
+     */
     private boolean matchesFuzzyTags(Person person, Set<String> keywords) {
         assert keywords != null : "tag keyword set should be non-null";
         if (keywords.isEmpty()) {
@@ -74,10 +94,13 @@ public class PersonMatchesDetailsPredicate implements Predicate<Person> {
             String lowerTag = tag.tagName.toLowerCase(Locale.ROOT);
             return keywords.stream()
                     .map(k -> k.toLowerCase(Locale.ROOT))
-                    .anyMatch(lowerTag::contains);
+                    .anyMatch(k -> lowerTag.contains(k) && lowerTag.length() <= k.length() + 3);
         });
     }
 
+    /**
+     * Checks if any of the person's tags exactly match any of the {@code keywords} (case-insensitive).
+     */
     private boolean matchesExactTags(Person person, Set<String> keywords) {
         assert keywords != null : "tag keyword set should be non-null";
         if (keywords.isEmpty()) {

@@ -117,17 +117,17 @@ public class FindCommandTest {
 
     @Test
     public void execute_filterByTag_multiplePersonsFound() {
-        // Alice has MAJOR=CS, Benson has MAJOR=Maths — only Alice matches
-        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 1);
+        // Alice (MAJOR=CS) and Benson (MAJOR=Maths) are both Year 1 and Year 2 respectively.
+        // Using GENDER=Female to get multiple matches: Alice, Elle, Fiona
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 3);
         FilterDetails filterDetails = createEmptyFilterDetails();
-        filterDetails.setTagMajorKeywords(Set.of("CS"));
+        filterDetails.setTagGenderKeywords(Set.of("Female"));
         PersonMatchesDetailsPredicate predicate = new PersonMatchesDetailsPredicate(filterDetails);
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredPersonList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(ALICE), model.getFilteredPersonList());
+        assertEquals(Arrays.asList(ALICE, ELLE, FIONA), model.getFilteredPersonList());
     }
-
     @Test
     public void execute_filterByTag_noPersonsFound() {
         // Zero persons: No one studies CS, is Male, and is in Year 4.
