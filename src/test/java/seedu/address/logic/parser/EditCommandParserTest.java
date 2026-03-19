@@ -3,6 +3,7 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.EMERGENCY_CONTACT_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
@@ -16,6 +17,7 @@ import static seedu.address.logic.commands.CommandTestUtil.STUDENTID_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_MAJOR;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_YEAR;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_EMERGENCY_CONTACT_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
@@ -27,13 +29,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_STUDENT_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
-import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_PERSON;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
@@ -54,139 +52,155 @@ public class EditCommandParserTest {
 
     @Test
     public void parse_missingParts_failure() {
-        // no index specified
+        // no studentId specified
         assertParseFailure(parser, VALID_NAME_AMY, MESSAGE_INVALID_FORMAT);
 
         // no field specified
-        assertParseFailure(parser, "1", EditCommand.MESSAGE_NOT_EDITED);
+        assertParseFailure(parser, VALID_STUDENTID_AMY, EditCommand.MESSAGE_NOT_EDITED);
 
-        // no index and no field specified
+        // no studentId and no field specified
         assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
     }
 
     @Test
     public void parse_invalidPreamble_failure() {
-        // negative index
-        assertParseFailure(parser, "-5" + NAME_DESC_AMY, MESSAGE_INVALID_FORMAT);
-
-        // zero index
-        assertParseFailure(parser, "0" + NAME_DESC_AMY, MESSAGE_INVALID_FORMAT);
+        // invalid studentId format
+        assertParseFailure(parser, "INVALID_ID" + NAME_DESC_AMY, MESSAGE_INVALID_FORMAT);
 
         // invalid arguments being parsed as preamble
-        assertParseFailure(parser, "1 some random string", MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "some random string" + NAME_DESC_AMY, MESSAGE_INVALID_FORMAT);
 
         // invalid prefix being parsed as preamble
-        assertParseFailure(parser, "1 i/ string", MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, VALID_STUDENTID_AMY + " i/ string", MESSAGE_INVALID_FORMAT);
     }
 
     @Test
     public void parse_invalidValue_failure() {
-        assertParseFailure(parser, "1" + INVALID_NAME_DESC, Name.MESSAGE_CONSTRAINTS); // invalid name
-        assertParseFailure(parser, "1" + INVALID_PHONE_DESC, Phone.MESSAGE_CONSTRAINTS); // invalid phone
-        assertParseFailure(parser, "1" + INVALID_EMAIL_DESC, Email.MESSAGE_CONSTRAINTS); // invalid email
-        assertParseFailure(parser, "1" + INVALID_STUDENTID_DESC, StudentId.MESSAGE_CONSTRAINTS); // invalid address
+        // invalid name
+        assertParseFailure(parser, VALID_STUDENTID_AMY + INVALID_NAME_DESC,
+                Name.MESSAGE_CONSTRAINTS);
+
+        // invalid phone
+        assertParseFailure(parser, VALID_STUDENTID_AMY + INVALID_PHONE_DESC,
+                Phone.MESSAGE_CONSTRAINTS);
+
+        // invalid email
+        assertParseFailure(parser, VALID_STUDENTID_AMY + INVALID_EMAIL_DESC,
+                Email.MESSAGE_CONSTRAINTS);
+
+        // invalid studentId in field (not preamble)
+        assertParseFailure(parser, VALID_STUDENTID_AMY + INVALID_STUDENTID_DESC,
+                StudentId.MESSAGE_CONSTRAINTS);
 
         // invalid phone followed by valid email
-        assertParseFailure(parser, "1" + INVALID_PHONE_DESC + EMAIL_DESC_AMY, Phone.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, VALID_STUDENTID_AMY + INVALID_PHONE_DESC + EMAIL_DESC_AMY,
+                Phone.MESSAGE_CONSTRAINTS);
 
         // multiple invalid values, but only the first invalid value is captured
-        assertParseFailure(parser, "1" + INVALID_NAME_DESC + INVALID_EMAIL_DESC + VALID_STUDENTID_AMY + VALID_PHONE_AMY,
+        assertParseFailure(parser, VALID_STUDENTID_AMY + INVALID_NAME_DESC + INVALID_EMAIL_DESC,
                 Name.MESSAGE_CONSTRAINTS);
     }
 
     @Test
     public void parse_allFieldsSpecified_success() {
-        Index targetIndex = INDEX_SECOND_PERSON;
-        String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB
+        StudentId targetStudentId = new StudentId(VALID_STUDENTID_AMY);
+        String userInput = " " + VALID_STUDENTID_AMY + PHONE_DESC_BOB
                 + EMAIL_DESC_AMY + STUDENTID_DESC_AMY + NAME_DESC_AMY
                 + ROOM_NUMBER_DESC_AMY;
 
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
-                .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_AMY).withStudentId(VALID_STUDENTID_AMY)
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withName(VALID_NAME_AMY)
+                .withPhone(VALID_PHONE_BOB)
+                .withEmail(VALID_EMAIL_AMY)
+                .withStudentId(VALID_STUDENTID_AMY)
                 .withRoomNumber(VALID_ROOM_NUMBER_AMY)
                 .build();
 
-        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+        EditCommand expectedCommand = new EditCommand(targetStudentId, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
 
     @Test
     public void parse_someFieldsSpecified_success() {
-        Index targetIndex = INDEX_FIRST_PERSON;
-        String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB + EMAIL_DESC_AMY;
+        StudentId targetStudentId = new StudentId(VALID_STUDENTID_AMY);
+        String userInput = VALID_STUDENTID_AMY + PHONE_DESC_BOB + EMAIL_DESC_AMY;
 
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withPhone(VALID_PHONE_BOB)
-                .withEmail(VALID_EMAIL_AMY).build();
-        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withPhone(VALID_PHONE_BOB)
+                .withEmail(VALID_EMAIL_AMY)
+                .build();
+        EditCommand expectedCommand = new EditCommand(targetStudentId, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
 
     @Test
     public void parse_oneFieldSpecified_success() {
+        StudentId targetStudentId = new StudentId(VALID_STUDENTID_AMY);
+
         // name
-        Index targetIndex = INDEX_THIRD_PERSON;
-        String userInput = targetIndex.getOneBased() + NAME_DESC_AMY;
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY).build();
-        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+        String userInput = VALID_STUDENTID_AMY + NAME_DESC_AMY;
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withName(VALID_NAME_AMY).build();
+        EditCommand expectedCommand = new EditCommand(targetStudentId, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // phone
-        userInput = targetIndex.getOneBased() + PHONE_DESC_AMY;
+        userInput = VALID_STUDENTID_AMY + PHONE_DESC_AMY;
         descriptor = new EditPersonDescriptorBuilder().withPhone(VALID_PHONE_AMY).build();
-        expectedCommand = new EditCommand(targetIndex, descriptor);
+        expectedCommand = new EditCommand(targetStudentId, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // email
-        userInput = targetIndex.getOneBased() + EMAIL_DESC_AMY;
+        userInput = VALID_STUDENTID_AMY + EMAIL_DESC_AMY;
         descriptor = new EditPersonDescriptorBuilder().withEmail(VALID_EMAIL_AMY).build();
-        expectedCommand = new EditCommand(targetIndex, descriptor);
+        expectedCommand = new EditCommand(targetStudentId, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
-        // studentID
-        userInput = targetIndex.getOneBased() + STUDENTID_DESC_AMY;
+        // studentId
+        userInput = VALID_STUDENTID_AMY + STUDENTID_DESC_AMY;
         descriptor = new EditPersonDescriptorBuilder().withStudentId(VALID_STUDENTID_AMY).build();
-        expectedCommand = new EditCommand(targetIndex, descriptor);
+        expectedCommand = new EditCommand(targetStudentId, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
-        // Emergency Contact
-        // userInput = targetIndex.getOneBased() + EMERGENCY_CONTACT_DESC_AMY;
-        //        descriptor = new EditPersonDescriptorBuilder().withEmergencyContact(VALID_EMERGENCY_CONTACT_AMY)
-        //        .build();
-        //        expectedCommand = new EditCommand(targetIndex, descriptor);
-        //        assertParseSuccess(parser, userInput, expectedCommand);
+
+        // roomNumber
+        userInput = VALID_STUDENTID_AMY + ROOM_NUMBER_DESC_AMY;
+        descriptor = new EditPersonDescriptorBuilder().withRoomNumber(VALID_ROOM_NUMBER_AMY).build();
+        expectedCommand = new EditCommand(targetStudentId, descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
+
+        // emergencyContact
+        userInput = VALID_STUDENTID_AMY + EMERGENCY_CONTACT_DESC_AMY;
+        descriptor = new EditPersonDescriptorBuilder()
+                .withEmergencyContact(VALID_EMERGENCY_CONTACT_AMY).build();
+        expectedCommand = new EditCommand(targetStudentId, descriptor);
+        assertParseSuccess(parser, userInput, expectedCommand);
     }
 
     @Test
     public void parse_multipleRepeatedFields_failure() {
-        // More extensive testing of duplicate parameter detections is done in
-        // AddCommandParserTest#parse_repeatedNonTagValue_failure()
-
         // valid followed by invalid
-        Index targetIndex = INDEX_FIRST_PERSON;
-        String userInput = targetIndex.getOneBased() + INVALID_PHONE_DESC + PHONE_DESC_BOB;
-
-        assertParseFailure(parser, userInput, Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE));
+        String userInput = VALID_STUDENTID_AMY + INVALID_PHONE_DESC + PHONE_DESC_BOB;
+        assertParseFailure(parser, userInput,
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE));
 
         // invalid followed by valid
-        userInput = targetIndex.getOneBased() + PHONE_DESC_BOB + INVALID_PHONE_DESC;
-
-        assertParseFailure(parser, userInput, Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE));
+        userInput = VALID_STUDENTID_AMY + PHONE_DESC_BOB + INVALID_PHONE_DESC;
+        assertParseFailure(parser, userInput,
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE));
 
         // multiple valid fields repeated
-        userInput = targetIndex.getOneBased() + PHONE_DESC_AMY + STUDENTID_DESC_AMY + EMAIL_DESC_AMY
+        userInput = VALID_STUDENTID_AMY + PHONE_DESC_AMY + STUDENTID_DESC_AMY + EMAIL_DESC_AMY
                 + TAG_DESC_YEAR + PHONE_DESC_AMY + STUDENTID_DESC_AMY + EMAIL_DESC_AMY + TAG_DESC_YEAR
                 + PHONE_DESC_BOB + STUDENTID_DESC_BOB + EMAIL_DESC_BOB + TAG_DESC_MAJOR;
-
         assertParseFailure(parser, userInput,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE, PREFIX_EMAIL, PREFIX_STUDENT_ID));
 
         // multiple invalid values
-        userInput = targetIndex.getOneBased() + INVALID_PHONE_DESC + INVALID_STUDENTID_DESC + INVALID_EMAIL_DESC
+        userInput = VALID_STUDENTID_AMY + INVALID_PHONE_DESC + INVALID_STUDENTID_DESC + INVALID_EMAIL_DESC
                 + INVALID_PHONE_DESC + INVALID_STUDENTID_DESC + INVALID_EMAIL_DESC;
-
         assertParseFailure(parser, userInput,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE, PREFIX_EMAIL, PREFIX_STUDENT_ID));
     }
-
 }

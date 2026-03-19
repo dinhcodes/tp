@@ -10,10 +10,10 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ROOM_NUMBER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STUDENT_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
-import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.person.StudentId;
 
 /**
  * Parses input arguments and creates a new EditCommand object
@@ -37,10 +37,12 @@ public class EditCommandParser implements Parser<EditCommand> {
                         PREFIX_EMERGENCY_CONTACT,
                         PREFIX_TAG);
 
-        Index index;
+        String preamble = argMultimap.getPreamble().trim();
+
+        StudentId targetStudentId;
 
         try {
-            index = ParserUtil.parseIndex(argMultimap.getPreamble());
+            targetStudentId = ParserUtil.parseStudentId(preamble);
         } catch (ParseException pe) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE), pe);
         }
@@ -66,11 +68,16 @@ public class EditCommandParser implements Parser<EditCommand> {
             editPersonDescriptor.setRoomNumber(ParserUtil.parseRoomNumber(argMultimap
                     .getValue(PREFIX_ROOM_NUMBER).get()));
         }
+        if (argMultimap.getValue(PREFIX_EMERGENCY_CONTACT).isPresent()) {
+            editPersonDescriptor.setEmergencyContact(ParserUtil.parseEmergencyContact(argMultimap
+                    .getValue(PREFIX_EMERGENCY_CONTACT).get()));
+        }
+
 
         if (!editPersonDescriptor.isAnyFieldEdited()) {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
         }
 
-        return new EditCommand(index, editPersonDescriptor);
+        return new EditCommand(targetStudentId, editPersonDescriptor);
     }
 }
