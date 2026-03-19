@@ -114,7 +114,13 @@ Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
-### Locating persons by name: `find`
+### Locating persons: `find`
+
+Finds persons using one of two methods: 
+1. [Find by name keywords](#method-1-find-by-name-keywords)
+2. [Find by attributes](#method-2-find-by-attributes)
+
+#### Method 1: Find by name keywords
 
 Finds persons whose names contain any of the given keywords.
 
@@ -123,14 +129,36 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
 * Persons matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* Supports fuzzy matching e.g. `find ann` will match `Ann`, `Anna`, `Ana` etc.
 
 Examples:
 * `find John` returns `john` and `John Doe`
 * `find alex david` returns `Alex Yeoh`, `David Li`<br>
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
+
+#### Method 2: Find by attributes
+
+Finds persons matching all specified attributes (**AND** search), while allowing multiple values for each attribute
+(**OR** search).
+
+Format: `find [n=NAME] [p=PHONE] [e=EMAIL] [r=ROOM_NUMBER] [i=STUDENT_ID] [ec=EMERGENCY_CONTACT] [y=YEAR] [m=MAJOR] [g=GENDER]`
+
+* At least one attribute must be provided.
+* The search is case-insensitive.
+* **AND search:** Persons must match **all** the attribute types specified.
+    * e.g. `find n=Alice p=123` returns persons with name containing "Alice" **AND** phone containing "123".
+* **OR search:** Within a single attribute type, persons matching **any** of the keywords will be returned.
+    * e.g. `find y=2 y=3` returns persons in Year 2 **OR** Year 3.
+* **Fuzzy matching support:** Phone, Email, Student ID, Major.
+    * e.g. `p=9123` matches `91234567`.
+* **Exact matching support:** Room Number, Emergency Contact, Year, Gender.
+    * e.g. `r=123` matches `123`, but `r=12` does not match `123`.
+
+Examples:
+* `find n=Alice p=91234567 y=1` returns persons with name "Alice", phone containing "91234567", and Year "1".
+* `find m=CS m=Economics g=Male g=Others` returns all persons with Major "CS" or Major "Economics" who identifies as 
+  either "Male" or "Others".
 
 ### Deleting a person : `delete`
 
@@ -201,6 +229,6 @@ Action     | Format, Examples
 **Clear**  | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Find**   | Method 1: `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`<br><br>Method 2: `find [n=NAME] [p=PHONE] [e=EMAIL] [r=ROOM_NUMBER] [i=STUDENT_ID] [ec=EMERGENCY_CONTACT] [y=YEAR] [m=MAJOR] [g=GENDER]`<br> e.g., `find n=Alice y=1`
 **List**   | `list`
 **Help**   | `help`
