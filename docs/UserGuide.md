@@ -112,7 +112,7 @@ Examples:
 
 ### Editing a person : `edit`
 
-Edits an existing student in the _Hall Ledger_.
+Edits an existing student in the _Hall Ledger_.y
 
 Format: `edit STUDENT_ID [n=NAME] [p=PHONE] [e=EMAIL] [r=ROOM_NUMBER] [ec=EMERGENCY_CONTACT]​`
 
@@ -211,11 +211,11 @@ _Details coming soon ..._
 
 Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add n=NAME p=PHONE_NUMBER e=EMAIL i=STUDENT_ID r=ROOM_NUMBER ec=EMERGENCY_CONTACT` <br> e.g., `add n=John Doe p=+6598765432 e=johnd@example.com i=A101010X r=1A ec=+91 2345 9876`
-**Clear**  | `clear`
-**Delete** | `delete i=STUDENT_ID`<br> e.g., `delete i=A1234567M`
-**Edit**   | `edit STUDENT_ID [n=NAME] [p=PHONE_NUMBER] [e=EMAIL] [i=STUDENT_ID] [r=ROOM_NUMBER] [ec=EMERGENCY_CONTACT]`<br> e.g.,`edit i=A1234567M n=James Lee e=jameslee@example.com`
-**Find**   | `NAME_KEYWORD [MORE_NAME_KEYWORDS]` OR `find [n=NAME] [p=PHONE] [e=EMAIL] [r=ROOM_NUMBER] [i=STUDENT_ID] [ec=EMERGENCY_CONTACT] [y=YEAR] [m=MAJOR] [g=GENDER]`
-**Tag**    | `tag i=STUDENT_ID [m=MAJOR] [y=YEAR] [g=GENDER]`
-**List**   | `list`
-**Help**   | `help`
+**[Add](#adding-a-person-add)**    | `add n=NAME p=PHONE e=EMAIL i=STUDENT_ID r=ROOM ec=EMERGENCY_CONTACT` <br> e.g., `add n=James Lee p=+65 98765432 e=james@example.com i=A1234567X r=15R ec=+65 98765432`
+**[Clear](#clearing-all-entries--clear)**  | `clear`
+**[Delete](#deleting-a-person--delete)** | `delete i=STUDENT_ID`<br> e.g., `delete i=A1234567X`
+**[Edit](#editing-a-person--edit)**   | `edit STUDENT_ID [n=NAME] [p=PHONE] [e=EMAIL] [i=STUDENT_ID] [r=ROOM] [ec=EMERGENCY_CONTACT]`<br> e.g.,`edit A1234567X n=James Lee e=jameslee@example.com`
+**[Tag](#tagging-a-student-tag)**    | `tag i=STUDENT_ID [m=MAJOR] [y=YEAR] [g=GENDER]`<br> e.g., `tag i=A1234567X m=CS y=Y3`
+**[Find](#locating-persons--find)**   | Method 1:<br> `find NAME_KEYWORDS [MORE_NAME_KEYWORDS]`<br> e.g., `find James Jake`<br><br>Method 2:<br> `find [n=NAME] [p=PHONE] [e=EMAIL] [r=ROOM_NUMBER] [i=STUDENT_ID] [ec=EMERGENCY_CONTACT] [y=YEAR] [m=MAJOR] [g=GENDER]`<br> e.g., `find n=James y=Y1`
+**[List](#listing-all-persons--list)**   | `list`
+**[Help](#viewing-help--help)**   | `help`
