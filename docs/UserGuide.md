@@ -266,3 +266,4 @@ Action     | Format, Examples
 **[Find](#locating-persons--find)**   | Method 1:<br> `find NAME_KEYWORDS [MORE_NAME_KEYWORDS]`<br> e.g., `find James Jake`<br><br>Method 2:<br> `find [n=NAME] [p=PHONE] [e=EMAIL] [r=ROOM_NUMBER] [i=STUDENT_ID] [ec=EMERGENCY_CONTACT] [y=YEAR] [m=MAJOR] [g=GENDER]`<br> e.g., `find n=James y=Y1`
 **[List](#listing-all-persons--list)**   | `list`
 **[Help](#viewing-help--help)**   | `help`
+
