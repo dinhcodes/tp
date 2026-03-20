@@ -99,9 +99,9 @@ Format: `list`
 
 ### Tagging a student: `tag`
 
-Add **Major**, **Year** and **Gender** tags to an existing student.
+Adds **Major**, **Year** and **Gender** tags to an existing student.
 
-Format: `tag i=STUDENT_ID [m=MAJOR] [y=YEAR] [g=GENDR]`
+Format: `tag i=STUDENT_ID [m=MAJOR] [y=YEAR] [g=GENDER]`
 
 * Adds or edits tags for the student uniquely identified by *STUDENT_ID*.
 * *STUDENT_ID* must in valid format and exist in the Hall Ledger
