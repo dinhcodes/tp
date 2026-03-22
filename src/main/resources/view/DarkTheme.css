@@ -497,7 +497,6 @@
     -fx-font-weight: bold;
     -fx-font-size: 11pt;
     -fx-padding: 8 20 8 20;
-    -fx-background-radius: 4;
 }
 
 .btn-save:hover {
