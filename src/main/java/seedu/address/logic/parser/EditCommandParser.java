@@ -11,6 +11,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ROOM_NUMBER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STUDENT_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
+import java.util.List;
+
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -38,30 +40,11 @@ public class EditCommandParser implements Parser<EditCommand> {
                         PREFIX_EMERGENCY_CONTACT,
                         PREFIX_TAG);
 
-        // If there's a preamble -> invalid command format
-        if (!argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
-        }
+        validatePrefixes(argMultimap);
 
-        // If 'id=...' is not present -> empty argument error
-        String targetStudentIdString = argMultimap.getValue(PREFIX_STUDENT_ID)
-                .orElseThrow(() -> new ParseException(MESSAGE_EMPTY_ARGUMENT + "\n" + EditCommand.MESSAGE_USAGE));
-
-        // Parse the student ID
-        StudentId targetStudentId;
-        try {
-            targetStudentId = ParserUtil.parseStudentId(targetStudentIdString);
-        } catch (ParseException pe) {
-            throw pe;
-        }
-
-
-        // Check for duplicate prefixes
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL,
-                PREFIX_ROOM_NUMBER, PREFIX_EMERGENCY_CONTACT);
-
-        // However, it is possible for the user to specify the student ID prefix two times
-        argMultimap.verifyNoMoreThanTwoPrefixesFor(PREFIX_STUDENT_ID);
+        // Parse the student ID, throw parsing errors if needed
+        String targetStudentIdString = argMultimap.getAllValues(PREFIX_STUDENT_ID).get(0);
+        StudentId targetStudentId = ParserUtil.parseStudentId(targetStudentIdString);
 
         EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
 
@@ -74,8 +57,8 @@ public class EditCommandParser implements Parser<EditCommand> {
         if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
             editPersonDescriptor.setEmail(ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get()));
         }
+        // If there are two student ID prefixes, the second one is the edited student ID
         if (argMultimap.getAllValues(PREFIX_STUDENT_ID).size() == 2) {
-            // If there are two student ID prefixes, the second one is the edited student ID
             StudentId editedStudentId = ParserUtil.parseStudentId(argMultimap.getAllValues(PREFIX_STUDENT_ID).get(1));
             editPersonDescriptor.setStudentId(editedStudentId);
         }
@@ -94,5 +77,25 @@ public class EditCommandParser implements Parser<EditCommand> {
         }
 
         return new EditCommand(targetStudentId, editPersonDescriptor);
+    }
+
+    private static void validatePrefixes(ArgumentMultimap argMultimap) throws ParseException {
+        // If there's a preamble -> invalid command format
+        if (!argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
+        }
+
+        // If no ID prefixes are present -> empty argument error
+        List<String> studentIdValues = argMultimap.getAllValues(PREFIX_STUDENT_ID);
+        if (studentIdValues.isEmpty()) {
+            throw new ParseException(MESSAGE_EMPTY_ARGUMENT + "\n" + EditCommand.MESSAGE_USAGE);
+        }
+
+        // If there are more than 2 student ID prefixes -> invalid command format
+        argMultimap.verifyNoMoreThanTwoPrefixesFor(PREFIX_STUDENT_ID);
+
+        // Check for duplicate prefixes
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL,
+                PREFIX_ROOM_NUMBER, PREFIX_EMERGENCY_CONTACT);
     }
 }
