@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.Messages.MESSAGE_EMPTY_ARGUMENT;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMERGENCY_CONTACT;
@@ -37,12 +38,14 @@ public class EditCommandParser implements Parser<EditCommand> {
                         PREFIX_EMERGENCY_CONTACT,
                         PREFIX_TAG);
 
-        String preamble = argMultimap.getPreamble().trim();
+        // Check if student ID token is present
+        String targetStudentIdString = argMultimap.getValue(PREFIX_STUDENT_ID)
+                .orElseThrow(() -> new ParseException(MESSAGE_EMPTY_ARGUMENT + "\n" + EditCommand.MESSAGE_USAGE));
 
+        // Parse the student ID
         StudentId targetStudentId;
-
         try {
-            targetStudentId = ParserUtil.parseStudentId(preamble);
+            targetStudentId = ParserUtil.parseStudentId(targetStudentIdString);
         } catch (ParseException pe) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE), pe);
         }
