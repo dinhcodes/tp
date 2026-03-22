@@ -45,6 +45,8 @@ public class FilterPanel extends UiPart<Region> {
     @FXML
     private ComboBox<String> sortByComboBox;
     @FXML
+    private ComboBox<String> sortOrderComboBox;
+    @FXML
     private FontIcon filterIcon;
     @FXML
     private FontIcon sortIcon;
@@ -68,8 +70,8 @@ public class FilterPanel extends UiPart<Region> {
                 "Emergency Contact", "Floor", "Year", "Gender");
         sortByComboBox.getSelectionModel().selectFirst();
 
-        sortByComboBox.getItems().addAll("Ascending", "Descending");
-        sortByComboBox.getSelectionModel().selectFirst();
+        sortOrderComboBox.getItems().addAll("Ascending", "Descending");
+        sortOrderComboBox.getSelectionModel().selectFirst();
     }
 
     /*
