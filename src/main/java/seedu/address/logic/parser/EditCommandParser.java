@@ -38,7 +38,12 @@ public class EditCommandParser implements Parser<EditCommand> {
                         PREFIX_EMERGENCY_CONTACT,
                         PREFIX_TAG);
 
-        // Check if student ID token is present
+        // Check if there's a preamble, if so, output invalid command format error
+        if (!argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
+        }
+
+        // Check if student ID token is present, if not, output empty argument error
         String targetStudentIdString = argMultimap.getValue(PREFIX_STUDENT_ID)
                 .orElseThrow(() -> new ParseException(MESSAGE_EMPTY_ARGUMENT + "\n" + EditCommand.MESSAGE_USAGE));
 
