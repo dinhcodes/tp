@@ -39,8 +39,6 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
-
-        addFilterDetailsListener();
     }
 
     public ModelManager() {
@@ -152,12 +150,6 @@ public class ModelManager implements Model {
     public void setFilterDetails(FilterDetails filterDetails) {
         requireNonNull(filterDetails);
         this.filterDetails.set(new FilterDetails(filterDetails));
-    }
-
-    private void addFilterDetailsListener() {
-        filterDetails.addListener((obs, oldVal, newVal) -> {
-            updateFilteredPersonList(new PersonMatchesDetailsPredicate(newVal));
-        });
     }
 
     //=========== Equals method =============================================================
