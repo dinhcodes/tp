@@ -41,7 +41,7 @@ public class TypicalPersons {
 
     public static final Person BENSON = new PersonBuilder().withName("Benson Meier")
             .withStudentId("A8765432Y").withEmail("johnd@example.com").withPhone("+65 98765432")
-            .withRoomNumber("10A").withEmergencyContact("+65 91234567")
+            .withRoomNumber("10A").withEmergencyContact("+65 91234567").withRemark("Allergic to peanuts")
             .withTags(new Object[]{TagType.MAJOR, "CS"},
                     new Object[]{TagType.MAJOR, "Maths"},
                     new Object[]{TagType.YEAR, "Y2"},
