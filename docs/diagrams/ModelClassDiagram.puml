@@ -45,7 +45,7 @@ Person *--> Phone
 Person *--> Email
 Person *--> Address
 Person *--> Remark
-Person *--> "*" Tag
+Person *--> "0..3" Tag
 Tag --> TagType
 
 Person -[hidden]up--> I
