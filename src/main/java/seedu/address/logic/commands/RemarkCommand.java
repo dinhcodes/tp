@@ -1,5 +1,9 @@
 package seedu.address.logic.commands;
 
+import static java.util.Objects.requireNonNull;
+
+import java.util.List;
+
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
@@ -7,11 +11,12 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Remark;
 import seedu.address.model.person.StudentId;
 
-import java.util.List;
-
-import static java.util.Objects.requireNonNull;
-
-public class RemarkCommand extends Command{
+/**
+ * Adds a remark to a resident in the hall ledger.
+ * The resident is identified using the index number from the displayed resident list.
+ * Existing remarks will be overwritten by the newly provided remark.
+ */
+public class RemarkCommand extends Command {
 
     public static final String COMMAND_WORD = "remark";
 
@@ -24,6 +29,10 @@ public class RemarkCommand extends Command{
     private final StudentId studentId;
     private final String remark;
 
+    /**
+     * @param studentId of the person in the filtered person list to edit
+     * @param remark remark to add to the person
+     */
     public RemarkCommand(StudentId studentId, String remark) {
         this.studentId = studentId;
         this.remark = remark;
@@ -31,11 +40,11 @@ public class RemarkCommand extends Command{
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
-       requireNonNull(model);
+        requireNonNull(model);
 
-       List<Person> lastShownList = model.getFilteredPersonList();
+        List<Person> lastShownList = model.getFilteredPersonList();
 
-       Person personToRemark = null;
+        Person personToRemark = null;
         for (Person person : lastShownList) {
             if (person.getStudentId().equals(studentId)) {
                 personToRemark = person;

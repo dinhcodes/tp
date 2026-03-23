@@ -68,12 +68,10 @@ public class Person {
     public EmergencyContact getEmergencyContact() {
         return emergencyContact;
     }
-    /**
-     * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
-     * if modification is attempted.
-     */
 
-    public Remark getRemark() {return remark;}
+    public Remark getRemark() {
+        return remark;
+    }
 
     public Map<TagType, Tag> getTags() {
         return Collections.unmodifiableMap(tags);
