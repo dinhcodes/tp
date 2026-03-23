@@ -612,18 +612,39 @@
 }
 
 /* Name flow pane tags in filter panel */
-#nameTags {
+.filter-panel-flow-pane {
     -fx-hgap: 8;
     -fx-vgap: 5;
 }
 
-#nameTags .label {
-    -fx-text-fill: white;
+.nameTags {
     -fx-background-color: secondary-blue;
-    -fx-padding: 2 6 2 6;
-    -fx-border-radius: 3;
+    -fx-padding: 4 6 4 8;
     -fx-background-radius: 3;
-    -fx-font-size: 13;
+    -fx-border-radius: 3;
+    -fx-alignment: center-left;
+}
+
+.nameTags .label {
+    -fx-text-fill: white;
+    -fx-font-size: 12;
+    -fx-padding: 0;
+}
+
+.nameTags .button {
+    -fx-padding: 0;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-font-size: 8pt;
+    -fx-text-fill: white;
+    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+    -fx-cursor: hand;
+}
+
+.nameTags .button:hover {
 }
 
 /* List Section background color */
