@@ -14,10 +14,11 @@ Name matching compares each word in a resident's name against your input keyword
 
 For each keyword-to-name-word comparison, Hall Ledger applies these rules in order:
 
-1. **Exact match (case-insensitive)**
-2. **Substring match**: keyword is contained inside the name word
-3. **Typo-tolerant match**: if both strings are at least 4 characters, we allow up to 2 small typing mistakes
-   (for example: changing, adding, or removing up to 2 letters)
+| Priority | Rule | What it means |
+| --- | --- | --- |
+| 1 | Exact | Same word, ignoring upper/lower case. |
+| 2 | Contains | The keyword appears inside a name word. |
+| 3 | Typo-tolerant | For words with length >= 4, up to 2 small typing mistakes are allowed. |
 
 ### Examples
 
@@ -28,17 +29,19 @@ For each keyword-to-name-word comparison, Hall Ledger applies these rules in ord
 
 ## 2. Prefix-based `find` matching behavior
 
-When using prefixed search, each field has its own matching strategy.
+When using prefixed search, each field has its own matching strategy:
 
-- `n=` (name): fuzzy matching rules above
-- `p=` (phone): case-insensitive partial match
-- `e=` (email): case-insensitive partial match
-- `i=` (student ID): case-insensitive partial match
-- `r=` (room number): case-insensitive exact match
-- `ec=` (emergency contact): case-insensitive exact match
-- `y=` (year tag): case-insensitive exact tag match
-- `g=` (gender tag): case-insensitive exact tag match
-- `m=` (major tag): case-insensitive partial tag match
+| Prefix | Field | Match type | Practical meaning |
+| --- | --- | --- | --- |
+| `n=` | Name | Fuzzy | Uses the 3 name rules above (exact, contains, typo-tolerant). |
+| `p=` | Phone | Fuzzy (contains) | Input can match part of the phone value. |
+| `e=` | Email | Fuzzy (contains) | Input can match part of the email value. |
+| `i=` | Student ID | Fuzzy (contains) | Input can match part of the student ID. |
+| `ec=` | Emergency contact | Fuzzy (contains) | Input can match part of the emergency contact value. |
+| `r=` | Room number | Exact | Must match the full room value (case-insensitive). |
+| `y=` | Year tag | Exact | Must match the full year tag. |
+| `g=` | Gender tag | Exact | Must match the full gender tag. |
+| `m=` | Major tag | Fuzzy (contains) | Input can match part of the major tag. |
 
 ## 3. AND/OR rules in prefixed `find`
 

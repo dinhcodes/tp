@@ -166,16 +166,23 @@ Format: `find [n=NAME] [p=PHONE] [e=EMAIL] [r=ROOM_NUMBER] [i=STUDENT_ID] [ec=EM
   * e.g. `find y=Y2 y=Y3` returns Year 2 or Year 3 residents.
   * e.g. `find n=Hans Bo n=Anna` can return residents matching either name group.
 * Matching behavior by field:
-  * `n=`: name fuzzy matching (same behavior as Method 1).
-  * `p=`, `e=`, `i=`: case-insensitive partial match.
-  * `r=`, `ec=`: case-insensitive exact match.
-  * `y=`, `g=`: case-insensitive exact tag match.
-  * `m=`: case-insensitive partial tag match.
+
+| Prefix | Field | Match type | Notes |
+| --- | --- | --- | --- |
+| `n=` | Name | Fuzzy | Same behavior as Method 1 (exact, contains, typo-tolerant for longer words). |
+| `p=` | Phone | Fuzzy (contains) | Case-insensitive partial match. |
+| `e=` | Email | Fuzzy (contains) | Case-insensitive partial match. |
+| `i=` | Student ID | Fuzzy (contains) | Case-insensitive partial match. |
+| `ec=` | Emergency contact | Fuzzy (contains) | Case-insensitive partial match. |
+| `r=` | Room number | Exact | Case-insensitive exact match only. |
+| `y=` | Year tag | Exact | Case-insensitive exact tag match. |
+| `g=` | Gender tag | Exact | Case-insensitive exact tag match. |
+| `m=` | Major tag | Fuzzy (contains) | Case-insensitive partial tag match. |
 
 Examples:
 * `find m=CS m=Economics g=Male g=Others` returns persons majoring in CS or Economics, and whose gender is listed as 
   Male or Others.
-* `find ec=+84 e=gmail` returns persons whose emergency contact is exactly `+84` and whose email contains `gmail`.
+* `find ec=+84 e=gmail` returns persons whose emergency contact contains `+84` and whose email contains `gmail`.
 
 Read more about fuzzy matching here: [Fuzzy Matching Details](FuzzyMatching.md).
 
