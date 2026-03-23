@@ -77,9 +77,9 @@ public class StringUtil {
      * The matching rules are applied after trimming and converting to lower case:
      * <ol>
      *     <li>Exact matches are always true.</li>
-     *     <li>If either string is 2 characters or shorter, only exact matches return true (fuzzy logic disabled).</li>
-     *     <li>If the {@code query} is a substring of the {@code target}, returns true.</li>
-     *     <li>If the Levenshtein distance is 2 or less, returns true (tolerating small typos).</li>
+     *     <li>If the {@code query} is a substring of the {@code target}, returns true</li>
+     *     <li>If both the {@code query} and the {@code target} are 4 characters or longer and their Levenshtein
+     *     distance is 2 or less, returns true (tolerating small typos).</li>
      * </ol>
      *
      * <br>Examples:
@@ -108,12 +108,12 @@ public class StringUtil {
             return true;
         }
 
-        if (queryProcessed.length() <= 2 || targetProcessed.length() <= 2) {
-            return false;
-        }
-
         if (targetProcessed.contains(queryProcessed)) {
             return true;
+        }
+
+        if (queryProcessed.length() <= 3 || targetProcessed.length() <= 3) {
+            return false;
         }
 
         LevenshteinDistance levenshtein = new LevenshteinDistance(2);
