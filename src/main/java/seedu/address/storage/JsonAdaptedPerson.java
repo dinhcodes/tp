@@ -25,6 +25,8 @@ import seedu.address.model.tag.TagType;
 class JsonAdaptedPerson {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Person's %s field is missing!";
+    public static final String DUPLICATE_TAG_TYPE_MESSAGE_FORMAT =
+            "Duplicate tag type found in person data: %s";
 
     private final String name;
     private final String phone;
@@ -38,10 +40,13 @@ class JsonAdaptedPerson {
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
      */
     @JsonCreator
-    public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
-            @JsonProperty("email") String email, @JsonProperty("studentId") String studentId,
-            @JsonProperty("roomNumber") String roomNumber, @JsonProperty("emergencyContact") String emergencyContact,
-            @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+    public JsonAdaptedPerson(@JsonProperty("name") String name,
+                             @JsonProperty("phone") String phone,
+                             @JsonProperty("email") String email,
+                             @JsonProperty("studentId") String studentId,
+                             @JsonProperty("roomNumber") String roomNumber,
+                             @JsonProperty("emergencyContact") String emergencyContact,
+                             @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -74,11 +79,6 @@ class JsonAdaptedPerson {
      * @throws IllegalValueException if there were any data constraints violated in the adapted person.
      */
     public Person toModelType() throws IllegalValueException {
-        final List<Tag> personTags = new ArrayList<>();
-        for (JsonAdaptedTag tag : tags) {
-            personTags.add(tag.toModelType());
-        }
-
         if (name == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
         }
@@ -116,7 +116,6 @@ class JsonAdaptedPerson {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     RoomNumber.class.getSimpleName()));
         }
-
         if (!RoomNumber.isValidRoomNumber(roomNumber)) {
             throw new IllegalValueException(RoomNumber.MESSAGE_CONSTRAINTS);
         }
@@ -126,20 +125,22 @@ class JsonAdaptedPerson {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     EmergencyContact.class.getSimpleName()));
         }
-
         if (!EmergencyContact.isValidEmergencyContact(emergencyContact)) {
             throw new IllegalValueException(EmergencyContact.MESSAGE_CONSTRAINTS);
         }
-        final EmergencyContact modelEmergencyContact = emergencyContact != null
-                                                     ? new EmergencyContact(emergencyContact)
-                                                     : null;
+        final EmergencyContact modelEmergencyContact = new EmergencyContact(emergencyContact);
 
         final HashMap<TagType, Tag> modelTags = new HashMap<>();
-        for (Tag tag: personTags) {
-            modelTags.put(tag.getTagType(), tag);
+        for (JsonAdaptedTag jsonAdaptedTag : tags) {
+            Tag tag = jsonAdaptedTag.toModelType();
+            TagType tagType = tag.getTagType();
+            if (modelTags.containsKey(tagType)) {
+                throw new IllegalValueException(String.format(DUPLICATE_TAG_TYPE_MESSAGE_FORMAT, tagType));
+            }
+            modelTags.put(tagType, tag);
         }
+
         return new Person(modelName, modelPhone, modelEmail, modelStudentId, modelRoomNumber,
                 modelEmergencyContact, modelTags);
     }
-
 }

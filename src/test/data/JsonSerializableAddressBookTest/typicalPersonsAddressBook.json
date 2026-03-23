@@ -25,17 +25,16 @@
     "emergencyContact" : "+65 91234567",
     "tags" : [ {
       "tagType" : "MAJOR",
-      "tagName" : "CS"
-    }, {
-      "tagType" : "MAJOR",
-      "tagName" : "Maths"
-    }, {
-      "tagType" : "YEAR",
-      "tagName" : "Y2"
-    }, {
-      "tagType" : "GENDER",
-      "tagName" : "Male"
-    } ]
+      "tagName" : "CS Maths"
+    },
+      {
+        "tagType" : "YEAR",
+        "tagName" : "Y2"
+      },
+      {
+        "tagType" : "GENDER",
+        "tagName" : "Male"
+      } ]
   }, {
     "name" : "Carl Kurz",
     "phone" : "+65 95352563",
@@ -81,14 +80,12 @@
     "emergencyContact" : "+65 91234567",
     "tags" : [ {
       "tagType" : "MAJOR",
-      "tagName" : "Economics"
-    }, {
-      "tagType" : "GENDER",
-      "tagName" : "Female"
-    }, {
-      "tagType" : "MAJOR",
-      "tagName" : "Statistics"
-    } ]
+      "tagName" : "Economics Statistics"
+    },
+      {
+        "tagType" : "GENDER",
+        "tagName" : "Female"
+      } ]
   }, {
     "name" : "George Best",
     "phone" : "+65 9482442",
