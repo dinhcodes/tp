@@ -147,7 +147,7 @@ public class ModelManager implements Model {
     @Override
     public void setFilterDetails(FilterDetails filterDetails) {
         requireNonNull(filterDetails);
-        this.filterDetails.set(new FilterDetails(filterDetails));
+        this.filterDetails.set(filterDetails);
     }
 
     //=========== Equals method =============================================================

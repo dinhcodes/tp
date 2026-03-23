@@ -4,7 +4,6 @@ import java.util.Set;
 
 import org.kordamp.ikonli.javafx.FontIcon;
 
-import javafx.beans.property.ObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -14,6 +13,7 @@ import javafx.scene.layout.Region;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.FilterDetails;
+import seedu.address.model.ReadOnlyFilterDetails;
 import seedu.address.ui.executors.FilterExecutor;
 
 /**
@@ -21,7 +21,7 @@ import seedu.address.ui.executors.FilterExecutor;
  */
 public class FilterPanel extends UiPart<Region> {
     private static final String FXML = "FilterPanel.fxml";
-    private final ObjectProperty<FilterDetails> filterDetails;
+    private final ReadOnlyFilterDetails filterDetails;
     private final FilterExecutor filterExecutor;
 
     @FXML
@@ -56,9 +56,9 @@ public class FilterPanel extends UiPart<Region> {
     private FontIcon sortIcon;
 
     /**
-     * Creates a {@code FilterPanel} with the given {@code ObjectProperty<FilterDetails>}.
+     * Creates a {@code FilterPanel} with the given {@code ReadOnlyFilterDetails}.
      */
-    public FilterPanel(ObjectProperty<FilterDetails> filterDetails, FilterExecutor filterExecutor) {
+    public FilterPanel(ReadOnlyFilterDetails filterDetails, FilterExecutor filterExecutor) {
         super(FXML);
         this.filterDetails = filterDetails;
         this.filterExecutor = filterExecutor;
@@ -92,18 +92,19 @@ public class FilterPanel extends UiPart<Region> {
      */
     @FXML
     private void handleNameFieldEntered() {
+        // Clear existing tags
         nameTags.getChildren().clear();
+
+        // Get the input text and split it into keywords
         String nameFilterText = nameFilterField.getText();
         if (nameFilterText.trim().isEmpty()) {
             return;
         }
         Set<String> nameFilterKeywordsSet = StringUtil.splitSentenceIntoWords(nameFilterText);
-
-        // Display each keyword as a tag in the UI
         nameFilterKeywordsSet.forEach(tag -> nameTags.getChildren().add(new Label(tag)));
 
         // Create a new FilterDetails with updated name keywords
-        FilterDetails newFilterDetails = new FilterDetails(filterDetails.get());
+        FilterDetails newFilterDetails = filterDetails.getFilterDetails().get();
         newFilterDetails.setNameKeywords(nameFilterKeywordsSet);
 
         try {

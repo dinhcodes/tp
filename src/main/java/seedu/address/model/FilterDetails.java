@@ -3,10 +3,12 @@ package seedu.address.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javafx.beans.property.ReadOnlyObjectWrapper;
+
 /**
  * Stores the details of the filter to be applied to the address book.
  */
-public class FilterDetails {
+public class FilterDetails implements ReadOnlyFilterDetails {
     private Set<String> nameKeywords;
     private Set<String> emailKeywords;
     private Set<String> phoneNumberKeywords;
@@ -122,6 +124,12 @@ public class FilterDetails {
 
     public Set<String> getTagGenderKeywords() {
         return tagGenderKeywords;
+    }
+
+    // ==================== Override Methods ======================
+    @Override
+    public ReadOnlyObjectWrapper<FilterDetails> getFilterDetails() {
+        return new ReadOnlyObjectWrapper<>(this);
     }
 
     @Override
