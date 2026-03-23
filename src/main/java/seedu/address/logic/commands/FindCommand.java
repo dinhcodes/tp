@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
+import seedu.address.model.FilterDetails;
 import seedu.address.model.Model;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
@@ -33,6 +34,7 @@ public class FindCommand extends Command {
             + "Example: " + COMMAND_WORD + " n/Alice p/91234567 y/1";
 
     private final Predicate<Person> predicate;
+    private final FilterDetails filterDetails;
 
     private final Logger logger = LogsCenter.getLogger(FindCommand.class);
 
@@ -43,16 +45,20 @@ public class FindCommand extends Command {
      */
     public FindCommand(NameContainsKeywordsPredicate predicate) {
         this.predicate = predicate;
+        this.filterDetails = new FilterDetails();
+        this.filterDetails.setNameKeywords(predicate.getKeywords());
     }
 
     public FindCommand(PersonMatchesDetailsPredicate predicate) {
         this.predicate = predicate;
+        this.filterDetails = predicate.getFilterDetails();
     }
 
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
         logger.info("[FIND COMMAND][" + predicate.toString() + "]");
+        model.setFilterDetails(filterDetails);
         model.updateFilteredPersonList(predicate);
         return new CommandResult(
                 String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
@@ -65,11 +71,10 @@ public class FindCommand extends Command {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof FindCommand)) {
+        if (!(other instanceof FindCommand otherFindCommand)) {
             return false;
         }
 
-        FindCommand otherFindCommand = (FindCommand) other;
         return predicate.equals(otherFindCommand.predicate);
     }
 
