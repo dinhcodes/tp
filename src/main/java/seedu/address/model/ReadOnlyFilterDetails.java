@@ -1,14 +1,18 @@
 package seedu.address.model;
 
-import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.collections.ObservableSet;
 
 /**
  * Unmodifiable view of filter details.
  */
 public interface ReadOnlyFilterDetails {
-    /**
-     * Returns the filter details as an unmodifiable object.
-     * @return the filter details
-     */
-    ReadOnlyObjectWrapper<FilterDetails> getFilterDetails();
+    ObservableSet<String> getNameKeywords();
+    ObservableSet<String> getEmailKeywords();
+    ObservableSet<String> getPhoneNumberKeywords();
+    ObservableSet<String> getRoomNumberKeywords();
+    ObservableSet<String> getStudentIdKeywords();
+    ObservableSet<String> getEmergencyContactKeywords();
+    ObservableSet<String> getTagYearKeywords();
+    ObservableSet<String> getTagMajorKeywords();
+    ObservableSet<String> getTagGenderKeywords();
 }
