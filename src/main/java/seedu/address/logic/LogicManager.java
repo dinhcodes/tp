@@ -10,6 +10,7 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.AddressBookParser;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -67,14 +68,13 @@ public class LogicManager implements Logic {
 
     // TODO: Do exception handling
     @Override
-    public CommandResult executeFilter(FilterDetails filterDetails) {
+    public CommandResult executeFilter(FilterDetails filterDetails) throws CommandException {
         assert(filterDetails != null);
 
         logger.info("----------------[FILTER DETAILS FROM UI] " + filterDetails);
-        model.updateFilteredPersonList(new PersonMatchesDetailsPredicate(filterDetails));
-        model.setFilterDetails(filterDetails);
-        return new CommandResult(
-                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
+        Command command = new FindCommand(new PersonMatchesDetailsPredicate(filterDetails));
+        CommandResult commandResult = command.execute(model);
+        return commandResult;
     }
 
     @Override
