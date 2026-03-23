@@ -18,6 +18,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyFilterDetails;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.PersonMatchesDetailsPredicate;
 import seedu.address.storage.Storage;
 
 /**
@@ -66,7 +67,11 @@ public class LogicManager implements Logic {
 
     // TODO: Do exception handling
     @Override
-    public CommandResult executeFilter(FilterDetails filterDetails) throws CommandException {
+    public CommandResult executeFilter(FilterDetails filterDetails) {
+        assert(filterDetails != null);
+
+        logger.info("----------------[FILTER DETAILS FROM UI] " + filterDetails);
+        model.updateFilteredPersonList(new PersonMatchesDetailsPredicate(filterDetails));
         model.setFilterDetails(filterDetails);
         return new CommandResult(
                 String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
