@@ -8,7 +8,10 @@ import seedu.address.commons.util.StringUtil;
 import seedu.address.commons.util.ToStringBuilder;
 
 /**
- * Tests that a {@code Person}'s {@code Name} matches any of the keywords given.
+ * Tests that a {@code Person}'s name matches any keyword using word-level fuzzy matching.
+ *
+ * <p>The person's name is split into words, then each word is checked against the keyword set via
+ * {@link StringUtil#fuzzyMatchesAnyIgnoreCase(String, Set)}.
  */
 public class NameContainsKeywordsPredicate implements Predicate<Person> {
     private final List<String> keywords;
@@ -41,11 +44,10 @@ public class NameContainsKeywordsPredicate implements Predicate<Person> {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof NameContainsKeywordsPredicate)) {
+        if (!(other instanceof NameContainsKeywordsPredicate otherNameContainsKeywordsPredicate)) {
             return false;
         }
 
-        NameContainsKeywordsPredicate otherNameContainsKeywordsPredicate = (NameContainsKeywordsPredicate) other;
         // Compare keywords as sets to ignore order and duplicates
         Set<String> keywordsSet = Set.copyOf(keywords);
         Set<String> otherKeywordsSet = Set.copyOf(otherNameContainsKeywordsPredicate.keywords);
