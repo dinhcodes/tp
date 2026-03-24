@@ -131,29 +131,6 @@ Examples:
 
 ### Locating persons: `find`
 
-Finds persons using one of two methods:
-1. [Find by name](#method-1-find-by-name)
-2. [Find by attributes](#method-2-find-by-attributes)
-
-#### Method 1: Find by name
-
-Finds persons whose names contain any of the given keywords.
-
-Format: `find NAME_KEYWORD [MORE_NAME_KEYWORDS]`
-
-* Case-insensitive: `find Hans Bo` gives the same result as `find hans bo`.
-* Keyword order does not matter.
-* Multiple keywords are OR-based for names.
-  * e.g. `find Hans Bo Anna` can return residents such as `Hans Gruber`, `Bo Yang`, `Anna Lee`.
-* Name matching supports exact, substring, and typo-tolerant matching for longer words.
-  * e.g. `find Alex` can match `Alex`, `Alexander`, and close typos such as `Alxe`.
-
-Examples:
-* `find John` returns `john` and `John Doe`
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
-
-#### Method 2: Find by attributes
-
 Finds persons who match multiple attributes such as name, phone number, email or major.
 
 Format: `find [n=NAME] [p=PHONE] [e=EMAIL] [r=ROOM_NUMBER] [i=STUDENT_ID] [ec=EMERGENCY_CONTACT] [y=YEAR] [m=MAJOR] [g=GENDER]`
@@ -167,6 +144,7 @@ Format: `find [n=NAME] [p=PHONE] [e=EMAIL] [r=ROOM_NUMBER] [i=STUDENT_ID] [ec=EM
   * e.g. `find n=Hans Bo n=Anna` can return residents matching either name group.
 * Matching behavior by field:
 
+// TODO: Make sure all down here is correct!
 | Prefix | Field | Match type | Notes |
 | --- | --- | --- | --- |
 | `n=` | Name | Fuzzy | Same behavior as Method 1 (exact, contains, typo-tolerant for longer words). |
