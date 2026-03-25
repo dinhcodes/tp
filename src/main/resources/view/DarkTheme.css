@@ -488,20 +488,20 @@
 }
 
 .panel-subheading {
-    -fx-background-color:  derive(dark-grey, 20%); 
+    -fx-background-color:  derive(dark-grey, 20%);
     -fx-padding: 14;
     -fx-background-radius: 8;
     -fx-min-width: 175;
 }
 
 .panel-subheading .label {
-    -fx-font-size: 18px; 
+    -fx-font-size: 18px;
     -fx-min-width: 30;
     -fx-text-fill: #FFFFFF
 }
 
 .panel-subheading .label-header{
-    -fx-font-size: 18px; 
+    -fx-font-size: 18px;
     -fx-text-fill: derive(primary-yellow, +5%);
     -fx-font-weight: bold;
 }

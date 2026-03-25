@@ -71,8 +71,8 @@ The **API** of this component is specified in [`Ui.java`](https://github.com/se-
 
 <puml src="diagrams/UiClassDiagram.puml" alt="Structure of the UI Component"/>
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `TabSection`, 
-`ListSection` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the 
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `TabSection`,
+`ListSection` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the
 commonalities between classes that represent parts of the visible GUI.
 
 The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/resources/view/MainWindow.fxml)
@@ -298,7 +298,7 @@ HallLedger is not intended to replace university-wide housing allocation systems
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a(n) …​   | I want to …​                                                     | So that I can…​                                             
+| Priority | As a(n) …​   | I want to …​                                                     | So that I can…
 |----------|--------------|------------------------------------------------------------------|-------------------------------------------------------------|
 | `* * *`  | new user     | see usage instructions                                           | refer to instructions when I forget how to use the App      |
 | `* * *`  | RA           | add a new student contact                                        | keep up-to-date records of students under my care           |

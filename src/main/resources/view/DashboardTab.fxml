@@ -4,14 +4,14 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      stylesheets="@DarkTheme.css" 
+      stylesheets="@DarkTheme.css"
       spacing="10" styleClass="panel-container"
       VBox.vgrow="ALWAYS">
 
     <Label text="Dashboard Overview"
            styleClass="panel-heading" />
 
-    
+
     <HBox spacing="8" styleClass="panel-subheading">
         <Label text="Total Number of Residents: " styleClass="label-header"/>
         <Label fx:id="totalCountLabel" text="0" styleClass="label"/>
