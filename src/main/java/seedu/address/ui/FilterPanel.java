@@ -56,30 +56,19 @@ public class FilterPanel extends UiPart<Region> {
     }
 
     /**
-    * Fills the inner parts of the FilterPanel, such as setting up event handlers for the filter fields and
-    */
-    private void fillInnerParts() {
-    }
-    /*
-    * Handles the event when the user presses 'Enter' in the name filter field.
-    * Splits the input into individual keywords and displays them as tags in the UI.
+     * Fills inner placeholders with reusable field components.
      */
-    @FXML
-    private void handleNameFieldEntered() {
-        nameTagsFlowPane.getChildren().clear();
-        String nameFilterText = nameFilterField.getText();
-        if (nameFilterText.trim().isEmpty()) {
-            return;
-        }
-        Set<String> nameFilterKeywordsSet = StringUtil.splitSentenceIntoWords(nameFilterText);
+    private void fillInnerParts() {
+        FilterPanelField nameFilterField = new FilterPanelField(
+                "Search by Name",
+                "E.g: Alex",
+                this::handleNameKeywordsChanged);
 
-        // Display each keyword as a tag in the UI
-        nameFilterKeywordsSet.forEach(tag -> nameTagsFlowPane.getChildren()
-                .add(new FilterPanelTag(tag).getRoot()));
+        nameFilterFieldPlaceholder.getChildren().setAll(nameFilterField.getRoot());
 
-        // Create a new FilterDetails with updated name keywords
-        FilterDetails newFilterDetails = new FilterDetails(filterDetails.get());
-        newFilterDetails.setNameKeywords(nameFilterKeywordsSet);
+        filterDetails.getNameKeywords().addListener(
+                (SetChangeListener<? super String>) change ->
+                        nameFilterField.setKeywords(List.copyOf(filterDetails.getNameKeywords())));
 
         // Trigger the listener in ModelManager
         filterDetails.set(newFilterDetails);

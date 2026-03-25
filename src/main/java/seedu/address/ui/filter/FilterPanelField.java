@@ -44,11 +44,15 @@ public class FilterPanelField extends UiPart<Region> {
 	}
 
 	/**
-	 * Replaces currently displayed tags with the provided keywords.
+     * Replaces the current list of keywords and redraws this field's FlowPane tags.
 	 */
-	public void setKeywords(List<String> keywords) {
-		requireNonNull(keywords);
-		renderKeywords(keywords);
+    public void setKeywords(List<String> updatedKeywords) {
+        requireNonNull(updatedKeywords);
+        keywords.clear();
+        updatedKeywords.stream()
+                .map(keyword -> keyword.trim())
+                .forEach(this::addKeywordIfAbsent);
+        renderKeywords();
 	}
 
 	@FXML
