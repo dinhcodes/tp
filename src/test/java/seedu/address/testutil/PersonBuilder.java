@@ -1,6 +1,7 @@
 package seedu.address.testutil;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import seedu.address.model.person.Email;
 import seedu.address.model.person.EmergencyContact;
@@ -33,9 +34,8 @@ public class PersonBuilder {
     private StudentId studentId;
     private RoomNumber roomNumber;
     private EmergencyContact emergencyContact;
+    private Map<TagType, Tag> tags = new HashMap<>();
     private Remark remark;
-    private HashMap<TagType, Tag> tags = new HashMap<>();
-
 
     /**
      * Creates a {@code PersonBuilder} with the default details.
@@ -77,6 +77,14 @@ public class PersonBuilder {
      */
     public PersonBuilder withTags(Object[]... tags) {
         this.tags = SampleDataUtil.getTagSet(tags);
+        return this;
+    }
+
+    /**
+     * Sets the {@code tags} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withTags(Map<TagType, Tag> tags) {
+        this.tags = new HashMap<>(tags);
         return this;
     }
 

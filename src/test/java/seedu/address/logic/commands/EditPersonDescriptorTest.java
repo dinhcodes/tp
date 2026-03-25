@@ -11,7 +11,6 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ROOM_NUMBER_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_STUDENTID_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_MAJOR;
 
 import org.junit.jupiter.api.Test;
 
@@ -62,9 +61,6 @@ public class EditPersonDescriptorTest {
         editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withEmergencyContact(VALID_EMERGENCY_CONTACT_BOB).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
-        // different tags -> returns false
-        editedAmy = new EditPersonDescriptorBuilder(DESC_AMY).withTags(VALID_TAG_MAJOR).build();
-        assertFalse(DESC_AMY.equals(editedAmy));
     }
 
     @Test
@@ -76,8 +72,7 @@ public class EditPersonDescriptorTest {
                 + editPersonDescriptor.getEmail().orElse(null) + ", studentId="
                 + editPersonDescriptor.getStudentId().orElse(null) + ", roomNumber="
                 + editPersonDescriptor.getRoomNumber().orElse(null) + ", emergencyContact="
-                + editPersonDescriptor.getEmergencyContact().orElse(null) + ", tags="
-                + editPersonDescriptor.getTags().orElse(null) + "}";
+                + editPersonDescriptor.getEmergencyContact().orElse(null) + "}";
         assertEquals(expected, editPersonDescriptor.toString());
     }
 }
