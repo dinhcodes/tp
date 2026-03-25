@@ -38,15 +38,9 @@ public class FilterPanel extends UiPart<Region> {
     @FXML
     private TextField emergencyContactFilterField;
     @FXML
-    private ComboBox<String> floorFilterComboBox;
-    @FXML
     private ComboBox<String> yearFilterComboBox;
     @FXML
     private ComboBox<String> genderFilterComboBox;
-    @FXML
-    private ComboBox<String> sortByComboBox;
-    @FXML
-    private ComboBox<String> sortOrderComboBox;
     @FXML
     private FontIcon filterIcon;
     @FXML
