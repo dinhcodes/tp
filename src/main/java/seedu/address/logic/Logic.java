@@ -68,7 +68,7 @@ public interface Logic {
      *
      * @see seedu.address.model.Model#getFilterDetails()
      */
-    ObjectProperty<FilterDetails> getFilterDetailsProperty();
+    ReadOnlyFilterDetails getFilterDetails();
 
     /**
      * Selected person in the filtered person list.
@@ -84,6 +84,4 @@ public interface Logic {
      * @see seedu.address.model.Model#setSelectedPerson(Person)
      */
     void setSelectedPerson(Person person);
-
-    ReadOnlyFilterDetails getFilterDetails();
 }

@@ -79,7 +79,6 @@ public interface Model {
     void setPerson(Person target, Person editedPerson);
 
     boolean hasPersonWithSameRoom(Person person);
-
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();
 
@@ -93,7 +92,12 @@ public interface Model {
     /**
      * Sets the current filter details used for filtering the person list.
      */
-    ObjectProperty<FilterDetails> getFilterDetailsProperty();
+    void setFilterDetails(FilterDetails filterDetails);
+
+    /**
+     * Returns the current read-only filter details.
+     */
+    ReadOnlyFilterDetails getFilterDetails();
 
     /**
      * Selected person in the filtered person list.
@@ -105,10 +109,4 @@ public interface Model {
      * Sets the selected person in the filtered person list.
      */
     void setSelectedPerson(Person person);
-    void setFilterDetails(FilterDetails filterDetails);
-
-    /**
-     * Returns the current read-only filter details.
-     */
-    ReadOnlyFilterDetails getFilterDetails();
 }
