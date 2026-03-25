@@ -24,7 +24,7 @@ public class FilterPanel extends UiPart<Region> {
     @FXML
     private TextField nameFilterField;
     @FXML
-    private FlowPane nameTags;
+    private FlowPane nameTagsFlowPane;
     @FXML
     private TextField phoneNumberFilterField;
     @FXML
@@ -72,7 +72,7 @@ public class FilterPanel extends UiPart<Region> {
      */
     @FXML
     private void handleNameFieldEntered() {
-        nameTags.getChildren().clear();
+        nameTagsFlowPane.getChildren().clear();
         String nameFilterText = nameFilterField.getText();
         if (nameFilterText.trim().isEmpty()) {
             return;
@@ -80,7 +80,7 @@ public class FilterPanel extends UiPart<Region> {
         Set<String> nameFilterKeywordsSet = StringUtil.splitSentenceIntoWords(nameFilterText);
 
         // Display each keyword as a tag in the UI
-        nameFilterKeywordsSet.forEach(tag -> nameTags.getChildren()
+        nameFilterKeywordsSet.forEach(tag -> nameTagsFlowPane.getChildren()
                 .add(new FilterPanelTag(tag).getRoot()));
 
         // Create a new FilterDetails with updated name keywords
