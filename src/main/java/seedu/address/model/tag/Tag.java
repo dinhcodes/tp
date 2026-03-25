@@ -26,11 +26,7 @@ public class Tag {
         requireNonNull(tagName);
 
         String trimmedName = tagName.trim();
-        try {
-            checkArgument(isValidTagName(trimmedName, tagType), MESSAGE_CONSTRAINTS);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(MESSAGE_CONSTRAINTS);
-        }
+        checkArgument(isValidTagName(trimmedName, tagType), MESSAGE_CONSTRAINTS);
 
         this.tagName = trimmedName;
         this.tagType = tagType;
