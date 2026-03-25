@@ -25,6 +25,22 @@ public class FilterPanel extends UiPart<Region> {
 
     @FXML
     private StackPane nameFilterFieldPlaceholder;
+    @FXML
+    private StackPane phoneFilterFieldPlaceholder;
+    @FXML
+    private StackPane emailFilterFieldPlaceholder;
+    @FXML
+    private StackPane studentIdFilterFieldPlaceholder;
+    @FXML
+    private StackPane roomNumberFilterFieldPlaceholder;
+    @FXML
+    private StackPane majorFilterFieldPlaceholder;
+    @FXML
+    private StackPane emergencyContactFilterFieldPlaceholder;
+    @FXML
+    private StackPane yearFilterFieldPlaceholder;
+    @FXML
+    private StackPane genderFilterFieldPlaceholder;
 
     /**
      * Creates a {@code FilterPanel} with the given {@code ReadOnlyFilterDetails}.
@@ -40,16 +56,33 @@ public class FilterPanel extends UiPart<Region> {
      * Fills inner placeholders with reusable field components.
      */
     private void fillInnerParts() {
-        FilterPanelField nameFilterField = new FilterPanelField(
-                "Search by Name",
-                "E.g: Alex",
-                this::handleNameKeywordsChanged);
+        bindField(nameFilterFieldPlaceholder, "Search by Name", "E.g: Alex",
+                filterDetails.getNameKeywords(), FilterDetails::setNameKeywords);
 
-        nameFilterFieldPlaceholder.getChildren().setAll(nameFilterField.getRoot());
+        bindField(phoneFilterFieldPlaceholder, "Search by Phone", "E.g: +65 91234567",
+                filterDetails.getPhoneNumberKeywords(), FilterDetails::setPhoneNumberKeywords);
 
-        filterDetails.getNameKeywords().addListener(
-                (SetChangeListener<? super String>) change ->
-                        nameFilterField.setKeywords(List.copyOf(filterDetails.getNameKeywords())));
+        bindField(emailFilterFieldPlaceholder, "Search by Email", "E.g: alex@example.com",
+                filterDetails.getEmailKeywords(), FilterDetails::setEmailKeywords);
+
+        bindField(studentIdFilterFieldPlaceholder, "Search by Student ID", "E.g: A1234567X",
+                filterDetails.getStudentIdKeywords(), FilterDetails::setStudentIdKeywords);
+
+        bindField(roomNumberFilterFieldPlaceholder, "Search by Room Number", "E.g: 12A",
+                filterDetails.getRoomNumberKeywords(), FilterDetails::setRoomNumberKeywords);
+
+        bindField(majorFilterFieldPlaceholder, "Search by Major", "E.g: Computer Science",
+                filterDetails.getTagMajorKeywords(), FilterDetails::setTagMajorKeywords);
+
+        bindField(emergencyContactFilterFieldPlaceholder, "Search by Emergency Contact", "E.g: +65 98765432",
+                filterDetails.getEmergencyContactKeywords(), FilterDetails::setEmergencyContactKeywords);
+
+        // Year and gender are text-based for now (no ComboBox)
+        bindField(yearFilterFieldPlaceholder, "Search by Year", "E.g: Y1",
+                filterDetails.getTagYearKeywords(), FilterDetails::setTagYearKeywords);
+
+        bindField(genderFilterFieldPlaceholder, "Search by Gender", "E.g: Female",
+                filterDetails.getTagGenderKeywords(), FilterDetails::setTagGenderKeywords);
     }
 
     private void bindField(StackPane placeholder, String title, String promptText,
@@ -77,25 +110,8 @@ public class FilterPanel extends UiPart<Region> {
         }
     }
 
-    /**
-     * Handles changes to the name keywords by replacing current {@code FilterDetails} with a new one
-     * @param nameKeywords the new name keywords to filter by
-     */
-    private void handleNameKeywordsChanged(List<String> nameKeywords) {
-        // A linked hash set is used to preserve the order of the keywords as entered by the user
-        Set<String> nameKeywordsSet = new LinkedHashSet<>(nameKeywords);
-        FilterDetails newFilterDetails = new FilterDetails(filterDetails);
-        newFilterDetails.setNameKeywords(nameKeywordsSet);
-
-        try {
-            filterExecutor.execute(newFilterDetails);
-        } catch (CommandException e) {
-            // No-op: MainWindow#executeCommand will handle displaying the error message to the user.
-        }
-    }
-    
     @FunctionalInterface
     private interface KeywordSetter {
-        void set(FilterDetails filterDetails, Set<String> keywords);
+        void set(FilterDetails details, Set<String> keywords);
     }
 }
