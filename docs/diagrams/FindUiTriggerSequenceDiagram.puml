@@ -2,10 +2,7 @@
 !include style.puml
 
 '' Make the text not bold
-skinparam DefaultFontStyle plain
-skinparam SequenceParticipantFontStyle plain
-skinparam SequenceMessageFontStyle plain
-skinparam SequenceGroupFontStyle plain
+skinparam ArrowFontStyle plain
 
 actor User
 
