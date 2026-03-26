@@ -530,6 +530,78 @@
     -fx-highlight-fill: primary-yellow;
 }
 
+.panel-subheading {
+    -fx-background-color:  derive(dark-grey, 20%);
+    -fx-padding: 14;
+    -fx-background-radius: 8;
+    -fx-min-width: 165;
+    -fx-font-family: "SansSerif";
+}
+
+.panel-subheading .label-gender {
+    -fx-font-size: 18px;
+    -fx-padding: 5 5 5 5;
+    -fx-background-color:  derive(medium-grey, 30%);
+    -fx-background-radius: 8;
+    -fx-alignment: center;
+    -fx-min-width: 50;
+    -fx-font-family: "SansSerif";
+}
+
+.panel-subheading .label-gender:hover {
+    -fx-background-color: derive(medium-grey, 50%);
+    -fx-background-radius: 8;
+    -fx-alignment: center;
+}
+
+.panel-subheading .label-year {
+    -fx-font-size: 18px;
+    -fx-padding: 10 10 10 10;
+    -fx-background-color:  derive(medium-grey, 30%);
+    -fx-background-radius: 8;
+    -fx-alignment: center;
+    -fx-min-width: 50;
+    -fx-alignment: CENTER_LEFT;
+    -fx-font-family: "SansSerif";
+}
+
+.panel-subheading .label-year:hover {
+    -fx-background-color: derive(medium-grey, 50%);
+    -fx-background-radius: 8;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.panel-subheading .label-total-residence {
+    -fx-font-size: 18px;
+    -fx-padding: 10 10 10 10;
+    -fx-background-color:  derive(medium-grey, 30%);
+    -fx-background-radius: 8;
+    -fx-alignment: center;
+    -fx-min-width: 50;
+    -fx-font-family: "SansSerif";
+}
+
+.panel-subheading .label-total-residence:hover {
+    -fx-background-color: derive(medium-grey, 50%);
+    -fx-background-radius: 8;
+    -fx-alignment: center;
+}
+
+.panel-subheading .label {
+    -fx-font-size: 18px;
+    -fx-min-width: 30;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-family: "SansSerif";
+}
+
+.panel-subheading .label-header{
+    -fx-font-size: 18px;
+    -fx-text-fill: derive(primary-yellow, +5%);
+    -fx-font-weight: bold;
+    -fx-padding: 10 10 10 10;
+    -fx-font-family: "SansSerif";
+}
+
 /* === BUTTONS === */
 .btn-save {
     -fx-background-color: primary-yellow;
