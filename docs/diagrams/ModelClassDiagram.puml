@@ -8,17 +8,23 @@ Package Model as ModelPackage <<Rectangle>>{
 Class "<<interface>>\nReadOnlyAddressBook" as ReadOnlyAddressBook
 Class "<<interface>>\nReadOnlyUserPrefs" as ReadOnlyUserPrefs
 Class "<<interface>>\nModel" as Model
+Class "<<enumeration>>\nTagType" as TagType
 Class AddressBook
 Class ModelManager
 Class UserPrefs
 
 Class UniquePersonList
 Class Person
-Class Address
 Class Email
+Class EmergencyContact
 Class Name
 Class Phone
+Class Remark
+Class RoomNumber
+Class StudentId
 Class Tag
+class Remark
+
 
 Class I #FFFFFF
 }
@@ -38,17 +44,22 @@ UserPrefs .up.|> ReadOnlyUserPrefs
 AddressBook *--> "1" UniquePersonList
 UniquePersonList --> "~* all" Person
 Person *--> Name
+Person *--> StudentId
 Person *--> Phone
 Person *--> Email
-Person *--> Address
-Person *--> "*" Tag
+Person *--> RoomNumber
+Person *--> EmergencyContact
+Person *--> Remark
+Person *--> "0..3" Tag
+Tag --> TagType
 
 Person -[hidden]up--> I
 UniquePersonList -[hidden]right-> I
 
-Name -[hidden]right-> Phone
-Phone -[hidden]right-> Address
-Address -[hidden]right-> Email
+Name -[hidden]right-> StudentId
+StudentId -[hidden]right-> Phone
+Phone -[hidden]right-> Email
+Email -[hidden]right-> RoomNumber
 
 ModelManager --> "~* filtered" Person
 @enduml

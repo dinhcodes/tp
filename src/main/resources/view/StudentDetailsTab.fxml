@@ -18,14 +18,6 @@
                         <StackPane fx:id="profilePlaceholder" styleClass="stack-pane"/>
                     </content>
                 </Tab>
-                <Tab text="CCA Records">
-                    <graphic>
-                        <FontIcon iconLiteral="dashicons-admin-media" iconSize="16" iconColor="white"/>
-                    </graphic>
-                    <content>
-                        <StackPane fx:id="ccaRecordsPlaceholder" styleClass="stack-pane"/>
-                    </content>
-                </Tab>
                 <Tab text="Demerit Records">
                     <graphic>
                         <FontIcon iconLiteral="dashicons-welcome-comments" iconSize="16" iconColor="white"/>

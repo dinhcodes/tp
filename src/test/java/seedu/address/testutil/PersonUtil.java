@@ -8,13 +8,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ROOM_NUMBER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STUDENT_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
-import java.util.Map;
-
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.model.person.Person;
-import seedu.address.model.tag.Tag;
-import seedu.address.model.tag.TagType;
 
 /**
  * A utility class for Person.
@@ -59,14 +55,6 @@ public class PersonUtil {
                 .append(roomNumber.value).append(" "));
         descriptor.getEmergencyContact().ifPresent(emergencyContact ->
                 sb.append(PREFIX_EMERGENCY_CONTACT).append(emergencyContact.value).append(" "));
-        if (descriptor.getTags().isPresent()) {
-            Map<TagType, Tag> tags = descriptor.getTags().get();
-            if (tags.isEmpty()) {
-                sb.append(PREFIX_TAG);
-            } else {
-                tags.forEach((type, tag) -> sb.append(PREFIX_TAG).append(tag.tagName).append(" "));
-            }
-        }
         return sb.toString();
     }
 }

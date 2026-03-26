@@ -12,15 +12,16 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
+import seedu.address.model.FilterDetails;
 import seedu.address.model.Model;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.PersonMatchesDetailsPredicate;
 import seedu.address.model.tag.TagType;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 
@@ -80,13 +81,13 @@ public class CommandTestUtil {
                 .withStudentId(VALID_STUDENTID_AMY) // ← fix
                 .withRoomNumber(VALID_ROOM_NUMBER_AMY) // ← add
                 .withEmergencyContact(VALID_EMERGENCY_CONTACT_AMY) // ← add
-                .withTags(VALID_TAG_YEAR).build();
+                .build();
         DESC_BOB = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB)
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB)
                 .withStudentId(VALID_STUDENTID_BOB) // ← fix
                 .withRoomNumber(VALID_ROOM_NUMBER_BOB) // ← add
                 .withEmergencyContact(VALID_EMERGENCY_CONTACT_BOB) // ← add
-                .withTags(VALID_TAG_MAJOR, VALID_TAG_YEAR).build();
+                .build();
     }
 
     /**
@@ -143,7 +144,9 @@ public class CommandTestUtil {
 
         Person person = model.getFilteredPersonList().get(targetIndex.getZeroBased());
         final String[] splitName = person.getName().fullName.split("\\s+");
-        model.updateFilteredPersonList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
+        FilterDetails filterDetails = new FilterDetails();
+        filterDetails.setStudentIdKeywords(Set.of(person.getStudentId().value));
+        model.updateFilteredPersonList(new PersonMatchesDetailsPredicate(filterDetails));
 
         assertEquals(1, model.getFilteredPersonList().size());
     }

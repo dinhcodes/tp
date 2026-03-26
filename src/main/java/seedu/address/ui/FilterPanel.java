@@ -1,88 +1,146 @@
 package seedu.address.ui;
 
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
-import org.kordamp.ikonli.javafx.FontIcon;
-
+import javafx.collections.ObservableSet;
+import javafx.collections.SetChangeListener;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
-import seedu.address.commons.util.StringUtil;
+import javafx.scene.layout.StackPane;
+import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.FilterDetails;
+import seedu.address.model.ReadOnlyFilterDetails;
+import seedu.address.ui.executors.FilterExecutor;
+import seedu.address.ui.filter.FilterPanelField;
 
 /**
  * Panel containing the list of filtering and sorting options.
  */
 public class FilterPanel extends UiPart<Region> {
     private static final String FXML = "FilterPanel.fxml";
+    private final ReadOnlyFilterDetails filterDetails;
+    private final FilterExecutor filterExecutor;
 
     @FXML
-    private TextField nameFilterField;
+    private StackPane nameFilterFieldPlaceholder;
     @FXML
-    private FlowPane nameTags;
+    private StackPane phoneFilterFieldPlaceholder;
     @FXML
-    private TextField phoneNumberFilterField;
+    private StackPane emailFilterFieldPlaceholder;
     @FXML
-    private TextField emailFilterField;
+    private StackPane studentIdFilterFieldPlaceholder;
     @FXML
-    private TextField studentIdFilterField;
+    private StackPane roomNumberFilterFieldPlaceholder;
     @FXML
-    private TextField roomNumberFilterField;
+    private StackPane majorFilterFieldPlaceholder;
     @FXML
-    private TextField majorFilterField;
+    private StackPane emergencyContactFilterFieldPlaceholder;
     @FXML
-    private TextField emergencyContactFilterField;
+    private StackPane yearFilterFieldPlaceholder;
     @FXML
-    private ComboBox<String> floorFilterComboBox;
-    @FXML
-    private ComboBox<String> yearFilterComboBox;
-    @FXML
-    private ComboBox<String> genderFilterComboBox;
-    @FXML
-    private ComboBox<String> sortByComboBox;
-    @FXML
-    private FontIcon filterIcon;
-    @FXML
-    private FontIcon sortIcon;
+    private StackPane genderFilterFieldPlaceholder;
 
     /**
-     * Creates a {@code FilterPanel} with default filter and sort options.
+     * Creates a {@code FilterPanel} with the given {@code ReadOnlyFilterDetails}.
      */
-    public FilterPanel() {
+    public FilterPanel(ReadOnlyFilterDetails filterDetails, FilterExecutor filterExecutor) {
         super(FXML);
-        // Initialize dummy values for ComboBoxes for UI demonstration
-        floorFilterComboBox.getItems().addAll("Any", "1", "2", "3", "4", "5");
-        floorFilterComboBox.getSelectionModel().selectFirst();
-
-        yearFilterComboBox.getItems().addAll("Any", "1", "2", "3", "4", "5+");
-        yearFilterComboBox.getSelectionModel().selectFirst();
-
-        genderFilterComboBox.getItems().addAll("Any", "Male", "Female");
-        genderFilterComboBox.getSelectionModel().selectFirst();
-
-        sortByComboBox.getItems().addAll("None", "Name", "Phone", "Email", "Student ID", "Room number", "Major",
-                "Emergency Contact", "Floor", "Year", "Gender");
-        sortByComboBox.getSelectionModel().selectFirst();
-
-        sortByComboBox.getItems().addAll("Ascending", "Descending");
-        sortByComboBox.getSelectionModel().selectFirst();
+        this.filterDetails = filterDetails;
+        this.filterExecutor = filterExecutor;
+        fillInnerParts();
     }
 
-    /*
-    * Handles the event when the user presses 'Enter' in the name filter field.
-    * Splits the input into individual keywords and displays them as tags in the UI.
+    /**
+     * Fills inner placeholders with reusable field components.
      */
-    @FXML
-    private void handleNameFieldEntered() {
-        nameTags.getChildren().clear();
-        String nameFilterText = nameFilterField.getText();
-        if (nameFilterText.trim().isEmpty()) {
-            return;
+    private void fillInnerParts() {
+        bindField(nameFilterFieldPlaceholder, "Search by Name", "E.g: Alex",
+                filterDetails.getNameKeywords(), FilterDetails::setNameKeywords);
+
+        bindField(phoneFilterFieldPlaceholder, "Search by Phone", "E.g: +65 91234567",
+                filterDetails.getPhoneNumberKeywords(), FilterDetails::setPhoneNumberKeywords);
+
+        bindField(emailFilterFieldPlaceholder, "Search by Email", "E.g: alex@example.com",
+                filterDetails.getEmailKeywords(), FilterDetails::setEmailKeywords);
+
+        bindField(studentIdFilterFieldPlaceholder, "Search by Student ID", "E.g: A1234567X",
+                filterDetails.getStudentIdKeywords(), FilterDetails::setStudentIdKeywords);
+
+        bindField(roomNumberFilterFieldPlaceholder, "Search by Room Number", "E.g: 12A or 12",
+                filterDetails.getRoomNumberKeywords(), FilterDetails::setRoomNumberKeywords);
+
+        bindField(majorFilterFieldPlaceholder, "Search by Major", "E.g: Computer Science",
+                filterDetails.getTagMajorKeywords(), FilterDetails::setTagMajorKeywords);
+
+        bindField(emergencyContactFilterFieldPlaceholder, "Search by Emergency Contact", "E.g: +65 98765432",
+                filterDetails.getEmergencyContactKeywords(), FilterDetails::setEmergencyContactKeywords);
+
+        bindField(yearFilterFieldPlaceholder, "Search by Year", "E.g: Y1",
+                filterDetails.getTagYearKeywords(), FilterDetails::setTagYearKeywords);
+
+        bindField(genderFilterFieldPlaceholder, "Search by Gender (exact)", "E.g: Female",
+                filterDetails.getTagGenderKeywords(), FilterDetails::setTagGenderKeywords);
+    }
+
+    /**
+     * Binds a filter field to its respective keywords, extracted from {@link ReadOnlyFilterDetails}.
+     *
+     * <p>When users edit tags in the field, this method sets the {@link ReadOnlyFilterDetails} via
+     * {@link #applyAndExecute(KeywordSetter, Set)}.
+     *
+     * <p>When {@code sourceKeywords} changes from elsewhere, this method updates the field UI through a listener so
+     * both UI and Model stay synchronized.
+     *
+     * @param placeholder   target UI container
+     * @param title         section label
+     * @param promptText    placeholder text
+     * @param sourceKeywords observable keyword set from {@link ReadOnlyFilterDetails} for this criterion.
+     * @param keywordSetter setter that writes updated keywords.
+     */
+    private void bindField(StackPane placeholder, String title, String promptText,
+                           ObservableSet<String> sourceKeywords, KeywordSetter keywordSetter) {
+        // Create a FilterPanelField
+        FilterPanelField field = new FilterPanelField(
+                title,
+                promptText,
+                // When the field updates, apply the change and execute filtering with the new criteria
+                keywords -> applyAndExecute(keywordSetter, new LinkedHashSet<>(keywords)));
+
+        field.setKeywords(List.copyOf(sourceKeywords));
+        placeholder.getChildren().setAll(field.getRoot());
+
+        // Listen for changes in the source keyword set and update the field accordingly
+        sourceKeywords.addListener((SetChangeListener<? super String>) change ->
+                field.setKeywords(List.copyOf(sourceKeywords)));
+    }
+
+    /**
+     * Applies one criterion update to a fresh {@link FilterDetails} copy and executes filtering.
+     *
+     * @param keywordSetter   strategy that updates exactly one keyword set in the copied details.
+     * @param updatedKeywords user-edited keywords for the target criterion.
+     *
+     *                        <p>This method preserves untouched criteria by copying from the current read-only
+     *                        details first, then mutating only the requested field via {@code keywordSetter}.
+     */
+    private void applyAndExecute(KeywordSetter keywordSetter, Set<String> updatedKeywords) {
+        FilterDetails newFilterDetails = new FilterDetails(filterDetails);
+        keywordSetter.set(newFilterDetails, updatedKeywords);
+
+        try {
+            filterExecutor.execute(newFilterDetails);
+        } catch (CommandException e) {
+            // No-op: MainWindow#executeCommand handles user-visible errors.
         }
-        Set<String> nameFilterKeywordsSet = StringUtil.splitSentenceIntoWords(nameFilterText);
-        nameFilterKeywordsSet.forEach(tag -> nameTags.getChildren().add(new Label(tag)));
-        nameFilterField.clear();
+    }
+
+    /**
+     * Functional interface for setting a specific keyword set in a {@link FilterDetails} instance.
+     */
+    @FunctionalInterface
+    private interface KeywordSetter {
+        void set(FilterDetails details, Set<String> keywords);
     }
 }

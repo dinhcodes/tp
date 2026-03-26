@@ -1,12 +1,14 @@
 package seedu.address.testutil;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import seedu.address.model.person.Email;
 import seedu.address.model.person.EmergencyContact;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Remark;
 import seedu.address.model.person.RoomNumber;
 import seedu.address.model.person.StudentId;
 import seedu.address.model.tag.Tag;
@@ -24,6 +26,7 @@ public class PersonBuilder {
     public static final String DEFAULT_STUDENTID = "A0123456X";
     public static final String DEFAULT_ROOM_NUMBER = "1A";
     public static final String DEFAULT_EMERGENCY_CONTACT = "+65 91234567";
+    public static final String DEFAULT_REMARK = "";
 
     private Name name;
     private Phone phone;
@@ -31,8 +34,8 @@ public class PersonBuilder {
     private StudentId studentId;
     private RoomNumber roomNumber;
     private EmergencyContact emergencyContact;
-    private HashMap<TagType, Tag> tags = new HashMap<>();
-
+    private Map<TagType, Tag> tags = new HashMap<>();
+    private Remark remark;
 
     /**
      * Creates a {@code PersonBuilder} with the default details.
@@ -44,6 +47,7 @@ public class PersonBuilder {
         studentId = new StudentId(DEFAULT_STUDENTID);
         roomNumber = new RoomNumber(DEFAULT_ROOM_NUMBER);
         emergencyContact = new EmergencyContact(DEFAULT_EMERGENCY_CONTACT);
+        remark = new Remark(DEFAULT_REMARK);
     }
 
     /**
@@ -56,6 +60,7 @@ public class PersonBuilder {
         studentId = personToCopy.getStudentId();
         roomNumber = personToCopy.getRoomNumber();
         emergencyContact = personToCopy.getEmergencyContact();
+        remark = personToCopy.getRemark();
         tags = new HashMap<>(personToCopy.getTags());
     }
 
@@ -72,6 +77,14 @@ public class PersonBuilder {
      */
     public PersonBuilder withTags(Object[]... tags) {
         this.tags = SampleDataUtil.getTagSet(tags);
+        return this;
+    }
+
+    /**
+     * Sets the {@code tags} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withTags(Map<TagType, Tag> tags) {
+        this.tags = new HashMap<>(tags);
         return this;
     }
 
@@ -115,7 +128,15 @@ public class PersonBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code Remark} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withRemark(String remark) {
+        this.remark = new Remark(remark);
+        return this;
+    }
+
     public Person build() {
-        return new Person(name, phone, email, studentId, roomNumber, emergencyContact, tags);
+        return new Person(name, phone, email, studentId, roomNumber, emergencyContact, remark, tags);
     }
 }

@@ -3,6 +3,7 @@ package seedu.address.model;
 import java.nio.file.Path;
 import java.util.function.Predicate;
 
+import javafx.beans.property.ReadOnlyProperty;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.person.Person;
@@ -77,7 +78,6 @@ public interface Model {
     void setPerson(Person target, Person editedPerson);
 
     boolean hasPersonWithSameRoom(Person person);
-
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();
 
@@ -86,4 +86,26 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
+
+    // ================ Filter Details Accessors ========================================================
+    /**
+     * Sets the current filter details used for filtering the person list.
+     */
+    void setFilterDetails(FilterDetails filterDetails);
+
+    /**
+     * Returns the current read-only filter details.
+     */
+    ReadOnlyFilterDetails getFilterDetails();
+
+    /**
+     * Selected person in the filtered person list.
+     * null if no person is selected.
+     */
+    ReadOnlyProperty<Person> selectedPersonProperty();
+
+    /**
+     * Sets the selected person in the filtered person list.
+     */
+    void setSelectedPerson(Person person);
 }
