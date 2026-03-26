@@ -135,9 +135,7 @@ Finds persons who match multiple attributes such as name, phone number, email or
 
 Format: `find [n=NAME] [p=PHONE] [e=EMAIL] [r=ROOM_NUMBER] [i=STUDENT_ID] [ec=EMERGENCY_CONTACT] [y=YEAR] [m=MAJOR] [g=GENDER]`
 
-* Prefix-only command: preamble text is not supported.
-    * e.g. `find Alice Bob` is invalid. Use `find n=Alice n=Bob`.
-* Case-insensitive and order-independent across prefixes.
+* Fields are case-insensitive and order-independent.
     * e.g. `find n=Alice y=Y1` gives the same result as `find y=Y1 n=ALICE`.
 * Different prefixes are combined with AND.
     * e.g. `find n=Alice p=9123 y=Y1` returns residents that satisfy all 3 filters.
@@ -146,7 +144,8 @@ Format: `find [n=NAME] [p=PHONE] [e=EMAIL] [r=ROOM_NUMBER] [i=STUDENT_ID] [ec=EM
     * e.g. `find n=Hans Bo n=Anna Lee` can return residents matching either `n=` value.
 * Each `n=` value is treated as one value as typed; it is not split by spaces.
     * e.g. `find n=Hans Bo` keeps `Hans Bo` as one name filter value.
-
+* A maximum of 10 values can be provided for each prefix.
+* All fields except [g=GENDER] follow fuzzy matching rules. Read more about fuzzy matching here: [Fuzzy Matching Details](FuzzyMatching.md).
 Examples:
 
 * `find n=John Doe` returns residents whose names fuzzy-match `John Doe`.
@@ -154,8 +153,6 @@ Examples:
 * `find m=CS m=Economics g=Male g=Others` returns persons majoring in CS or Economics, and whose gender is listed as 
   Male or Others.
 * `find ec=+84 e=gmail` returns persons whose emergency contact contains `+84`, and whose email contains `gmail`.
-
-Read more about fuzzy matching here: [Fuzzy Matching Details](FuzzyMatching.md).
 
 ### Deleting a resident : `delete`
 
