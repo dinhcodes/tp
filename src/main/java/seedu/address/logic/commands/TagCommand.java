@@ -1,12 +1,12 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.commands.DeleteCommand.MESSAGE_PERSON_NOT_FOUND;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG_GENDER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG_MAJOR;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG_YEAR;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import seedu.address.logic.Messages;
@@ -56,20 +56,8 @@ public class TagCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        List<Person> lastShownList = model.getFilteredPersonList();
-
-        Person personToTag = null;
-        for (Person person : lastShownList) {
-            if (person.getStudentId().equals(studentId)) {
-                personToTag = person;
-                break;
-            }
-        }
-
-        if (personToTag == null) {
-            throw new CommandException(String.format(
-                    "ResidentNotFound: No resident found with student ID %s.", studentId));
-        }
+       Person personToTag = model.getPersonByStudentId(studentId)
+                .orElseThrow(() -> new CommandException(String.format(MESSAGE_PERSON_NOT_FOUND, studentId)));
 
         Person taggedPerson = createTaggedPerson(personToTag, tags);
 

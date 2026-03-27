@@ -40,20 +40,8 @@ public class DeleteCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        requireNonNull(model);
-        List<Person> lastShownList = model.getFilteredPersonList();
-
-        Person personToDelete = null;
-        for (Person person : lastShownList) {
-            if (person.getStudentId().equals(targetStudentId)) {
-                personToDelete = person;
-                break;
-            }
-        }
-
-        if (personToDelete == null) {
-            throw new CommandException(String.format(MESSAGE_PERSON_NOT_FOUND, targetStudentId));
-        }
+       Person personToDelete = model.getPersonByStudentId(targetStudentId)
+                .orElseThrow(() -> new CommandException(String.format(MESSAGE_PERSON_NOT_FOUND, targetStudentId)));
 
         model.deletePerson(personToDelete);
         return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, Messages.format(personToDelete)));

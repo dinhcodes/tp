@@ -3,10 +3,12 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.Optional;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.StudentId;
 import seedu.address.model.person.UniquePersonList;
 
 /**
@@ -103,7 +105,6 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
 
-
     //// util methods
 
     @Override
@@ -120,6 +121,11 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     public int getPersonListSize() {
         return persons.asUnmodifiableObservableList().size();
+    }
+
+    public Optional<Person> getPersonByStudentId(StudentId studentId) {
+        requireNonNull(studentId);
+        return persons.getPersonByStudentId(studentId);
     }
 
     @Override
