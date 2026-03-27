@@ -71,6 +71,7 @@ public class FilterPanelField extends UiPart<Region> {
     private void handleKeywordSubmitted() {
         String trimmedKeyword = keywordInputField.getText().trim();
         if (trimmedKeyword.isEmpty() || currentKeywords.contains(trimmedKeyword)) {
+            keywordInputField.clear();
             return;
         }
 
