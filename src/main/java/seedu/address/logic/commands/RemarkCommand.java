@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.Messages.MESSAGE_RESIDENT_NOT_FOUND;
 
 import java.util.List;
 
@@ -20,11 +21,13 @@ public class RemarkCommand extends Command {
 
     public static final String COMMAND_WORD = "remark";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a remark to the selected person.\n"
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Adds a remark to the selected person.\n"
             + "Parameters: i=STUDENT_ID r=REMARK\n"
-            + "Example: " + COMMAND_WORD + " i=A1234567Z r=Is vegetarian";
+            + "Example: " + COMMAND_WORD
+            + " i=A1234567Z r=Is vegetarian";
 
-    public static final String REMARK_SUCCESS = "Added Remark to Resident: %1$s";
+    public static final String MESSAGE_SUCCESS = "Added Remark to Resident: %1$s";
 
     private final StudentId studentId;
     private final String remark;
@@ -41,7 +44,6 @@ public class RemarkCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-
         List<Person> lastShownList = model.getFilteredPersonList();
 
         Person personToRemark = null;
@@ -53,7 +55,7 @@ public class RemarkCommand extends Command {
         }
 
         if (personToRemark == null) {
-            throw new CommandException("No person with the given student ID found.");
+            throw new CommandException(MESSAGE_RESIDENT_NOT_FOUND);
         }
 
         Remark newRemark = new Remark(remark);
@@ -62,8 +64,7 @@ public class RemarkCommand extends Command {
 
         model.setPerson(personToRemark, remarkedPerson);
 
-        return new CommandResult(String.format(REMARK_SUCCESS, Messages.format(remarkedPerson)));
-
+        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(remarkedPerson)));
     }
 
     /**
@@ -88,11 +89,10 @@ public class RemarkCommand extends Command {
             return true;
         }
 
-        if (!(other instanceof RemarkCommand)) {
+        if (!(other instanceof RemarkCommand otherRemarkCommand)) {
             return false;
         }
 
-        RemarkCommand otherRemarkCommand = (RemarkCommand) other;
         return studentId.equals(otherRemarkCommand.studentId)
                 && remark.equals(otherRemarkCommand.remark);
     }
