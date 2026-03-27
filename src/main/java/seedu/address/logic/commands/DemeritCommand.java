@@ -51,7 +51,7 @@ public class DemeritCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
-       Person personToUpdate = model.getPersonByStudentId(targetStudentId)
+        Person personToUpdate = model.getPersonByStudentId(targetStudentId)
                 .orElseThrow(() -> new CommandException(String.format(MESSAGE_STUDENT_NOT_FOUND, targetStudentId)));
 
         DemeritRule rule = DemeritRuleCatalogue.findByIndex(ruleIndex)

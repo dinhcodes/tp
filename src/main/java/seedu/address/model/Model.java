@@ -10,8 +10,6 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.StudentId;
 
-import javax.swing.text.html.Option;
-
 /**
  * The API of the Model component.
  */

@@ -56,7 +56,7 @@ public class TagCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
-       Person personToTag = model.getPersonByStudentId(studentId)
+        Person personToTag = model.getPersonByStudentId(studentId)
                 .orElseThrow(() -> new CommandException(String.format(MESSAGE_PERSON_NOT_FOUND, studentId)));
 
         Person taggedPerson = createTaggedPerson(personToTag, tags);
