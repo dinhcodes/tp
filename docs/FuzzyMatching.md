@@ -6,9 +6,11 @@ pageNav: 3
 
 # Fuzzy Matching Details
 
-This page explains how Hall Ledger matches search keywords when you use `find`.
+This page explains how Hall Ledger decides whether a resident matches your `find` input.
 
-## 1. What counts as a fuzzy match?
+## 1. Quick idea
+
+<box type="info" seamless>
 
 Hall Ledger uses fuzzy matching to make search more forgiving.
 
@@ -18,40 +20,58 @@ In simple terms, your keyword is treated as a match when:
 2. It appears inside the target text, or
 3. It is very close to the target text with a small typo (for longer words).
 
-For short keywords (3 letters or less), Hall Ledger only uses exact/contains matching.
+For short keywords (3 letters or less), Hall Ledger only uses rule 1: exact matching, and rule 2: substring 
+matching.
 This prevents too many unrelated results.
 
 Examples:
 
-- `ali` matches `Alice`.
 - `ALEX` matches `alex`.
+- `ali` matches `Alice`. (`ali` is a substring of `Alice`.)
 - `sitten` can still match `kitten` (small typo).
-- `ann` does **not** match `ana`.
+- `ann` does **not** match `ana` (the keywords are too short, so the typo is not forgiven).
+</box>
 
-## 2. Fields and their match types
+Examples:
 
-| Prefix | Field | Match type | Practical meaning |
+| You type | Resident value | Match? | Why |
 | --- | --- | --- | --- |
-| `n=` | Name | Fuzzy | Checks each word in the name. Example: `n=alex` matches `Alex Tan`. |
-| `p=` | Phone | Fuzzy | Partial phone matches are allowed. Example: `p=9123` matches `+65 91234567`. |
-| `e=` | Email | Fuzzy | Partial email matches are allowed. Example: `e=@gmail` matches `alex@gmail.com`. |
-| `i=` | Student ID | Fuzzy | Partial ID matches are allowed. Example: `i=1234` matches `A1234567X`. |
-| `ec=` | Emergency contact | Fuzzy | Partial contact matches are allowed. |
-| `r=` | Room number | Fuzzy | Partial room matches are allowed. Example: `r=12` matches `12A`. |
-| `y=` | Year tag | Fuzzy | Partial year tag matches are allowed. Example: `y=1` matches `Y1`. |
-| `g=` | Gender tag | Exact | Must match the full value (case-insensitive). Example: `g=male` matches `Male`. |
-| `m=` | Major tag | Fuzzy | Partial major matches are allowed. Example: `m=computer sci` matches `Computer Science`. |
+| `ali` | `Alice` | Yes | `ali` is contained in `Alice`. |
+| `ALEX` | `alex` | Yes | Matching ignores letter case. |
+| `sitten` | `kitten` | Yes | Small typo, still considered close. |
+| `ann` | `ana` | No | Not close enough for a short input. |
 
-## 3. AND/OR rules in prefixed `find`
+## 2. Which fields use which matching style?
 
-- **Different prefixes** are combined with **AND**.
-  - Example: `find n=Alice y=Y1 m=Computer Science` returns only residents matching all conditions.
-- **Repeated same prefix** values are combined with **OR**.
-  - Example: `find y=Y2 y=Y3` returns residents in Year 2 or Year 3.
+| Prefix | Field | Matching style | Example |
+| --- | --- | --- | --- |
+| `n=` | Name | Fuzzy | `n=alex` can match `Alex Tan`. |
+| `p=` | Phone | Fuzzy | `p=9123` can match `+65 91234567`. |
+| `e=` | Email | Fuzzy | `e=@gmail` can match `alex@gmail.com`. |
+| `i=` | Student ID | Fuzzy | `i=1234` can match `A1234567X`. |
+| `ec=` | Emergency contact | Fuzzy | `ec=9876` can match `+65 98765432`. |
+| `r=` | Room number | Fuzzy | `r=12` can match `12A`. |
+| `y=` | Year tag | Fuzzy | `y=1` can match `Y1`. |
+| `m=` | Major tag | Fuzzy | `m=computer sci` can match `Computer Science`. |
+| `g=` | Gender tag | Exact (case-insensitive) | `g=male` matches `Male`; `g=ma` does not. |
+
+## 3. How multiple filters combine
+
+<box type="info" seamless>
+
+- Using different prefixes requires filter results that matches all fields.
+  - `find n=Alice y=Y1` means: name matches `Alice` **and** year matches `Y1`.
+  - `find ec=alice@gmail.com m=CS` means: email matches `alice@gmail.com` **and** major matches `CS`.
+- Repeating one prefix widens that single filter.
+  - `find y=Y2 y=Y3` means: year is `Y2` **or** `Y3`.
+  - `find n=Alice n=Bob` means: name matches `Alice` **or** `Bob`.
+  - `find n=Alice n=Bob y=Y2 y=Y3` means: (name matches `Alice` **or** `Bob`) **and** (year is `Y2` **or** `Y3`).
+
+</box>
 
 ## 4. Case sensitivity
 
 All `find` matching is case-insensitive.
 
 - `find n=alice` and `find n=ALICE` behave the same.
-- `find e=GMAIL` matches `gmail.com`.
+- `find e=GMAIL` can match `gmail.com`.
