@@ -41,7 +41,7 @@ public class PersonMatchesDetailsPredicate implements Predicate<Person> {
         String personPhoneString = person.getPhone().value;
         String personRoomNumberString = person.getRoomNumber().value;
         String personStudentIdString = person.getStudentId().value;
-        String personEmergencyContactString = person.getStudentId().value;
+        String personEmergencyContactString = person.getEmergencyContact().value;
 
         // Get the person's tag values as strings, or empty strings if the tags are not present
         String personYearString = person.getYear().map(tag -> tag.getTagName()).orElse("");

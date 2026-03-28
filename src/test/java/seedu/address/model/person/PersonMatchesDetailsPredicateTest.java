@@ -1,0 +1,127 @@
+package seedu.address.model.person;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_ROOM_NUMBER_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_STUDENTID_AMY;
+import static seedu.address.testutil.TypicalPersons.ALICE;
+import static seedu.address.testutil.TypicalPersons.AMY;
+import static seedu.address.testutil.TypicalPersons.BENSON;
+import static seedu.address.testutil.TypicalPersons.BOB;
+
+import java.util.Set;
+
+import org.junit.jupiter.api.Test;
+
+import seedu.address.model.FilterDetails;
+
+public class PersonMatchesDetailsPredicateTest {
+
+    @Test
+    public void test_emptyFilter_matchesAnyPerson() {
+        PersonMatchesDetailsPredicate predicate = new PersonMatchesDetailsPredicate(new FilterDetails());
+
+        assertTrue(predicate.test(AMY));
+        assertTrue(predicate.test(BOB));
+    }
+
+    @Test
+    public void test_nameKeyword_matchesOnlyExpectedPerson() {
+        FilterDetails filterDetails = new FilterDetails();
+        filterDetails.setNameKeywords(Set.of("amy"));
+        PersonMatchesDetailsPredicate predicate = new PersonMatchesDetailsPredicate(filterDetails);
+
+        assertTrue(predicate.test(AMY));
+        assertFalse(predicate.test(BOB));
+    }
+
+    @Test
+    public void test_fieldKeywords_matchExpectedFields() {
+        FilterDetails emailDetails = new FilterDetails();
+        emailDetails.setEmailKeywords(Set.of(VALID_EMAIL_BOB));
+        PersonMatchesDetailsPredicate emailPredicate = new PersonMatchesDetailsPredicate(emailDetails);
+        assertTrue(emailPredicate.test(BOB));
+        assertFalse(emailPredicate.test(AMY));
+
+        FilterDetails phoneDetails = new FilterDetails();
+        phoneDetails.setPhoneNumberKeywords(Set.of(VALID_PHONE_AMY));
+        PersonMatchesDetailsPredicate phonePredicate = new PersonMatchesDetailsPredicate(phoneDetails);
+        assertTrue(phonePredicate.test(AMY));
+        assertFalse(phonePredicate.test(BOB));
+
+        FilterDetails roomDetails = new FilterDetails();
+        roomDetails.setRoomNumberKeywords(Set.of(VALID_ROOM_NUMBER_BOB));
+        PersonMatchesDetailsPredicate roomPredicate = new PersonMatchesDetailsPredicate(roomDetails);
+        assertTrue(roomPredicate.test(BOB));
+        assertFalse(roomPredicate.test(AMY));
+
+        FilterDetails studentIdDetails = new FilterDetails();
+        studentIdDetails.setStudentIdKeywords(Set.of(VALID_STUDENTID_AMY));
+        PersonMatchesDetailsPredicate studentIdPredicate = new PersonMatchesDetailsPredicate(studentIdDetails);
+        assertTrue(studentIdPredicate.test(AMY));
+        assertFalse(studentIdPredicate.test(BOB));
+    }
+
+    @Test
+    public void test_tagMajorKeyword_fuzzyMatchWorks() {
+        FilterDetails filterDetails = new FilterDetails();
+        filterDetails.setTagMajorKeywords(Set.of("CS Mazhs"));
+        PersonMatchesDetailsPredicate predicate = new PersonMatchesDetailsPredicate(filterDetails);
+
+        assertTrue(predicate.test(BENSON));
+        assertFalse(predicate.test(AMY));
+    }
+
+    @Test
+    public void test_emergencyContactKeyword_fuzzyMatchWorks() {
+        FilterDetails filterDetails = new FilterDetails();
+        filterDetails.setEmergencyContactKeywords(Set.of("+65 98765433"));
+        PersonMatchesDetailsPredicate predicate = new PersonMatchesDetailsPredicate(filterDetails);
+
+        assertTrue(predicate.test(BOB));
+        assertFalse(predicate.test(AMY));
+    }
+
+    @Test
+    public void test_tagGenderKeyword_requiresExactMatchIgnoringCase() {
+        FilterDetails exactGenderDetails = new FilterDetails();
+        exactGenderDetails.setTagGenderKeywords(Set.of("female"));
+        PersonMatchesDetailsPredicate exactGenderPredicate = new PersonMatchesDetailsPredicate(exactGenderDetails);
+        assertTrue(exactGenderPredicate.test(ALICE));
+
+        FilterDetails partialGenderDetails = new FilterDetails();
+        partialGenderDetails.setTagGenderKeywords(Set.of("f"));
+        PersonMatchesDetailsPredicate partialGenderPredicate = new PersonMatchesDetailsPredicate(partialGenderDetails);
+        assertFalse(partialGenderPredicate.test(ALICE));
+    }
+
+    @Test
+    public void test_multipleCriteria_allMustMatch() {
+        FilterDetails filterDetails = new FilterDetails();
+        filterDetails.setNameKeywords(Set.of("amy"));
+        filterDetails.setStudentIdKeywords(Set.of(VALID_STUDENTID_AMY));
+
+        PersonMatchesDetailsPredicate predicate = new PersonMatchesDetailsPredicate(filterDetails);
+
+        assertTrue(predicate.test(AMY));
+        assertFalse(predicate.test(BOB));
+    }
+
+    @Test
+    public void equals() {
+        FilterDetails firstDetails = new FilterDetails();
+        firstDetails.setNameKeywords(Set.of("amy"));
+        PersonMatchesDetailsPredicate firstPredicate = new PersonMatchesDetailsPredicate(firstDetails);
+
+        FilterDetails secondDetails = new FilterDetails();
+        secondDetails.setNameKeywords(Set.of("amy"));
+        PersonMatchesDetailsPredicate secondPredicate = new PersonMatchesDetailsPredicate(secondDetails);
+
+        assertTrue(firstPredicate.equals(firstPredicate));
+        assertTrue(firstPredicate.equals(secondPredicate));
+        assertFalse(firstPredicate.equals(null));
+        assertFalse(firstPredicate.equals(1));
+    }
+}
