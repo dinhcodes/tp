@@ -32,24 +32,39 @@ public record PersonMatchesDetailsPredicate(FilterDetails filterDetails) impleme
 
     @Override
     public boolean test(Person person) {
-        return isFuzzyMatch(person.getName().fullName, filterDetails.getNameKeywords())
-                && isFuzzyMatch(person.getEmail().value, filterDetails.getEmailKeywords())
-                && isFuzzyMatch(person.getPhone().value, filterDetails.getPhoneNumberKeywords())
-                && isFuzzyMatch(person.getRoomNumber().value, filterDetails.getRoomNumberKeywords())
-                && isFuzzyMatch(person.getStudentId().value, filterDetails.getStudentIdKeywords())
-                && isFuzzyMatch(person.getEmergencyContact().value, filterDetails.getEmergencyContactKeywords())
-                && isFuzzyMatch(person.getYear().getTagName(), filterDetails.getTagYearKeywords())
-                && isFuzzyMatch(person.getMajor().getTagName(), filterDetails.getTagMajorKeywords())
-                && isExactMatch(person.getGender().getTagName(), filterDetails.getTagGenderKeywords());
+        String personNameString = person.name().fullName;
+        String personEmailString = person.email().value;
+        String personPhoneString = person.phone().value;
+        String personRoomNumberString = person.roomNumber().value;
+        String personStudentIdString = person.studentId().value;
+        String personEmergencyContactString = person.emergencyContact().value;
+
+        // Get the person's tag values as strings, or empty strings if the tags are not present
+        String personYearString = person.getYear().map(tag -> tag.getTagName()).orElseGet(() -> "");
+        String personMajorString = person.getMajor().map(tag -> tag.getTagName()).orElseGet(() -> "");
+        String personGenderString = person.getGender().map(tag -> tag.getTagName()).orElseGet(() -> "");
+
+        return isFuzzyMatch(personNameString, filterDetails.getNameKeywords())
+                && isFuzzyMatch(personEmailString, filterDetails.getEmailKeywords())
+                && isFuzzyMatch(personPhoneString, filterDetails.getPhoneNumberKeywords())
+                && isFuzzyMatch(personRoomNumberString, filterDetails.getRoomNumberKeywords())
+                && isFuzzyMatch(personStudentIdString, filterDetails.getStudentIdKeywords())
+                && isFuzzyMatch(personEmergencyContactString, filterDetails.getEmergencyContactKeywords())
+                && isFuzzyMatch(personYearString, filterDetails.getTagYearKeywords())
+                && isFuzzyMatch(personMajorString, filterDetails.getTagMajorKeywords())
+                && isExactMatch(personGenderString, filterDetails.getTagGenderKeywords());
     }
 
     /**
      * Checks if the given {@code fieldValue} matches any of the {@code keywords} via fuzzy matching defined in
      * {@link StringUtil#fuzzyMatchesAnyIgnoreCase(String, Set)}.
+     *
+     * If the field value is empty, it will only match if the keywords are also empty.
      */
     private boolean isFuzzyMatch(String fieldValue, Set<String> keywords) {
-        requireNonNull(fieldValue);
         requireNonNull(keywords);
+        requireNonNull(fieldValue);
+
         if (keywords.isEmpty()) {
             return true;
         }
@@ -62,20 +77,22 @@ public record PersonMatchesDetailsPredicate(FilterDetails filterDetails) impleme
 
     /**
      * Checks if any of the person's tags exactly match any of the {@code keywords} as defined in
-     * {@link StringUtil#equalsAnyIgnoreCase(String, Set)}
+     * {@link StringUtil#equalsAnyIgnoreCase(String, Set)}.
+     *
+     * If the field value is empty, it will only match if the keywords are also empty.
      */
-    private boolean isExactMatch(String tag, Set<String> keywords) {
-        requireNonNull(tag);
+    private boolean isExactMatch(String fieldValue, Set<String> keywords) {
+        requireNonNull(fieldValue);
         requireNonNull(keywords);
 
         if (keywords.isEmpty()) {
             return true;
         }
-        if (tag.isEmpty()) {
+        if (fieldValue.isEmpty()) {
             return false;
         }
 
-        return StringUtil.equalsAnyIgnoreCase(tag, keywords);
+        return StringUtil.equalsAnyIgnoreCase(fieldValue, keywords);
     }
 
     @Override
