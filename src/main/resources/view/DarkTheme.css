@@ -273,11 +273,36 @@
     -fx-border-width: 0px 0px 0px 0px;
 }
 
+.result-display-scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+    -fx-padding: 0;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.result-display-scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
 .result-display {
     -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
     -fx-font-family: "SansSerif";
     -fx-font-size: 11pt;
     -fx-text-fill: white;
+}
+
+#resultDisplay,
+#resultDisplay:focused {
+    -fx-border-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }
 
 .result-display .label {
@@ -478,7 +503,9 @@
 
 #resultDisplay .content {
     -fx-background-color: medium-grey;
+    -fx-background-insets: 0;
     -fx-background-radius: 0;
+    -fx-border-color: transparent;
     -fx-padding: 5px 10px 5px 20px;
 }
 

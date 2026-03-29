@@ -4,5 +4,9 @@
 <?import javafx.scene.layout.*?>
 
 <StackPane fx:id="placeHolder" styleClass="pane-without-border" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
-  <TextArea fx:id="resultDisplay" editable="false" promptText="View your command result here" styleClass="result-display" wrapText="true" />
+   <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="result-display-scroll-pane" hbarPolicy="NEVER">
+      <content>
+         <TextArea fx:id="resultDisplay" editable="false" promptText="View your command result here" styleClass="result-display" wrapText="true" />
+      </content>
+   </ScrollPane>
 </StackPane>
