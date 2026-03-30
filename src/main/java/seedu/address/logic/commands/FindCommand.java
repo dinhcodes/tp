@@ -19,7 +19,7 @@ public class FindCommand extends Command {
     public static final String COMMAND_WORD = "find";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Finds persons by prefixes (case-insensitive). Returns persons that satisfy all"
+            + ": Finds persons by prefixes (case-insensitive). Returns residents that satisfy all"
             + " specified prefixes.\n"
             + "Parameters: [n=NAME] [p=PHONE] [e=EMAIL] [r=ROOM_NUMBER] [i=STUDENT_ID] [ec=EMERGENCY_CONTACT] [y=YEAR] "
             + "[m=MAJOR] [g=GENDER]\n"

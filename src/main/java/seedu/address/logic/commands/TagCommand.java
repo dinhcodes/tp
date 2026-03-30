@@ -37,8 +37,8 @@ public class TagCommand extends Command {
             + PREFIX_TAG_MAJOR + "CS "
             + PREFIX_TAG_GENDER + "Male";
 
-    public static final String TAG_SUCCESS = "Added Tag to Resident: %1$s";
-    public static final String TAG_NOT_ADDED =
+    public static final String MESSAGE_SUCCESS = "Added Tag to Resident: %1$s";
+    public static final String MESSAGE_TAG_NOT_ADDED =
             "At least one tag must be provided.";
 
     public final StudentId studentId;
@@ -64,7 +64,7 @@ public class TagCommand extends Command {
         model.setPerson(personToTag, taggedPerson);
         model.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
 
-        return new CommandResult(String.format(TAG_SUCCESS, Messages.format(taggedPerson)));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(taggedPerson)));
     }
 
     /**

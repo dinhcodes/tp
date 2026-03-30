@@ -21,7 +21,7 @@ public class AddCommand extends Command {
 
     public static final String COMMAND_WORD = "add";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a person to the address book. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a resident to the address book. "
             + "Parameters: "
             + PREFIX_NAME + "NAME "
             + PREFIX_PHONE + "PHONE "
@@ -37,8 +37,8 @@ public class AddCommand extends Command {
             + PREFIX_ROOM_NUMBER + "15R "
             + PREFIX_EMERGENCY_CONTACT + "+65 98765432";
 
-    public static final String MESSAGE_SUCCESS = "New person added: %1$s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "A student with this student id already exists in "
+    public static final String MESSAGE_SUCCESS = "New resident added: %1$s";
+    public static final String MESSAGE_DUPLICATE_PERSON = "A resident with this student id already exists in "
             + "the hall ledger";
     public static final String MESSAGE_ROOM_OCCUPIED = "This room is already occupied!";
 
@@ -75,11 +75,10 @@ public class AddCommand extends Command {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof AddCommand)) {
+        if (!(other instanceof AddCommand otherAddCommand)) {
             return false;
         }
 
-        AddCommand otherAddCommand = (AddCommand) other;
         return toAdd.equals(otherAddCommand.toAdd);
     }
 

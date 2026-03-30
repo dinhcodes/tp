@@ -57,7 +57,7 @@ public class TagCommandParser implements Parser<TagCommand> {
         }
 
         if (tags.isEmpty()) {
-            throw new ParseException(TagCommand.TAG_NOT_ADDED);
+            throw new ParseException(TagCommand.MESSAGE_TAG_NOT_ADDED);
         }
         return tags;
     }
