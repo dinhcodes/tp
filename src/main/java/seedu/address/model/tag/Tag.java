@@ -10,7 +10,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Tag {
 
     public static final String MESSAGE_CONSTRAINTS = "Tags names should be alphanumeric. "
-            + "Gender tags can be: she/her, he/him or they/them"
+            + "\nGender tags can be: she/her, he/him or they/them"
             + "\nYear tags should be a positive integer between 1 and 6 inclusive.";
 
     public final String tagName;
