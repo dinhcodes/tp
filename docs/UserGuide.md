@@ -135,28 +135,51 @@ Examples:
 
 ### Locating persons: `find`
 
-Finds persons who match multiple attributes such as name, phone number, email or major.
+Finds residents using one or more fields such as name, phone, email, room, student ID, emergency contact, year, major, and gender.
+
+***Using the command line***
 
 Format: `find [n=NAME] [p=PHONE] [e=EMAIL] [r=ROOM_NUMBER] [i=STUDENT_ID] [ec=EMERGENCY_CONTACT] [y=YEAR] [m=MAJOR] [g=GENDER]`
 
-* Fields are case-insensitive and order-independent.
+* Matching ignores letter case, and field order does not matter.
     * e.g. `find n=Alice y=Y1` gives the same result as `find y=Y1 n=ALICE`.
-* Different prefixes are combined with AND.
-    * e.g. `find n=Alice p=9123 y=Y1` returns residents that satisfy all 3 filters.
-* Repeating the same prefix is OR-based.
-    * e.g. `find y=Y2 y=Y3` returns Year 2 or Year 3 residents.
-    * e.g. `find n=Hans Bo n=Anna Lee` can return residents matching either `n=` value.
-* Each `n=` value is treated as one value as typed; it is not split by spaces.
-    * e.g. `find n=Hans Bo` keeps `Hans Bo` as one name filter value.
-* A maximum of 10 values can be provided for each prefix.
-* All fields except [g=GENDER] follow fuzzy matching rules. Read more about fuzzy matching here: [Fuzzy Matching Details](FuzzyMatching.md).
+* If you use different fields together, a resident must satisfy all of them.
+    * e.g. `find n=Alice p=9123 y=Y1` returns residents who match name, phone, and year.
+* If you repeat the same field, matching any one of those values is enough.
+    * e.g. `find y=Y2 y=Y3` returns residents in Year 2 or Year 3.
+    * e.g. `find n=Hans Bo n=Anna Lee` returns residents matching either `n=` value.
+* You can provide up to 10 values per field.
+* `g=GENDER` uses full-value matching (case-insensitive). Other fields use fuzzy-friendly matching.
+
 Examples:
 
-* `find n=John Doe` returns residents whose names fuzzy-match `John Doe`.
+* `find n=John Doe` returns residents whose names match `John Doe`.
 * `find n=Alex n=David` returns residents matching either name value.
-* `find m=CS m=Economics g=Male g=Others` returns persons majoring in CS or Economics, and whose gender is listed as 
-  Male or Others.
-* `find ec=+84 e=gmail` returns persons whose emergency contact contains `+84`, and whose email contains `gmail`.
+* `find m=CS m=Economics g=Male g=Others` returns residents whose major is `CS` or `Economics`, and whose gender is `Male` or `Others`.
+* `find ec=+84 e=gmail` returns residents whose emergency contact matches `+84` and email matches `gmail`.
+
+Result of running `find n=Alice Pauline` from the command line (matching resident(s) are shown in the list view):
+
+![Find Y2](images/find-y2.png)
+
+***Using the user interface***
+
+* Open the **Filter** panel to show the filter controls.
+
+* Enter one or more keywords in any field, then press Enter to apply the filter.
+
+* You can combine multiple keywords across multiple fields. The same matching behavior as the command-line `find`
+  applies.
+
+* To remove a keyword, click the `x` beside that keyword.
+
+![Filled filter panel](images/filled-filter-panel.png)
+
+<box type="info" seamless>
+
+For full matching behavior and examples, see [Fuzzy Matching Details](FuzzyMatching.md).
+
+</box>
 
 ### Listing demerit rules: `demeritlist`
 
@@ -279,9 +302,9 @@ Action     | Format, Examples
 **[Add](#adding-a-person-add)**    | `add n=NAME p=PHONE_NUMBER e=EMAIL i=STUDENT_ID r=ROOM_NUMBER ec=EMERGENCY_CONTACT` <br> e.g., `add n=James Lee p=+65 98765432 e=james@example.com i=A1234567X r=15R ec=+65 98765432`
 **[Clear](#clearing-all-entries--clear)**  | `clear`
 **[Delete](#deleting-a-resident--delete)** | `delete i=STUDENT_ID`<br> e.g., `delete i=A1234567X`
-**[Edit](#editing-a-person--edit)**   | `edit STUDENT_ID [n=NAME] [p=PHONE_NUMBER] [e=EMAIL] [i=STUDENT_ID] [r=ROOM_NUMBER] [ec=EMERGENCY_CONTACT]`<br> e.g., `edit A1234567X n=James Lee e=jameslee@example.com`
+**[Edit](#editing-a-person--edit)**   | `edit i=STUDENT_ID [n=NAME] [p=PHONE_NUMBER] [e=EMAIL] [i=STUDENT_ID] [r=ROOM_NUMBER] [ec=EMERGENCY_CONTACT]`<br> e.g., `edit A1234567X n=James Lee e=jameslee@example.com`
 **[Tag](#tagging-a-student-tag)**    | `tag i=STUDENT_ID [m=MAJOR] [y=YEAR] [g=GENDER]`<br> e.g., `tag i=A1234567X m=CS y=Y3`
-**[Find](#locating-persons--find)**   | Method 1:<br> `find NAME_KEYWORDS [MORE_NAME_KEYWORDS]`<br> e.g., `find James Jake`<br><br>Method 2:<br> `find [n=NAME] [p=PHONE] [e=EMAIL] [r=ROOM_NUMBER] [i=STUDENT_ID] [ec=EMERGENCY_CONTACT] [y=YEAR] [m=MAJOR] [g=GENDER]`<br> e.g., `find n=James y=Y1`
+**[Find](#locating-persons--find)**   | `find [n=NAME] [p=PHONE] [e=EMAIL] [r=ROOM_NUMBER] [i=STUDENT_ID] [ec=EMERGENCY_CONTACT] [y=YEAR] [m=MAJOR] [g=GENDER]`<br> e.g., `find n=James y=Y1`
 **[Demerit List](#listing-demerit-rules-demeritlist)** | `demeritlist`
 **[Add Demerit](#adding-a-demerit-record-demerit)** | `demerit i=STUDENT_ID di=RULE_INDEX [rm=REMARK]`<br> e.g., `demerit i=A1234567X di=18 rm=Visitor during quiet hours`
 **[List](#listing-all-persons--list)**   | `list`
