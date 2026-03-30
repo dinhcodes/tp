@@ -181,17 +181,22 @@ For full matching behavior and examples, see [Fuzzy Matching Details](FuzzyMatch
 
 </box>
 
-### Listing demerit rules: `demeritlist`
 
-Shows the indexed demerit rules available in HallLedger.
+### Adding a remark: `remark`
 
-Format: `demeritlist`
+Adds a remark to an existing resident.
 
-- Displays the demerit rule catalogue with the rule index and point tiers.
-- Use the displayed rule index together with the `demerit` command when recording a resident’s demerit incident.
+Format: `remark i=STUDENT_ID rm=REMARK`
+
+- Remark can be viewed in the resident's profile tab.
+- If a remark already exists for the resident, it will be **overwritten** by the new remark.
+- Empty remark (`rm=`) will **clear** the existing remark.
 
 Example:
-* `demeritlist`
+* Add/update a remark:
+  `remark i=A1234567X rm=Allergic to peanuts`
+* Clear a remark:
+  `remark i=A1234567X rm=`
 
 ### Adding a demerit record: `demerit`
 
