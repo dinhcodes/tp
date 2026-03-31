@@ -2,6 +2,7 @@ package seedu.address.model.util;
 
 import java.util.HashMap;
 
+import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Email;
@@ -43,10 +44,14 @@ public class SampleDataUtil {
         };
     }
 
-    public static ReadOnlyAddressBook getSampleAddressBook() {
+    public static ReadOnlyAddressBook getSampleAddressBook() throws DataLoadingException {
         AddressBook sampleAb = new AddressBook();
-        for (Person samplePerson : getSamplePersons()) {
-            sampleAb.addPerson(samplePerson);
+        try {
+            for (Person samplePerson : getSamplePersons()) {
+                sampleAb.addPerson(samplePerson);
+            }
+        } catch (IllegalArgumentException e) {
+            throw new DataLoadingException(e);
         }
         return sampleAb;
     }
