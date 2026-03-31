@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -13,6 +14,7 @@ import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
@@ -25,8 +27,8 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.FilterDetails;
 
 /**
- * The Main Window. Provides the basic application layout containing
- * a menu bar and space where other JavaFX elements can be placed.
+ * The Main Window. Provides the basic application layout containing a menu bar and space where other JavaFX elements
+ * can be placed.
  */
 public class MainWindow extends UiPart<Stage> {
 
@@ -77,12 +79,38 @@ public class MainWindow extends UiPart<Stage> {
         helpWindow = new HelpWindow(primaryStage);
     }
 
-    public Stage getPrimaryStage() {
-        return primaryStage;
+    /**
+     * Sets the default size based on {@code guiSettings}.
+     */
+    private void setWindowDefaultSize(GuiSettings guiSettings) {
+        // If the saved window coordinates are not visible, move the window to the primary screen
+        // This can happen when the screen resolution is changed or when the app is opened on a different monitor
+        if (hasVisibleWindowCoordinates(guiSettings)) {
+            primaryStage.setX(guiSettings.getWindowCoordinates().getX());
+            primaryStage.setY(guiSettings.getWindowCoordinates().getY());
+        } else {
+            moveWindowToPrimaryScreen();
+        }
+        primaryStage.setMaximized(true);
     }
 
     private void setAccelerators() {
         setAccelerator(helpMenuItem, KeyCombination.valueOf("F1"));
+    }
+
+    private boolean hasVisibleWindowCoordinates(GuiSettings guiSettings) {
+        if (guiSettings.getWindowCoordinates() == null) {
+            return false;
+        }
+
+        return isCoordinateVisible(guiSettings.getWindowCoordinates().getX(),
+                guiSettings.getWindowCoordinates().getY());
+    }
+
+    private void moveWindowToPrimaryScreen() {
+        Rectangle2D primaryBounds = Screen.getPrimary().getVisualBounds();
+        primaryStage.setX(primaryBounds.getMinX());
+        primaryStage.setY(primaryBounds.getMinY());
     }
 
     /**
@@ -116,6 +144,16 @@ public class MainWindow extends UiPart<Stage> {
         });
     }
 
+    private boolean isCoordinateVisible(double x, double y) {
+        return Screen.getScreens().stream()
+                .map(Screen::getVisualBounds)
+                .anyMatch(bounds -> bounds.contains(x, y));
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
     /**
      * Fills up all the placeholders of this window.
      */
@@ -137,75 +175,21 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Sets the default size based on {@code guiSettings}.
+     * Applies filters and updates the shared result display.
      */
-    private void setWindowDefaultSize(GuiSettings guiSettings) {
-        primaryStage.setHeight(guiSettings.getWindowHeight());
-        primaryStage.setWidth(guiSettings.getWindowWidth());
-        if (guiSettings.getWindowCoordinates() != null) {
-            primaryStage.setX(guiSettings.getWindowCoordinates().getX());
-            primaryStage.setY(guiSettings.getWindowCoordinates().getY());
-        }
-    }
-
-    /**
-     * Opens the help window or focuses on it if it's already opened.
-     */
-    @FXML
-    public void handleHelp() {
-        if (!helpWindow.isShowing()) {
-            helpWindow.show();
-        } else {
-            helpWindow.focus();
-        }
-    }
-
-    void show() {
-        primaryStage.show();
-    }
-
-    /**
-     * Closes the application.
-     */
-    @FXML
-    private void handleExit() {
-        GuiSettings guiSettings = new GuiSettings(primaryStage.getWidth(), primaryStage.getHeight(),
-                (int) primaryStage.getX(), (int) primaryStage.getY());
-        logic.setGuiSettings(guiSettings);
-        helpWindow.hide();
-        primaryStage.hide();
-    }
-
-    /**
-     * Returns true if the given command text is a valid DeleteCommand.
-     */
-    private boolean isDeleteCommand(String commandText) {
+    private CommandResult executeFilter(FilterDetails filterDetails) throws CommandException {
         try {
-            return new AddressBookParser().parseCommand(commandText) instanceof DeleteCommand;
-        } catch (ParseException e) {
-            return false;
+            CommandResult commandResult = logic.executeFilter(filterDetails);
+            logger.info("Result: " + commandResult.getFeedbackToUser());
+            resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
+            return commandResult;
+        } catch (CommandException e) {
+            logger.info("An error occurred while applying filters: " + filterDetails);
+            resultDisplay.setFeedbackToUser(e.getMessage());
+            throw e;
         }
     }
 
-    /**
-     * Shows a confirmation dialog before deleting a resident.
-     */
-    private boolean showDeleteConfirmationDialog() {
-        ButtonType confirmButton = new ButtonType("Confirm", ButtonBar.ButtonData.OK_DONE);
-        ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.initOwner(primaryStage);
-        alert.setTitle("Confirm Delete");
-        alert.setHeaderText("Delete resident?");
-        alert.setContentText("Are you sure you want to delete this resident entry?");
-        alert.getButtonTypes().setAll(confirmButton, cancelButton);
-
-        Optional<ButtonType> result = alert.showAndWait();
-        return result.isPresent() && result.get() == confirmButton;
-    }
-
-    // =============================== Executing Commands  ================================
     /**
      * Executes the command and returns the result.
      *
@@ -241,18 +225,61 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Applies filters and updates the shared result display.
+     * Returns true if the given command text is a valid DeleteCommand.
      */
-    private CommandResult executeFilter(FilterDetails filterDetails) throws CommandException {
+    private boolean isDeleteCommand(String commandText) {
         try {
-            CommandResult commandResult = logic.executeFilter(filterDetails);
-            logger.info("Result: " + commandResult.getFeedbackToUser());
-            resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
-            return commandResult;
-        } catch (CommandException e) {
-            logger.info("An error occurred while applying filters: " + filterDetails);
-            resultDisplay.setFeedbackToUser(e.getMessage());
-            throw e;
+            return new AddressBookParser().parseCommand(commandText) instanceof DeleteCommand;
+        } catch (ParseException e) {
+            return false;
         }
+    }
+
+    /**
+     * Shows a confirmation dialog before deleting a resident.
+     */
+    private boolean showDeleteConfirmationDialog() {
+        ButtonType confirmButton = new ButtonType("Confirm", ButtonBar.ButtonData.OK_DONE);
+        ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initOwner(primaryStage);
+        alert.setTitle("Confirm Delete");
+        alert.setHeaderText("Delete resident?");
+        alert.setContentText("Are you sure you want to delete this resident entry?");
+        alert.getButtonTypes().setAll(confirmButton, cancelButton);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.isPresent() && result.get() == confirmButton;
+    }
+
+    /**
+     * Opens the help window or focuses on it if it's already opened.
+     */
+    @FXML
+    public void handleHelp() {
+        if (!helpWindow.isShowing()) {
+            helpWindow.show();
+        } else {
+            helpWindow.focus();
+        }
+    }
+
+    // =============================== Executing Commands  ================================
+
+    /**
+     * Closes the application.
+     */
+    @FXML
+    private void handleExit() {
+        GuiSettings guiSettings = new GuiSettings(primaryStage.getWidth(), primaryStage.getHeight(),
+                (int) primaryStage.getX(), (int) primaryStage.getY());
+        logic.setGuiSettings(guiSettings);
+        helpWindow.hide();
+        primaryStage.hide();
+    }
+
+    void show() {
+        primaryStage.show();
     }
 }
