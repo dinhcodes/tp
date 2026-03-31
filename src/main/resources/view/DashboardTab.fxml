@@ -9,68 +9,81 @@
       VBox.vgrow="ALWAYS">
 
     <Label text="Dashboard Overview"
-           styleClass="panel-heading" />
+           styleClass="panel-heading" maxWidth="Infinity"/>
 
 
-    <HBox spacing="8" styleClass="panel-subheading">
+    <HBox spacing="8" styleClass="panel-subheading" maxWidth="Infinity">
         <Label text="Total Number of Residents: " styleClass="label-header"/>
+        <Region HBox.hgrow="ALWAYS"/>
         <Label fx:id="totalCountLabel" text="0" styleClass="label-total-residence"/>
     </HBox>
 
-    <HBox spacing="16">
+    <HBox spacing="16" VBox.vgrow="ALWAYS">
 
         <!-- LEFT: Gender breakdown (horizontal) -->
         <VBox spacing="8"
-              styleClass="panel-subheading">
-            <Label text="Gender Breakdown" styleClass="label-header"/>
+              styleClass="panel-subheading" HBox.hgrow="ALWAYS">
+            <Label text="Gender Breakdown" styleClass="label-header" maxWidth="Infinity"/>
 
-            <HBox spacing="10" style="-fx-alignment: CENTER_LEFT; -fx-min-width: 100;">
-                <VBox styleClass="label-gender">
-                    <Label text="♂ Male" styleClass="label" style="-fx-padding:0 0 10 0"/>
-                    <Label fx:id="maleCountLabel" text="0" styleClass="label" style="-fx-alignment:CENTER"/>
+            <HBox spacing="10">
+                <VBox styleClass="label-gender" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                    <Label text="Male" styleClass="label" style="-fx-padding:0 0 10 0" maxWidth="Infinity"/>
+                    <Label fx:id="maleCountLabel" text="0" styleClass="label" style="-fx-alignment:CENTER" maxWidth="Infinity"/>
                 </VBox>
 
-                <VBox styleClass="label-gender">
-                    <Label text="♀ Female" styleClass="label" style="-fx-padding:0 0 10 0"/>
-                    <Label fx:id="femaleCountLabel" text="0" styleClass="label" style="-fx-alignment:CENTER"/>
+                <VBox styleClass="label-gender" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                    <Label text="Female" styleClass="label" style="-fx-padding:0 0 10 0" maxWidth="Infinity"/>
+                    <Label fx:id="femaleCountLabel" text="0" styleClass="label" style="-fx-alignment:CENTER" maxWidth="Infinity"/>
                 </VBox>
 
-                <VBox styleClass="label-gender">
-                    <Label text="⚧ Other" styleClass="label" style="-fx-padding:0 0 10 0"/>
-                    <Label fx:id="otherCountLabel" text="0" styleClass="label" style="-fx-alignment:CENTER"/>
+                <VBox styleClass="label-gender" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                    <Label text="Other" styleClass="label" style="-fx-padding:0 0 10 0" maxWidth="Infinity"/>
+                    <Label fx:id="otherCountLabel" text="0" styleClass="label" style="-fx-alignment:CENTER" maxWidth="Infinity"/>
                 </VBox>
             </HBox>
         </VBox>
 
         <!-- RIGHT: Year groups (vertical) -->
-        <VBox spacing="8"
-              styleClass="panel-subheading">
+        <VBox spacing="6"
+              styleClass="panel-subheading" HBox.hgrow="ALWAYS">
             <Label text="Year Groups"
-                   styleClass="label-header"/>
+                   styleClass="label-header" maxWidth="Infinity"/>
 
-            <HBox spacing="8" styleClass="label-year">
+            <HBox spacing="8" styleClass="label-year" maxWidth="Infinity">
                 <Label text="Y1" styleClass="label"/>
                 <Region HBox.hgrow="ALWAYS"/>
                 <Label fx:id="y1CountLabel" text="0" styleClass="label"/>
             </HBox>
 
-            <HBox spacing="8" styleClass="label-year">
+            <HBox spacing="8" styleClass="label-year" maxWidth="Infinity">
                 <Label text="Y2" styleClass="label"/>
                 <Region HBox.hgrow="ALWAYS"/>
                 <Label fx:id="y2CountLabel" text="0" styleClass="label"/>
             </HBox>
 
-            <HBox spacing="8" styleClass="label-year">
+            <HBox spacing="8" styleClass="label-year" maxWidth="Infinity">
                 <Label text="Y3" styleClass="label"/>
                 <Region HBox.hgrow="ALWAYS"/>
                 <Label fx:id="y3CountLabel" text="0" styleClass="label"/>
             </HBox>
 
-            <HBox spacing="8" styleClass="label-year">
+            <HBox spacing="8" styleClass="label-year" maxWidth="Infinity">
                 <Label text="Y4" styleClass="label"/>
                 <Region HBox.hgrow="ALWAYS"/>
                 <Label fx:id="y4CountLabel" text="0" styleClass="label"/>
             </HBox>
+
+            <HBox spacing="8" styleClass="label-year" maxWidth="Infinity">
+                <Label text="Y5" styleClass="label"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="y5CountLabel" text="0" styleClass="label"/>
+            </HBox>
+
+            <HBox spacing="8" styleClass="label-year" maxWidth="Infinity">
+                <Label text="Y6" styleClass="label"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="y6CountLabel" text="0" styleClass="label"/>
+            </HBox>           
         </VBox>
     </HBox>
 </VBox>
