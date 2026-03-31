@@ -8,6 +8,7 @@ import javafx.beans.property.ReadOnlyProperty;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.RoomNumber;
 import seedu.address.model.person.StudentId;
 
 /**
@@ -90,6 +91,16 @@ public interface Model {
     void updateFilteredPersonList(Predicate<Person> predicate);
 
     Optional<Person> getPersonByStudentId(StudentId studentId);
+
+    /**
+     * Returns an Optional containing the Person with the specified RoomNumber,
+     * or an empty Optional if no such Person exists.
+     *
+     * @param roomNumber The RoomNumber to search for.
+     * @return An Optional containing the Person with the specified RoomNumber,
+     *      or an empty Optional if no such Person exists.
+     */
+    Optional<Person> getPersonByRoomNumber(RoomNumber roomNumber);
 
     /**
      * Clears all stored filter details and shows all persons.
