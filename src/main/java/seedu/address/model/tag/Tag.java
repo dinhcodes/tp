@@ -10,7 +10,8 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Tag {
 
     public static final String MESSAGE_CONSTRAINTS = "Tags names should be alphanumeric. "
-            + "Gender tags may contain '/' eg: she/her";
+            + "\nGender tags can be: she/her, he/him or they/them"
+            + "\nYear tags should be a positive integer between 1 and 6 inclusive.";
 
     public final String tagName;
     public final TagType tagType;
@@ -25,10 +26,9 @@ public class Tag {
         requireNonNull(tagName);
         requireNonNull(tagName);
 
-        String trimmedName = tagName.trim();
-        checkArgument(isValidTagName(trimmedName, tagType), MESSAGE_CONSTRAINTS);
+        checkArgument(isValidTagName(tagName, tagType), MESSAGE_CONSTRAINTS);
 
-        this.tagName = trimmedName;
+        this.tagName = getNormalisedTagName(tagName, tagType);
         this.tagType = tagType;
     }
 
@@ -37,7 +37,12 @@ public class Tag {
      */
     public static boolean isValidTagName(String test, TagType type) {
         requireNonNull(type);
-        return type.isValidTagName(test);
+        return type.isValidTagName(getNormalisedTagName(test, type));
+    }
+
+    public static String getNormalisedTagName(String test, TagType type) {
+        // check for gender as it is the only case-insensitive tag type
+        return type == TagType.GENDER ? test.toLowerCase() : test;
     }
 
     /**
@@ -59,10 +64,9 @@ public class Tag {
         if (other == this) {
             return true;
         }
-        if (!(other instanceof Tag)) {
+        if (!(other instanceof Tag otherTag)) {
             return false;
         }
-        Tag otherTag = (Tag) other;
         return tagType == otherTag.tagType && tagName.equals(otherTag.tagName);
     }
 

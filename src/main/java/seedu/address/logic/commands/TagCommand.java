@@ -33,7 +33,7 @@ public class TagCommand extends Command {
             + "[" + PREFIX_TAG_MAJOR + "MAJOR] "
             + "[" + PREFIX_TAG_GENDER + "GENDER]\n"
             + "Example: " + COMMAND_WORD + " i=A1234567X "
-            + PREFIX_TAG_YEAR + "Y2 "
+            + PREFIX_TAG_YEAR + "2 "
             + PREFIX_TAG_MAJOR + "CS "
             + PREFIX_TAG_GENDER + "Male";
 

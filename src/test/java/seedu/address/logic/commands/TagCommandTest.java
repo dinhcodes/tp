@@ -66,13 +66,13 @@ public class TagCommandTest {
         Map<TagType, Tag> tags = new HashMap<>();
         tags.put(TagType.YEAR, new Tag(TagType.YEAR, "2"));
         tags.put(TagType.MAJOR, new Tag(TagType.MAJOR, "CS"));
-        tags.put(TagType.GENDER, new Tag(TagType.GENDER, "M"));
+        tags.put(TagType.GENDER, new Tag(TagType.GENDER, "he/him"));
         new TagCommand(VALID_STUDENT_ID, tags).execute(model);
 
         Map<TagType, Tag> resultTags = model.getFilteredPersonList().get(0).getTags();
         assertEquals(new Tag(TagType.YEAR, "2"), resultTags.get(TagType.YEAR));
         assertEquals(new Tag(TagType.MAJOR, "CS"), resultTags.get(TagType.MAJOR));
-        assertEquals(new Tag(TagType.GENDER, "M"), resultTags.get(TagType.GENDER));
+        assertEquals(new Tag(TagType.GENDER, "He/Him"), resultTags.get(TagType.GENDER));
     }
 
     @Test

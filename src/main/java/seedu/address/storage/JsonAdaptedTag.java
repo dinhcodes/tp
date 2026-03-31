@@ -17,7 +17,8 @@ import seedu.address.model.tag.TagType;
 class JsonAdaptedTag {
 
     private static final String MESSAGE_INVALID_TAG_TYPE = "Tag must be alphanumeric. "
-            + "Only gender tags may contain '/' eg: she/her";
+            + "Only gender tags may contain '/' eg: she/her or he/him or they/them"
+            + "Year must be an integer between 1 to 6 (inclusive)";
     private final String tagName;
     private final String tagType;
 

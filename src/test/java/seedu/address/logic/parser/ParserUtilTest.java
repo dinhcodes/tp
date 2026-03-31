@@ -39,7 +39,7 @@ public class ParserUtilTest {
     private static final String VALID_ROOM_NUMBER = "1A";
     private static final String VALID_EMERGENCY_NUMBER = "+65 12345678";
     private static final String VALID_TAG_1 = "Chemistry";
-    private static final String VALID_TAG_2 = "Y1";
+    private static final String VALID_TAG_2 = "1";
 
     private static final String WHITESPACE = " \t\r\n";
 

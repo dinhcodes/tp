@@ -36,8 +36,8 @@ public class TypicalPersons {
             .withPhone("+65 94351253")
             .withRoomNumber("13E").withEmergencyContact("+65 91234567")
             .withRemark("Allergic to peanuts")
-            .withTags(new Object[]{TagType.GENDER, "Female"},
-                    new Object[]{TagType.YEAR, "Y1"},
+            .withTags(new Object[]{TagType.GENDER, "She/Her"},
+                    new Object[]{TagType.YEAR, "1"},
                     new Object[]{TagType.MAJOR, "CS"}).build();
 
     public static final Person BENSON = new PersonBuilder().withName("Benson Meier")
@@ -45,8 +45,8 @@ public class TypicalPersons {
             .withRoomNumber("10A").withEmergencyContact("+65 91234567")
             .withRemark("Allergic to peanuts")
             .withTags(new Object[]{TagType.MAJOR, "CS Maths"},
-                    new Object[]{TagType.YEAR, "Y2"},
-                    new Object[]{TagType.GENDER, "Male"}).build();
+                    new Object[]{TagType.YEAR, "2"},
+                    new Object[]{TagType.GENDER, "he/Him"}).build();
 
     public static final Person CARL = new PersonBuilder().withName("Carl Kurz").withPhone("+65 95352563")
             .withEmail("heinz@example.com").withStudentId("A1111111X").withRoomNumber("12B")
@@ -55,26 +55,26 @@ public class TypicalPersons {
     public static final Person DANIEL = new PersonBuilder().withName("Daniel Meier").withPhone("+65 87652533")
             .withEmail("cornelia@example.com").withStudentId("A2222222X").withRoomNumber("6C")
             .withEmergencyContact("+65 91234567")
-            .withTags(new Object[]{TagType.YEAR, "Y3"},
+            .withTags(new Object[]{TagType.YEAR, "3"},
                     new Object[]{TagType.MAJOR, "Business"}).build();
 
     public static final Person ELLE = new PersonBuilder().withName("Elle Meyer").withPhone("+65 9482224")
             .withEmail("werner@example.com").withStudentId("A3333333X").withRoomNumber("7E")
             .withEmergencyContact("+65 91234567")
-            .withTags(new Object[]{TagType.YEAR, "Y1"},
-                    new Object[]{TagType.GENDER, "Female"}).build();
+            .withTags(new Object[]{TagType.YEAR, "1"},
+                    new Object[]{TagType.GENDER, "She/Her"}).build();
 
     public static final Person FIONA = new PersonBuilder().withName("Fiona Kunz").withPhone("+65 9482427")
             .withEmail("lydia@example.com").withStudentId("A4444444X").withRoomNumber("14A")
             .withEmergencyContact("+65 91234567")
             .withTags(new Object[]{TagType.MAJOR, "Economics Statistics"},
-                    new Object[]{TagType.GENDER, "Female"}).build();
+                    new Object[]{TagType.GENDER, "She/her"}).build();
 
     public static final Person GEORGE = new PersonBuilder().withName("George Best").withPhone("+65 9482442")
             .withEmail("anna@example.com").withStudentId("A5555555X").withRoomNumber("15N")
             .withEmergencyContact("+65 91234567")
-            .withTags(new Object[]{TagType.YEAR, "Y4"},
-                    new Object[]{TagType.GENDER, "NB"}).build();
+            .withTags(new Object[]{TagType.YEAR, "4"},
+                    new Object[]{TagType.GENDER, "They/Them"}).build();
 
     // Manually added
     public static final Person HOON = new PersonBuilder().withName("Hoon Meier").withPhone("+65 8482424")

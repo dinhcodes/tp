@@ -88,7 +88,7 @@ public class PersonMatchesDetailsPredicateTest {
     @Test
     public void test_tagGenderKeyword_requiresExactMatchIgnoringCase() {
         FilterDetails exactGenderDetails = new FilterDetails();
-        exactGenderDetails.setTagGenderKeywords(Set.of("female"));
+        exactGenderDetails.setTagGenderKeywords(Set.of("she/her"));
         PersonMatchesDetailsPredicate exactGenderPredicate = new PersonMatchesDetailsPredicate(exactGenderDetails);
         assertTrue(exactGenderPredicate.test(ALICE));
 

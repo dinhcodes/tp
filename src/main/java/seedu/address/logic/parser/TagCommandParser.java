@@ -33,7 +33,7 @@ public class TagCommandParser implements Parser<TagCommand> {
                         CliSyntax.PREFIX_TAG_MAJOR,
                         CliSyntax.PREFIX_TAG_YEAR);
 
-        if (!argumentMultimap.getValue(PREFIX_STUDENT_ID).isPresent() || !argumentMultimap.getPreamble().isEmpty()) {
+        if (argumentMultimap.getValue(PREFIX_STUDENT_ID).isEmpty() || !argumentMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
         }
 

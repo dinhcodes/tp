@@ -12,10 +12,10 @@
       "tagName" : "CS"
     }, {
       "tagType" : "YEAR",
-      "tagName" : "Y1"
+      "tagName" : "1"
     }, {
       "tagType" : "GENDER",
-      "tagName" : "Female"
+      "tagName" : "SHE/her"
     } ]
   }, {
     "name" : "Benson Meier",
@@ -31,11 +31,11 @@
     },
       {
         "tagType" : "YEAR",
-        "tagName" : "Y2"
+        "tagName" : "2"
       },
       {
         "tagType" : "GENDER",
-        "tagName" : "Male"
+        "tagName" : "HE/HIM"
       } ]
   }, {
     "name" : "Carl Kurz",
@@ -54,7 +54,7 @@
     "emergencyContact" : "+65 91234567",
     "tags" : [ {
       "tagType" : "YEAR",
-      "tagName" : "Y3"
+      "tagName" : "3"
     }, {
       "tagType" : "MAJOR",
       "tagName" : "Business"
@@ -68,10 +68,10 @@
     "emergencyContact" : "+65 91234567",
     "tags" : [ {
       "tagType" : "YEAR",
-      "tagName" : "Y1"
+      "tagName" : "1"
     }, {
       "tagType" : "GENDER",
-      "tagName" : "Female"
+      "tagName" : "she/HER"
     } ]
   }, {
     "name" : "Fiona Kunz",
@@ -86,7 +86,7 @@
     },
       {
         "tagType" : "GENDER",
-        "tagName" : "Female"
+        "tagName" : "she/her"
       } ]
   }, {
     "name" : "George Best",
@@ -97,10 +97,10 @@
     "emergencyContact" : "+65 91234567",
     "tags" : [ {
       "tagType" : "GENDER",
-      "tagName" : "NB"
+      "tagName" : "they/them"
     }, {
       "tagType" : "YEAR",
-      "tagName" : "Y4"
+      "tagName" : "4"
     } ]
   }
   ]

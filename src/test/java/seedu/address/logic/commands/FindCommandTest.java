@@ -87,7 +87,7 @@ public class FindCommandTest {
         // Using GENDER=Female to get multiple matches: Alice, Elle, Fiona
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 3);
         FilterDetails filterDetails = createEmptyFilterDetails();
-        filterDetails.setTagGenderKeywords(Set.of("Female"));
+        filterDetails.setTagGenderKeywords(Set.of("she/her"));
         PersonMatchesDetailsPredicate predicate = new PersonMatchesDetailsPredicate(filterDetails);
         FindCommand command = new FindCommand(filterDetails);
         expectedModel.updateFilteredPersonList(predicate);
