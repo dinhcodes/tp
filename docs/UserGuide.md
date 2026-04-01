@@ -204,11 +204,11 @@ Adds a demerit record to an existing resident.
 
 Format: `demerit i=STUDENT_ID di=RULE_INDEX [rm=REMARK]`
 
-* The case and order of the attributes and their keywords do not matter. 
-  * e.g. `find n=Alice y=Y1` will give the same search 
+* The case and order of the attributes and their keywords do not matter.
+  * e.g. `find n=Alice y=Y1` will give the same search
     result as `find y=Y1 n=ALICE`
-* Using different search parameters forces  the result to match all rules simultaneously. 
-  * e.g. `find n=Alice p=91234567 y=Y1` returns persons whose name is Alice, whose phone number is 91234567, and 
+* Using different search parameters forces  the result to match all rules simultaneously.
+  * e.g. `find n=Alice p=91234567 y=Y1` returns persons whose name is Alice, whose phone number is 91234567, and
     who are also in Year 1.
 * Conversely, searching multiple values under the same parameter returns results that can match any of those values.
     * e.g. `find y=Y2 y=Y3` returns persons in Year 2 or Year 3.
