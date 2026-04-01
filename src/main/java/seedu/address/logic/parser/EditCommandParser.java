@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_PREFIX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMERGENCY_CONTACT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
@@ -11,6 +12,10 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_STUDENT_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
@@ -22,12 +27,18 @@ import seedu.address.model.person.StudentId;
  */
 public class EditCommandParser implements Parser<EditCommand> {
 
+    private static final List<Prefix> KNOWN_PREFIXES = List.of(
+        PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL,
+        PREFIX_STUDENT_ID, PREFIX_ROOM_NUMBER, PREFIX_EMERGENCY_CONTACT
+    );
+
     /**
      * Parses the given {@code String} of arguments in the context of the EditCommand
      * and returns an EditCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
     public EditCommand parse(String args) throws ParseException {
+        validateNoUnknownPrefixes(args);
         requireNonNull(args);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args,
@@ -100,4 +111,24 @@ public class EditCommandParser implements Parser<EditCommand> {
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL,
                 PREFIX_ROOM_NUMBER, PREFIX_EMERGENCY_CONTACT);
     }
+
+    private static void validateNoUnknownPrefixes(String args) throws ParseException {
+        // Matches any token that looks like a prefix e.g. "ne/", "xx=", "abc/"
+        Pattern prefixPattern = Pattern.compile("\\b(\\w+[=/])");
+        Matcher matcher = prefixPattern.matcher(args);
+
+        // Collect all known prefix strings e.g. "n/", "i="
+        Set<String> knownPrefixStrings = KNOWN_PREFIXES.stream()
+                .map(Prefix::getPrefix)  // e.g. "n/", "i="
+                .collect(Collectors.toSet());
+
+        while (matcher.find()) {
+            String found = matcher.group(1);
+            if (!knownPrefixStrings.contains(found)) {
+                throw new ParseException(String.format(MESSAGE_UNKNOWN_PREFIX,
+                        EditCommand.MESSAGE_USAGE));
+            }
+        }
+    }
+
 }
