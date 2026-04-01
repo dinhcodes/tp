@@ -55,7 +55,7 @@ public class EditCommand extends Command {
     public static final String MESSAGE_DUPLICATE_PERSON = "The edit details cause duplicated resident details "
             + "in the address book.";
     public static final String MESSAGE_ROOM_OCCUPIED = "This room is already occupied!";
-    public static final String DUPLICATE_STUDENT_ID_PREFIX = "Please ensure that there are at most two "
+    public static final String MESSAGE_DUPLICATE_STUDENT_ID_PREFIX = "Please ensure that there are at most two "
             + PREFIX_STUDENT_ID + "prefixes, the first indicates the Student ID of the resident to edit, the "
             + "second indicates the resident's edited student ID value.\n%s";
 
