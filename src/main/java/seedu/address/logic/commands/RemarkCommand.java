@@ -12,7 +12,7 @@ import seedu.address.model.person.StudentId;
 
 /**
  * Adds a remark to a resident in the hall ledger.
- * The resident is identified using the index number from the displayed resident list.
+ * The resident is identified using unique StudentId.
  * Existing remarks will be overwritten by the newly provided remark.
  */
 public class RemarkCommand extends Command {

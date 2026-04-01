@@ -18,7 +18,7 @@ import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.TagType;
 
 /**
- * Adds a tag to a resident in the hall ledger.
+ * Adds a tag to a resident in the address book.
  * Existing tags will be overwritten by the newly provided tags.
  */
 public class TagCommand extends Command {
@@ -68,7 +68,7 @@ public class TagCommand extends Command {
     }
 
     /**
-     * Creates and returns a {@code Person} with the details of {@code tsggedPerson}
+     * Creates and returns a {@code Person} with the details of {@code taggedPerson}
      */
     public static Person createTaggedPerson(Person personToTag, Map<TagType, Tag> tags) {
         HashMap<TagType, Tag> updatedTags = new HashMap<>(personToTag.getTags());
