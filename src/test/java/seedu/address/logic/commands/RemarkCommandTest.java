@@ -39,7 +39,8 @@ public class RemarkCommandTest {
         CommandResult remarkCommandResult = remarkCommand.execute(model);
 
         Person remarkedPerson = model.getPersonByStudentId(new StudentId(VALID_STUDENTID_AMY)).get();
-        CommandResult expectedCommand = new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(remarkedPerson)));
+        CommandResult expectedCommand = new CommandResult(String.format(MESSAGE_SUCCESS,
+                Messages.format(remarkedPerson)));
 
         assertEquals(remarkedPerson.getRemark(), new Remark(VALID_REMARK));
 
