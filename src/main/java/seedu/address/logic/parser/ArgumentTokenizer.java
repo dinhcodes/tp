@@ -3,6 +3,8 @@ package seedu.address.logic.parser;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -39,6 +41,32 @@ public class ArgumentTokenizer {
         return Arrays.stream(prefixes)
                 .flatMap(prefix -> findPrefixPositions(argsString, prefix).stream())
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Checks for unknown prefixes in the given arguments string. An unknown prefix is a substring that matches the
+     * pattern of a prefix (i.e. non-whitespace characters followed by an equals sign) but does not match any of the
+     * given prefixes.
+     *
+     * @param argsString Arguments string of the form: {@code preamble <prefix>value <prefix>value ...}
+     * @param prefixes   Prefixes to check against
+     * @return           The first unknown prefix found, or an empty string if no unknown prefix is found
+     */
+    public static String checkForUnknownPrefixes(String argsString, Prefix... prefixes) {
+        Pattern pattern = Pattern.compile("[^= ]*=");
+        Matcher matcher = pattern.matcher(argsString.trim());
+        List<String> known = Arrays.stream(prefixes)
+                .map(Prefix::getPrefix)
+                .collect(Collectors.toList());
+
+        while (matcher.find()) {
+            String found = matcher.group(0).trim();
+            System.out.println(found);
+            if (!known.contains(found)) {
+                return found;
+            }
+        }
+        return "";
     }
 
     /**

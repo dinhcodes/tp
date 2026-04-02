@@ -22,6 +22,7 @@ public class Messages {
     public static final String MESSAGE_RESIDENT_NOT_FOUND = "No resident with Student ID %1$s found.";
     public static final String MESSAGE_DUPLICATE_FIELDS =
                 "Multiple values specified for the following single-valued field(s): ";
+    public static final String MESSAGE_UNKNOWN_PREFIX = "Prefix %1$s is not recognized. ";
 
     /**
      * Returns an error message indicating the duplicate prefixes.

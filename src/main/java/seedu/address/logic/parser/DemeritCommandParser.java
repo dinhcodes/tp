@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_PREFIX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DEMERIT_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STUDENT_ID;
@@ -20,6 +21,7 @@ public class DemeritCommandParser implements Parser<DemeritCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public DemeritCommand parse(String args) throws ParseException {
+        checkForUnknownPrefixes(args);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_STUDENT_ID, PREFIX_DEMERIT_INDEX, PREFIX_REMARK);
 
@@ -46,5 +48,15 @@ public class DemeritCommandParser implements Parser<DemeritCommand> {
             }
         }
         return true;
+    }
+
+    private void checkForUnknownPrefixes(String args) throws ParseException {
+        String unknownPrefix = ArgumentTokenizer.checkForUnknownPrefixes(args, PREFIX_STUDENT_ID, PREFIX_DEMERIT_INDEX,
+                PREFIX_REMARK);
+
+        if (!unknownPrefix.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_UNKNOWN_PREFIX, unknownPrefix)
+                    + "\n" + DemeritCommand.MESSAGE_USAGE);
+        }
     }
 }
