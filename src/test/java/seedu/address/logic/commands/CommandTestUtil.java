@@ -36,7 +36,7 @@ public class CommandTestUtil {
     public static final String VALID_PHONE_BOB = "+65 22222222";
     public static final String VALID_EMAIL_AMY = "amy@example.com";
     public static final String VALID_EMAIL_BOB = "bob@example.com";
-    public static final String VALID_STUDENTID_AMY = "A1234567X";
+    public static final String VALID_STUDENTID_AMY = "A1234567Y";
     public static final String VALID_STUDENTID_BOB = "A8765432Y";
     public static final String VALID_ROOM_NUMBER_AMY = "1A";
     public static final String VALID_ROOM_NUMBER_BOB = "4M";
@@ -44,6 +44,7 @@ public class CommandTestUtil {
     public static final String VALID_EMERGENCY_CONTACT_BOB = "+65 98765432";
     public static final Object[] VALID_TAG_MAJOR = {TagType.MAJOR, "CS"};
     public static final Object[] VALID_TAG_YEAR = {TagType.YEAR, "1"};
+    public static final String VALID_REMARK = "Allergic to peanuts";
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
