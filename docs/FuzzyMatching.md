@@ -20,7 +20,7 @@ In simple terms, your keyword is treated as a match when:
 2. It appears inside the target text, or
 3. It is very close to the target text with a small typo (for longer words).
 
-For short keywords (3 letters or less), Hall Ledger only uses rule 1: exact matching, and rule 2: substring 
+For short keywords (3 letters or less), Hall Ledger only uses rule 1: exact matching, and rule 2: substring
 matching.
 This prevents too many unrelated results.
 

@@ -45,7 +45,7 @@ public class EditCommand extends Command {
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_STUDENT_ID + "STUDENT_ID] "
             + "[" + PREFIX_ROOM_NUMBER + "ROOM] "
-            + "[" + PREFIX_EMERGENCY_CONTACT + "EMERGENCY_CONTACT] "
+            + "[" + PREFIX_EMERGENCY_CONTACT + "EMERGENCY_CONTACT] \n"
             + "Example: " + COMMAND_WORD + " i=A0123456X "
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com";
@@ -54,7 +54,8 @@ public class EditCommand extends Command {
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "The edit details cause duplicated resident details "
             + "in the address book.";
-    public static final String DUPLICATE_STUDENT_ID_PREFIX = "Please ensure that there are at most two "
+    public static final String MESSAGE_ROOM_OCCUPIED = "This room is already occupied!";
+    public static final String MESSAGE_DUPLICATE_STUDENT_ID_PREFIX = "Please ensure that there are at most two "
             + PREFIX_STUDENT_ID + "prefixes, the first indicates the Student ID of the resident to edit, the "
             + "second indicates the resident's edited student ID value.\n%s";
 
@@ -77,6 +78,17 @@ public class EditCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         Person personToEdit = model.getPersonByStudentId(targetStudentId)
                .orElseThrow(() -> new CommandException(String.format(MESSAGE_RESIDENT_NOT_FOUND, targetStudentId)));
+
+        if (editPersonDescriptor.getRoomNumber().isPresent()) {
+            RoomNumber newRoom = editPersonDescriptor.getRoomNumber().get();
+            boolean roomTakenByOther = model.getPersonByRoomNumber(newRoom)
+                    .filter(occupant -> !occupant.isSamePerson(personToEdit)) // allow same person to "keep" their room
+                    .isPresent();
+
+            if (roomTakenByOther) {
+                throw new CommandException(MESSAGE_ROOM_OCCUPIED);
+            }
+        }
 
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
 

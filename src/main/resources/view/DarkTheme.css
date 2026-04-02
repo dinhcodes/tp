@@ -578,7 +578,6 @@
     -fx-background-color:  derive(dark-grey, 20%);
     -fx-padding: 14;
     -fx-background-radius: 8;
-    -fx-min-width: 165;
     -fx-font-family: "SansSerif";
 }
 
@@ -588,7 +587,6 @@
     -fx-background-color:  derive(medium-grey, 30%);
     -fx-background-radius: 8;
     -fx-alignment: center;
-    -fx-min-width: 50;
     -fx-font-family: "SansSerif";
 }
 
@@ -600,11 +598,10 @@
 
 .panel-subheading .label-year {
     -fx-font-size: 18px;
-    -fx-padding: 10 10 10 10;
+    -fx-padding: 6 6 6 6;
     -fx-background-color:  derive(medium-grey, 30%);
     -fx-background-radius: 8;
     -fx-alignment: center;
-    -fx-min-width: 50;
     -fx-alignment: CENTER_LEFT;
     -fx-font-family: "SansSerif";
 }
@@ -616,12 +613,12 @@
 }
 
 .panel-subheading .label-total-residence {
-    -fx-font-size: 18px;
+    -fx-font-size: 20px;
     -fx-padding: 10 10 10 10;
+    -fx-min-width: 75px;
     -fx-background-color:  derive(medium-grey, 30%);
     -fx-background-radius: 8;
     -fx-alignment: center;
-    -fx-min-width: 50;
     -fx-font-family: "SansSerif";
 }
 
@@ -633,9 +630,9 @@
 
 .panel-subheading .label {
     -fx-font-size: 18px;
-    -fx-min-width: 30;
     -fx-text-fill: #FFFFFF;
     -fx-font-family: "SansSerif";
+    -fx-alignment: center;
 }
 
 .panel-subheading .label-header{
