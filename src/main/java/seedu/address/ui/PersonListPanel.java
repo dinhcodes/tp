@@ -37,6 +37,8 @@ public class PersonListPanel extends UiPart<Region> {
         });
         selectedPerson.addListener((observable, oldValue, newValue) -> {
             logger.fine("Selected person changed to: " + newValue);
+            personListView.getSelectionModel().select(newValue);
+            personListView.scrollTo(newValue);
         });
     }
 
