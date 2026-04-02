@@ -29,11 +29,19 @@ public class DeleteCommand extends Command {
 
     /**
      * Constructor to initialize studentId
+     *
      * @param targetStudentId the studentId of the student to be deleted
      */
     public DeleteCommand(StudentId targetStudentId) {
         requireNonNull(targetStudentId);
         this.targetStudentId = targetStudentId;
+    }
+
+    /**
+     * Returns the student ID targeted for deletion.
+     */
+    public StudentId getTargetStudentId() {
+        return targetStudentId;
     }
 
     @Override

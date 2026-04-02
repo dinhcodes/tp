@@ -197,11 +197,15 @@ public class MainWindow extends UiPart<Stage> {
      */
     private CommandResult executeCommand(String commandText) throws CommandException, ParseException {
         try {
-            if (isDeleteCommand(commandText) && !showDeleteConfirmationDialog()) {
-                CommandResult cancelResult = new CommandResult(MESSAGE_DELETE_CANCELLED);
-                logger.info("Result: " + cancelResult.getFeedbackToUser());
-                resultDisplay.setFeedbackToUser(cancelResult.getFeedbackToUser());
-                return cancelResult;
+            Optional<DeleteCommand> deleteCommand = parseDeleteCommand(commandText);
+
+            if (deleteCommand.isPresent() && deleteTargetExists(deleteCommand.get())) {
+                if (!showDeleteConfirmationDialog()) {
+                    CommandResult cancelResult = new CommandResult(MESSAGE_DELETE_CANCELLED);
+                    logger.info("Result: " + cancelResult.getFeedbackToUser());
+                    resultDisplay.setFeedbackToUser(cancelResult.getFeedbackToUser());
+                    return cancelResult;
+                }
             }
 
             CommandResult commandResult = logic.execute(commandText);
@@ -225,14 +229,26 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Returns true if the given command text is a valid DeleteCommand.
+     * Returns the parsed {@code DeleteCommand} if the command text is a valid delete command.
+     * Returns {@code Optional.empty()} otherwise.
      */
-    private boolean isDeleteCommand(String commandText) {
+    private Optional<DeleteCommand> parseDeleteCommand(String commandText) {
         try {
-            return new AddressBookParser().parseCommand(commandText) instanceof DeleteCommand;
+            if (new AddressBookParser().parseCommand(commandText) instanceof DeleteCommand deleteCommand) {
+                return Optional.of(deleteCommand);
+            }
+            return Optional.empty();
         } catch (ParseException e) {
-            return false;
+            return Optional.empty();
         }
+    }
+
+    /**
+     * Returns true if the delete command targets an existing resident.
+     */
+    private boolean deleteTargetExists(DeleteCommand deleteCommand) {
+        return logic.getAddressBook().getPersonList().stream()
+                .anyMatch(person -> person.getStudentId().equals(deleteCommand.getTargetStudentId()));
     }
 
     /**
