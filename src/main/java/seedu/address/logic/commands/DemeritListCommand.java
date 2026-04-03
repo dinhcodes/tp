@@ -21,6 +21,6 @@ public class DemeritListCommand extends Command {
 
     @Override
     public boolean equals(Object other) {
-        return other == this || other instanceof DemeritListCommand;
+        return other instanceof DemeritListCommand;
     }
 }

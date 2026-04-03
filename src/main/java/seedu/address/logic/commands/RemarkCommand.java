@@ -30,7 +30,7 @@ public class RemarkCommand extends Command {
     private final Remark remark;
 
     /**
-     * @param studentId of the person to edit
+     * @param studentId of the person to add remark to
      * @param remark to add to the person
      */
     public RemarkCommand(StudentId studentId, Remark remark) {
@@ -44,6 +44,7 @@ public class RemarkCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
         Person personToRemark = model.getPersonByStudentId(studentId)
                 .orElseThrow(() -> new CommandException(String.format(MESSAGE_PERSON_NOT_FOUND, studentId)));
 

@@ -16,12 +16,18 @@ public class ClearCommand extends Command {
         return "All " + numberOfPersons + " resident(s) have been removed from the Hall Ledger";
     }
 
+    public int getNumberOfPersons(Model model) {
+        return model.getAddressBook().getPersonList().size();
+    }
+
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-        int numberOfPersons = model.getAddressBook().getPersonList().size();
+
         model.setAddressBook(new AddressBook());
         model.showAllPersons();
+
+        int numberOfPersons = getNumberOfPersons(model);
         return new CommandResult(getMessageSuccess(numberOfPersons));
     }
 }

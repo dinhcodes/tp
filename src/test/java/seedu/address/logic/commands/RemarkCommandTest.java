@@ -35,7 +35,7 @@ public class RemarkCommandTest {
         Person newPerson = new PersonBuilder().withStudentId(VALID_STUDENTID_AMY).build();
         model.addPerson(newPerson);
 
-        RemarkCommand remarkCommand = new RemarkCommand(new StudentId(VALID_STUDENTID_AMY), VALID_REMARK);
+        RemarkCommand remarkCommand = new RemarkCommand(new StudentId(VALID_STUDENTID_AMY), new Remark(VALID_REMARK));
         CommandResult remarkCommandResult = remarkCommand.execute(model);
 
         Person remarkedPerson = model.getPersonByStudentId(new StudentId(VALID_STUDENTID_AMY)).get();
@@ -50,7 +50,7 @@ public class RemarkCommandTest {
     @Test
     public void execute_invalidStudentId_throwsCommandException() {
         StudentId invalidStudentId = new StudentId("A9999999N");
-        RemarkCommand remarkCommand = new RemarkCommand(invalidStudentId, VALID_REMARK);
+        RemarkCommand remarkCommand = new RemarkCommand(invalidStudentId, new Remark(VALID_REMARK));
         assertThrows(CommandException.class, () -> remarkCommand.execute(model));
     }
 
@@ -59,7 +59,7 @@ public class RemarkCommandTest {
         Person newPerson = new PersonBuilder().withStudentId(VALID_STUDENTID_AMY).withRemark(VALID_REMARK).build();
         model.addPerson(newPerson);
 
-        RemarkCommand remarkCommand = new RemarkCommand(new StudentId(VALID_STUDENTID_AMY), "");
+        RemarkCommand remarkCommand = new RemarkCommand(new StudentId(VALID_STUDENTID_AMY), new Remark(""));
         remarkCommand.execute(model);
 
         Person remarkedPerson = model.getPersonByStudentId(new StudentId(VALID_STUDENTID_AMY)).get();
@@ -69,13 +69,13 @@ public class RemarkCommandTest {
     @Test
     public void equals() {
         Person alice = new PersonBuilder().withName("Alice").build();
-        RemarkCommand addAliceRemark = new RemarkCommand(alice.getStudentId(), VALID_REMARK);
+        RemarkCommand addAliceRemark = new RemarkCommand(alice.getStudentId(), new Remark(VALID_REMARK));
 
         // same object -> returns true
         assertEquals(addAliceRemark, addAliceRemark);
 
         // same values -> returns true
-        RemarkCommand addAliceRemarkCopy = new RemarkCommand(alice.getStudentId(), VALID_REMARK);
+        RemarkCommand addAliceRemarkCopy = new RemarkCommand(alice.getStudentId(), new Remark(VALID_REMARK));
         assertEquals(addAliceRemark, addAliceRemarkCopy);
 
         // different types -> returns false

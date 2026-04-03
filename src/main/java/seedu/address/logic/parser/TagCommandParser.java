@@ -28,6 +28,7 @@ public class TagCommandParser implements Parser<TagCommand> {
     public TagCommand parse(String args) throws ParseException {
         requireNonNull(args);
         checkForUnknownPrefixes(args);
+
         ArgumentMultimap argumentMultimap =
                 ArgumentTokenizer.tokenize(args,
                         PREFIX_STUDENT_ID,
