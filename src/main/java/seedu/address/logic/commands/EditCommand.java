@@ -76,6 +76,9 @@ public class EditCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
+        requireNonNull(model);
+        model.showAllPersons(); // ensure the person to edit is visible before editing
+
         Person personToEdit = model.getPersonByStudentId(targetStudentId)
                .orElseThrow(() -> new CommandException(String.format(MESSAGE_RESIDENT_NOT_FOUND, targetStudentId)));
 
@@ -96,7 +99,6 @@ public class EditCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
-        model.showAllPersons();
         model.setPerson(personToEdit, editedPerson);
         model.setSelectedPerson(editedPerson);
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));

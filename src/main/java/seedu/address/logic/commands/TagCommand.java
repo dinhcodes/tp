@@ -63,13 +63,13 @@ public class TagCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        model.showAllPersons(); // Ensure the person to tag is visible before tagging
 
         Person personToTag = model.getPersonByStudentId(studentId)
                 .orElseThrow(() -> new CommandException(String.format(MESSAGE_PERSON_NOT_FOUND, studentId)));
 
         Person taggedPerson = createTaggedPerson(personToTag, tags);
 
-        model.showAllPersons();
         model.setPerson(personToTag, taggedPerson);
         model.setSelectedPerson(taggedPerson);
 
@@ -80,8 +80,9 @@ public class TagCommand extends Command {
      * Creates and returns a {@code Person} with the details of {@code taggedPerson}
      */
     private static Person createTaggedPerson(Person personToTag, Map<TagType, Tag> tags) {
-        HashMap<TagType, Tag> updatedTags = new HashMap<>(personToTag.getTags());
-        updatedTags.putAll(tags);
+
+        HashMap<TagType, Tag> updatedTags = new HashMap<>(personToTag.getTags()); // Start with existing tags
+        updatedTags.putAll(tags); // add new tags, overwriting any existing tags of the SAME type
 
         return new Person(
                 personToTag.getName(),

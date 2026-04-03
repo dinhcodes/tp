@@ -44,6 +44,7 @@ public class RemarkCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        model.showAllPersons(); // Ensure the person to remark is visible before adding remark
 
         Person personToRemark = model.getPersonByStudentId(studentId)
                 .orElseThrow(() -> new CommandException(String.format(MESSAGE_PERSON_NOT_FOUND, studentId)));
@@ -51,7 +52,7 @@ public class RemarkCommand extends Command {
         Person editedPerson = createEditedPerson(personToRemark, remark);
 
         model.setPerson(personToRemark, editedPerson);
-        model.setSelectedPerson(editedPerson);
+        model.setSelectedPerson(editedPerson); // Select the edited person in the UI
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(editedPerson)));
     }
@@ -67,7 +68,7 @@ public class RemarkCommand extends Command {
                 personToRemark.getStudentId(),
                 personToRemark.getRoomNumber(),
                 personToRemark.getEmergencyContact(),
-                remark,
+                remark, // add the new remark or overwrite the existing remark
                 personToRemark.getTags()
         );
     }

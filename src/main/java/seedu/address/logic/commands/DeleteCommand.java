@@ -46,6 +46,9 @@ public class DeleteCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
+        requireNonNull(model);
+        model.showAllPersons();
+
         Person personToDelete = model.getPersonByStudentId(targetStudentId)
                 .orElseThrow(() -> new CommandException(String.format(MESSAGE_PERSON_NOT_FOUND, targetStudentId)));
 
