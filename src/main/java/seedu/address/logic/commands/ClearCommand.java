@@ -24,10 +24,11 @@ public class ClearCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
 
+        int numberOfPersons = getNumberOfPersons(model);
+
         model.setAddressBook(new AddressBook());
         model.showAllPersons();
 
-        int numberOfPersons = getNumberOfPersons(model);
         return new CommandResult(getMessageSuccess(numberOfPersons));
     }
 }
