@@ -1,15 +1,9 @@
 package seedu.address.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
@@ -20,8 +14,6 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.RoomNumber;
 import seedu.address.model.person.StudentId;
-import seedu.address.model.tag.Tag;
-import seedu.address.model.tag.TagType;
 
 public class ParserUtilTest {
     private static final String INVALID_NAME = "R@chel";
@@ -65,7 +57,7 @@ public class ParserUtilTest {
 
     @Test
     public void parseName_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> ParserUtil.parseName((String) null));
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseName(null));
     }
 
     @Test
@@ -88,7 +80,7 @@ public class ParserUtilTest {
 
     @Test
     public void parsePhone_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> ParserUtil.parsePhone((String) null));
+        assertThrows(NullPointerException.class, () -> ParserUtil.parsePhone(null));
     }
 
     @Test
@@ -111,7 +103,7 @@ public class ParserUtilTest {
 
     @Test
     public void parseStudentId_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> ParserUtil.parseStudentId((String) null));
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseStudentId(null));
     }
 
     @Test
@@ -134,7 +126,7 @@ public class ParserUtilTest {
 
     @Test
     public void parseEmail_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> ParserUtil.parseEmail((String) null));
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseEmail(null));
     }
 
     @Test
@@ -157,7 +149,7 @@ public class ParserUtilTest {
 
     @Test
     public void parseRoomNumber_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> ParserUtil.parseRoomNumber((String) null));
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseRoomNumber(null));
     }
 
     @Test
@@ -180,7 +172,7 @@ public class ParserUtilTest {
 
     @Test
     public void parseEmergencyContact_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> ParserUtil.parseEmergencyContact((String) null));
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseEmergencyContact(null));
     }
 
     @Test
@@ -199,57 +191,5 @@ public class ParserUtilTest {
         String emailWithWhitespace = WHITESPACE + VALID_EMERGENCY_NUMBER + WHITESPACE;
         EmergencyContact expectedEmergencyContact = new EmergencyContact(VALID_EMERGENCY_NUMBER);
         assertEquals(expectedEmergencyContact, ParserUtil.parseEmergencyContact(emailWithWhitespace));
-    }
-
-    @Test
-    public void parseTag_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> ParserUtil.parseTag(null, null));
-    }
-
-    @Test
-    public void parseTag_invalidValue_throwsParseException() {
-        assertThrows(ParseException.class, () -> ParserUtil.parseTag(TagType.MAJOR, INVALID_TAG));
-    }
-
-    @Test
-    public void parseTag_validValueWithoutWhitespace_returnsTag() throws Exception {
-        Tag expectedTag = new Tag(TagType.MAJOR, VALID_TAG_1);
-        assertEquals(expectedTag, ParserUtil.parseTag(TagType.MAJOR, VALID_TAG_1));
-    }
-
-    @Test
-    public void parseTag_validValueWithWhitespace_returnsTrimmedTag() throws Exception {
-        String tagWithWhitespace = WHITESPACE + VALID_TAG_1 + WHITESPACE;
-        Tag expectedTag = new Tag(TagType.MAJOR, VALID_TAG_1);
-        assertEquals(expectedTag, ParserUtil.parseTag(TagType.MAJOR, tagWithWhitespace));
-    }
-
-    @Test
-    public void parseTags_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> ParserUtil.parseTags(null, TagType.MAJOR));
-    }
-
-    @Test
-    public void parseTags_collectionWithInvalidTags_throwsParseException() {
-        assertThrows(ParseException.class, () ->
-                ParserUtil.parseTags(Arrays.asList(VALID_TAG_1, INVALID_TAG), TagType.MAJOR));
-    }
-
-    @Test
-    public void parseTags_emptyCollection_returnsEmptySet() throws Exception {
-        assertTrue(ParserUtil.parseTags(Collections.emptyList(), TagType.MAJOR).isEmpty());
-    }
-
-    @Test
-    public void parseTags_collectionWithValidTags_returnsTagSet() throws Exception {
-        Set<Tag> actualTagSet =
-                ParserUtil.parseTags(Arrays.asList(VALID_TAG_1, VALID_TAG_2), TagType.MAJOR);
-
-        Set<Tag> expectedTagSet =
-                new HashSet<>(Arrays.asList(
-                        new Tag(TagType.MAJOR, VALID_TAG_1),
-                        new Tag(TagType.MAJOR, VALID_TAG_2)));
-
-        assertEquals(expectedTagSet, actualTagSet);
     }
 }

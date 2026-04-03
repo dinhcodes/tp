@@ -3,10 +3,6 @@ package seedu.address.logic.parser;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_PREFIX;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -16,8 +12,6 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.RoomNumber;
 import seedu.address.model.person.StudentId;
-import seedu.address.model.tag.Tag;
-import seedu.address.model.tag.TagType;
 
 /**
  * Contains utility methods used for parsing strings in the various *Parser classes.
@@ -128,39 +122,6 @@ public class ParserUtil {
             throw new ParseException(EmergencyContact.MESSAGE_CONSTRAINTS);
         }
         return new EmergencyContact(trimmedEmergencyContact);
-    }
-
-    /**
-     * Parses a {@code String tag} into a {@code Tag}.
-     * Leading and trailing whitespaces will be trimmed.
-     *
-     * @throws ParseException if the given {@code tag} is invalid.
-     */
-    public static Tag parseTag(TagType type, String tag) throws ParseException {
-        requireNonNull(tag);
-        requireNonNull(type);
-        String trimmedTag = tag.trim();
-
-        if (!Tag.isValidTagContent(trimmedTag, type)) {
-            throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
-        }
-
-        return new Tag(type, trimmedTag);
-    }
-
-    /**
-     * Parses a {@code Collection<String> tags and TagType } into a {@code Set<Tag>}.
-     * This method needs to be updated in the next milestone to accommodate the new TagType parameter.
-     */
-    public static Set<Tag> parseTags(Collection<String> tags, TagType type) throws ParseException {
-        requireNonNull(tags);
-        final Set<Tag> tagSet = new HashSet<>();
-
-        for (String tagName : tags) {
-            tagSet.add(parseTag(type, tagName));
-        }
-
-        return tagSet;
     }
 
     /**
