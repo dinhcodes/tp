@@ -44,6 +44,7 @@ public class DemeritCommand extends Command {
     public DemeritCommand(StudentId targetStudentId, int ruleIndex, String remark) {
         requireNonNull(targetStudentId);
         requireNonNull(remark);
+
         this.targetStudentId = targetStudentId;
         this.ruleIndex = ruleIndex;
         this.remark = remark;

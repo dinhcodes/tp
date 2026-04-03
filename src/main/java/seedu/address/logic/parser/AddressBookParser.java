@@ -57,31 +57,44 @@ public class AddressBookParser {
         // Lower level log messages are used sparingly to minimize noise in the code.
         logger.fine("Command word: " + commandWord + "; Arguments: " + arguments);
 
-        if (commandWord.equals(AddCommand.COMMAND_WORD)) {
+        switch (commandWord) {
+        case AddCommand.COMMAND_WORD:
             return new AddCommandParser().parse(arguments);
-        } else if (commandWord.equals(EditCommand.COMMAND_WORD)) {
+
+        case EditCommand.COMMAND_WORD:
             return new EditCommandParser().parse(arguments);
-        } else if (commandWord.equals(DeleteCommand.COMMAND_WORD)) {
+
+        case DeleteCommand.COMMAND_WORD:
             return new DeleteCommandParser().parse(arguments);
-        } else if (commandWord.equals(ClearCommand.COMMAND_WORD)) {
+
+        case ClearCommand.COMMAND_WORD:
             return new ClearCommand();
-        } else if (commandWord.equals(FindCommand.COMMAND_WORD)) {
+
+        case FindCommand.COMMAND_WORD:
             return new FindCommandParser().parse(arguments);
-        } else if (commandWord.equals(ListCommand.COMMAND_WORD)) {
+
+        case ListCommand.COMMAND_WORD:
             return new ListCommand();
-        } else if (commandWord.equals(ExitCommand.COMMAND_WORD)) {
+
+        case ExitCommand.COMMAND_WORD:
             return new ExitCommand();
-        } else if (commandWord.equals(HelpCommand.COMMAND_WORD)) {
+
+        case HelpCommand.COMMAND_WORD:
             return new HelpCommand();
-        } else if (commandWord.equals(TagCommand.COMMAND_WORD)) {
+
+        case TagCommand.COMMAND_WORD:
             return new TagCommandParser().parse(arguments);
-        } else if (commandWord.equals(RemarkCommand.COMMAND_WORD)) {
+
+        case RemarkCommand.COMMAND_WORD:
             return new RemarkCommandParser().parse(arguments);
-        } else if (commandWord.equals(DemeritListCommand.COMMAND_WORD)) {
+
+        case DemeritListCommand.COMMAND_WORD:
             return new DemeritListCommand();
-        } else if (commandWord.equals(DemeritCommand.COMMAND_WORD)) {
+
+        case DemeritCommand.COMMAND_WORD:
             return new DemeritCommandParser().parse(arguments);
-        } else {
+
+        default:
             logger.finer("This user input caused a ParseException: " + userInput);
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
         }
