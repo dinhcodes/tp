@@ -1,7 +1,8 @@
 package seedu.address.model.util;
 
+import static seedu.address.model.util.TagUtil.getTagSet;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import seedu.address.commons.exceptions.DataLoadingException;
@@ -18,7 +19,6 @@ import seedu.address.model.person.Phone;
 import seedu.address.model.person.Remark;
 import seedu.address.model.person.RoomNumber;
 import seedu.address.model.person.StudentId;
-import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.TagType;
 
 
@@ -26,7 +26,7 @@ import seedu.address.model.tag.TagType;
  * Contains utility methods for populating {@code AddressBook} with sample data.
  */
 public class SampleDataUtil {
-    public static Person[] getSamplePersons() {
+    private static Person[] getSamplePersons() {
         return new Person[] {
             new Person(new Name("Alex Yeoh"), new Phone("87438807"), new Email("alexyeoh@example.com"),
                     new StudentId("A0485321Y"), new RoomNumber("4-A"),
@@ -96,19 +96,6 @@ public class SampleDataUtil {
             throw new DataLoadingException(e);
         }
         return sampleAb;
-    }
-
-    /**
-     * Returns a tag set containing the list of strings given.
-     */
-    public static HashMap<TagType, Tag> getTagSet(Object[]... tags) {
-        HashMap<TagType, Tag> tagMap = new HashMap<>();
-        for (Object[] pair : tags) {
-            TagType type = TagType.valueOf(pair[0].toString());
-            String tagName = pair[1].toString();
-            tagMap.put(type, new Tag(type, tagName));
-        }
-        return tagMap;
     }
 
     /**
