@@ -13,10 +13,12 @@ import javafx.collections.ObservableSet;
  * Stores the details of the filter to be applied to the address book.
  */
 public class FilterDetails implements ReadOnlyFilterDetails {
+    // Limit the number of values for each prefix to prevent performance issues with large filters.
     public static final int MAX_VALUES_PER_PREFIX = 10;
     public static final String MESSAGE_TOO_MANY_PREFIX_VALUES =
             "Too many values provided for: %1$s. Each prefix can have at most %2$d values.";
 
+    // ObservableSets are used to allow the UI to react to changes in the filter details.
     private final ObservableSet<String> nameKeywords;
     private final ObservableSet<String> emailKeywords;
     private final ObservableSet<String> phoneNumberKeywords;
