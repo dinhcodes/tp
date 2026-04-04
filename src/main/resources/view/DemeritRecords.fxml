@@ -8,7 +8,7 @@
       xmlns:fx="http://javafx.com/fxml/1"
       spacing="10"
       styleClass="panel-container"
-      stylesheets="@DarkTheme.css">
+      stylesheets="@DarkTheme.css,@DemeritRecords.css">
 
     <TableView fx:id="demeritTableView" styleClass="custom-table" VBox.vgrow="ALWAYS">
         <columns>
