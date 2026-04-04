@@ -2,7 +2,7 @@
   "baseUrl": "",
   "titlePrefix": "",
   "titleSuffix": "Hall Ledger",
-  "faviconPath": "images/SeEduLogo.png",
+  "faviconPath": "images/hall-ledger-icon-48x48.png",
   "style": {
     "codeTheme": "light"
   },
