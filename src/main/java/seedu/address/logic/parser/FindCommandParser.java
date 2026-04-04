@@ -49,7 +49,7 @@ public class FindCommandParser implements Parser<FindCommand> {
         checkForUnknownPrefixes(args);
 
         ArgumentMultimap argMultimap = tokenizeAndValidateArguments(args);
-        FilterDetails filterDetails = buildFilterDetails(argMultimap);
+        FilterDetails filterDetails = normalizeAndBuildFilterDetails(argMultimap);
         validateFilterKeywordLimits(filterDetails);
 
         String warningMessage = buildWarningMessage(
@@ -78,9 +78,12 @@ public class FindCommandParser implements Parser<FindCommand> {
      * Builds a {@link FilterDetails} instance from the values in {@code argMultimap}.
      * All values for a given prefix are collected from {@link ArgumentMultimap#getAllValues} and converted
      * into {@code Set} to remove duplicates.
+     *
+     * If it is possible to normalize any of the values (e.g: he -> he/him, her -> she/her), the normalized value is
+     * used in the resulting FilterDetails instead of the raw value.
      */
-    private FilterDetails buildFilterDetails(ArgumentMultimap argMultimap) {
-        // Build all keyword sets from ArgumentMultimap
+    private FilterDetails normalizeAndBuildFilterDetails(ArgumentMultimap argMultimap) {
+        // Build keyword sets from ArgumentMultimap
         Set<String> nameKeywords = toSet(argMultimap.getAllValues(PREFIX_NAME));
         Set<String> emailKeywords = toSet(argMultimap.getAllValues(PREFIX_EMAIL));
         Set<String> phoneNumberKeywords = toSet(argMultimap.getAllValues(PREFIX_PHONE));
@@ -91,7 +94,7 @@ public class FindCommandParser implements Parser<FindCommand> {
         Set<String> tagMajorKeywords = toSet(argMultimap.getAllValues(PREFIX_TAG_MAJOR));
         Set<String> tagGenderKeywords = toSet(argMultimap.getAllValues(PREFIX_TAG_GENDER));
 
-        // Normalize gender keywords
+        // Normalize gender keywords (e.g: convert "he", "him" -> "he/him") and collect
         Set<String> normalizedTagGenderKeywords = tagGenderKeywords.stream()
                 .map(s -> ParserUtil.tryNormalizeGender(s).orElse(s))
                 .collect(Collectors.toSet());
