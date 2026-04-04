@@ -3,6 +3,8 @@ package seedu.address.logic.parser;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_PREFIX;
 
+import java.util.Optional;
+
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -13,6 +15,7 @@ import seedu.address.model.person.Phone;
 import seedu.address.model.person.RoomNumber;
 import seedu.address.model.person.StudentId;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.tag.TagType;
 
 /**
  * Contains utility methods used for parsing strings in the various *Parser classes.
@@ -144,6 +147,35 @@ public class ParserUtil {
             case "" -> null; // Allow empty input to be treated as null
             default -> throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
         };
+    }
+
+    /**
+     * Attempts to normalize a {@code String gender} into a canonical gender tag value. Returns an empty Optional when
+     * the input is invalid or empty.
+     */
+    public static Optional<String> tryNormalizeGender(String gender) {
+        requireNonNull(gender);
+        String trimmedGender = gender.trim().toLowerCase();
+
+        return switch (trimmedGender) {
+            case "he", "him", "he/him" -> Optional.of("he/him");
+            case "she", "her", "she/her" -> Optional.of("she/her");
+            case "they", "them", "they/them" -> Optional.of("they/them");
+            default -> Optional.empty();
+        };
+    }
+
+    /**
+     * Attempts to normalize a {@code String year} into a canonical year tag value. Returns an empty Optional when the
+     * input is invalid.
+     */
+    public static Optional<String> tryNormalizeYear(String year) {
+        requireNonNull(year);
+        String trimmedYear = year.trim();
+        if (!TagType.YEAR.isValidTagName(trimmedYear)) {
+            return Optional.empty();
+        }
+        return Optional.of(trimmedYear);
     }
 
     /**
