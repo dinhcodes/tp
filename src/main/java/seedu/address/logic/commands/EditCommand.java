@@ -1,7 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.Messages.MESSAGE_RESIDENT_NOT_FOUND;
+import static seedu.address.logic.commands.util.ModelUtil.getPersonByStudentIdOrThrow;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMERGENCY_CONTACT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
@@ -76,8 +76,9 @@ public class EditCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        Person personToEdit = model.getPersonByStudentId(targetStudentId)
-               .orElseThrow(() -> new CommandException(String.format(MESSAGE_RESIDENT_NOT_FOUND, targetStudentId)));
+        requireNonNull(model);
+
+        Person personToEdit = getPersonByStudentIdOrThrow(model, targetStudentId);
 
         if (editPersonDescriptor.getRoomNumber().isPresent()) {
             RoomNumber newRoom = editPersonDescriptor.getRoomNumber().get();
@@ -96,9 +97,10 @@ public class EditCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
-        model.showAllPersons();
         model.setPerson(personToEdit, editedPerson);
+        model.showAllPersons();
         model.setSelectedPerson(editedPerson);
+
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
     }
 

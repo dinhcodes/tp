@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.commands.util.ModelUtil.getPersonByStudentIdOrThrow;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
@@ -22,8 +23,6 @@ public class DeleteCommand extends Command {
             + "Example: " + COMMAND_WORD + " i=A1234567X";
 
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted resident: %1$s";
-    public static final String MESSAGE_PERSON_NOT_FOUND =
-            "ResidentNotFound: No resident found with student ID %s.";
 
     private final StudentId targetStudentId;
 
@@ -46,10 +45,11 @@ public class DeleteCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        Person personToDelete = model.getPersonByStudentId(targetStudentId)
-                .orElseThrow(() -> new CommandException(String.format(MESSAGE_PERSON_NOT_FOUND, targetStudentId)));
+        requireNonNull(model);
 
+        Person personToDelete = getPersonByStudentIdOrThrow(model, targetStudentId);
         model.deletePerson(personToDelete);
+        model.showAllPersons();
 
         return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, Messages.format(personToDelete)));
     }

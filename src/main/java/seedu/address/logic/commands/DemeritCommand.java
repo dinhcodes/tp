@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.commands.util.ModelUtil.getPersonByStudentIdOrThrow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +53,9 @@ public class DemeritCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        Person personToUpdate = model.getPersonByStudentId(targetStudentId)
-                .orElseThrow(() -> new CommandException(String.format(MESSAGE_STUDENT_NOT_FOUND, targetStudentId)));
+        requireNonNull(model);
+
+        Person personToUpdate = getPersonByStudentIdOrThrow(model, targetStudentId);
 
         DemeritRule rule = DemeritRuleCatalogue.findByIndex(ruleIndex)
                 .orElseThrow(() -> new CommandException(String.format(MESSAGE_RULE_NOT_FOUND, ruleIndex)));
@@ -85,7 +87,10 @@ public class DemeritCommand extends Command {
                 updatedIncidents
         );
 
+
         model.setPerson(personToUpdate, updatedPerson);
+        model.showAllPersons();
+        model.setSelectedPerson(updatedPerson);
 
         return new CommandResult(String.format(
                 MESSAGE_ADD_DEMERIT_SUCCESS,

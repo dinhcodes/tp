@@ -1,7 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.commands.DeleteCommand.MESSAGE_PERSON_NOT_FOUND;
+import static seedu.address.logic.commands.util.ModelUtil.getPersonByStudentIdOrThrow;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
@@ -26,7 +26,7 @@ public class RemarkCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Added Remark to Resident: %1$s";
 
-    private final StudentId studentId;
+    private final StudentId targetStudentId;
     private final Remark remark;
 
     /**
@@ -37,7 +37,7 @@ public class RemarkCommand extends Command {
         requireNonNull(studentId);
         requireNonNull(remark);
 
-        this.studentId = studentId;
+        this.targetStudentId = studentId;
         this.remark = remark;
     }
 
@@ -45,13 +45,14 @@ public class RemarkCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        Person personToRemark = model.getPersonByStudentId(studentId)
-                .orElseThrow(() -> new CommandException(String.format(MESSAGE_PERSON_NOT_FOUND, studentId)));
+        Person personToRemark = getPersonByStudentIdOrThrow(model, targetStudentId);
 
         Person editedPerson = createEditedPerson(personToRemark, remark);
 
+
         model.setPerson(personToRemark, editedPerson);
-        model.setSelectedPerson(editedPerson);
+        model.showAllPersons();
+        model.setSelectedPerson(editedPerson); // Select the edited person in the UI
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(editedPerson)));
     }
@@ -67,7 +68,7 @@ public class RemarkCommand extends Command {
                 personToRemark.getStudentId(),
                 personToRemark.getRoomNumber(),
                 personToRemark.getEmergencyContact(),
-                remark,
+                remark, // add the new remark or overwrite the existing remark
                 personToRemark.getTags()
         );
     }
@@ -82,14 +83,14 @@ public class RemarkCommand extends Command {
             return false;
         }
 
-        return studentId.equals(otherRemarkCommand.studentId)
+        return targetStudentId.equals(otherRemarkCommand.targetStudentId)
                 && remark.equals(otherRemarkCommand.remark);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("studentId", studentId)
+                .add("studentId", targetStudentId)
                 .add("remark", remark)
                 .toString();
     }
