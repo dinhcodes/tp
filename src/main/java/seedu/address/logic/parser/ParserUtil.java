@@ -128,7 +128,7 @@ public class ParserUtil {
 
     /**
      * Parses a {@code String year} into a normalized year tag value. Accepts formats like {@code 1}, {@code Y1},
-     * {@code y1} and returns {@code 1}. If the input is empty, it returns null.
+     * {@code year 1} and returns {@code 1}. If the input is empty, it returns null.
      *
      * @param year the input year string to parse
      * @return the parsed year string, or null if the input is empty
@@ -143,7 +143,7 @@ public class ParserUtil {
             normalizedYear = trimmedYear.substring(1).trim();
         }
         if (trimmedYear.startsWith("Year")) {
-            normalizedYear = trimmedYear.substring(3).trim();
+            normalizedYear = trimmedYear.substring(4).trim();
         }
         if (trimmedYear.isEmpty()) {
             normalizedYear = null; // Allow empty input to be treated as null
