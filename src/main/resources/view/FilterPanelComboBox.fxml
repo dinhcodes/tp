@@ -9,8 +9,12 @@
 <VBox xmlns:fx="http://javafx.com/fxml/1" spacing="5.0" xmlns="http://javafx.com/javafx/17.0.12">
     <children>
         <Label fx:id="titleLabel" styleClass="label-bright" stylesheets="@DarkTheme.css" text="Search by Field"/>
-        <ComboBox fx:id="keywordComboBox" editable="true" onAction="#handleFieldEntered"
-                  promptText="E.g: Field example" visibleRowCount="6"/>
+        <HBox>
+            <children>
+                <ComboBox fx:id="keywordComboBox" editable="true" onAction="#handleFieldEntered" prefHeight="25.0"
+                          prefWidth="850.0" promptText="E.g: Field example" visibleRowCount="6" HBox.hgrow="ALWAYS"/>
+            </children>
+        </HBox>
         <HBox>
             <children>
                 <Label fx:id="keywordsLabel" minWidth="57.0" styleClass="label-small" text="Keywords:"/>
