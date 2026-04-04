@@ -5,9 +5,6 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_PREFIX;
 import static seedu.address.logic.commands.TagCommand.MESSAGE_USAGE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STUDENT_ID;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG_GENDER;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG_MAJOR;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG_YEAR;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +20,13 @@ import seedu.address.model.tag.TagType;
  */
 public class TagCommandParser implements Parser<TagCommand> {
 
+    private static final Prefix[] ALL_PREFIXES = {
+        CliSyntax.PREFIX_STUDENT_ID,
+        CliSyntax.PREFIX_TAG_GENDER,
+        CliSyntax.PREFIX_TAG_MAJOR,
+        CliSyntax.PREFIX_TAG_YEAR
+    };
+
     /**
      * Parses the given {@code String} of arguments in the context of the TagCommand
      * and returns an TagCommand object for execution.
@@ -32,15 +36,9 @@ public class TagCommandParser implements Parser<TagCommand> {
         requireNonNull(args);
         checkForUnknownPrefixes(args);
 
-        ArgumentMultimap argumentMultimap =
-                ArgumentTokenizer.tokenize(args,
-                        PREFIX_STUDENT_ID,
-                        CliSyntax.PREFIX_TAG_GENDER,
-                        CliSyntax.PREFIX_TAG_MAJOR,
-                        CliSyntax.PREFIX_TAG_YEAR);
+        ArgumentMultimap argumentMultimap = ArgumentTokenizer.tokenize(args, ALL_PREFIXES);
 
-        argumentMultimap.verifyNoDuplicatePrefixesFor(PREFIX_STUDENT_ID,
-                PREFIX_TAG_GENDER, PREFIX_TAG_MAJOR, PREFIX_TAG_YEAR);
+        argumentMultimap.verifyNoDuplicatePrefixesFor(ALL_PREFIXES);
 
         if (argumentMultimap.getValue(PREFIX_STUDENT_ID).isEmpty() || !argumentMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
@@ -72,10 +70,7 @@ public class TagCommandParser implements Parser<TagCommand> {
     }
 
     private void checkForUnknownPrefixes(String args) throws ParseException {
-        String unknownPrefix = ArgumentTokenizer.checkForUnknownPrefixes(args, PREFIX_STUDENT_ID,
-                CliSyntax.PREFIX_TAG_GENDER,
-                CliSyntax.PREFIX_TAG_MAJOR,
-                CliSyntax.PREFIX_TAG_YEAR);
+        String unknownPrefix = ArgumentTokenizer.checkForUnknownPrefixes(args, ALL_PREFIXES);
 
         if (!unknownPrefix.isEmpty()) {
             throw new ParseException(String.format(MESSAGE_UNKNOWN_PREFIX, unknownPrefix)
