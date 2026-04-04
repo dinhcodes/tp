@@ -4,7 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
 /**
- * Represents a Tag in the address book.
+ * Represents a Tag in hall ledger.
  * Guarantees: immutable; name is valid as declared in
  */
 public class Tag {
@@ -20,15 +20,15 @@ public class Tag {
      * Constructs a {@code Tag}.
      *
      * @param tagType The type of the tag.
-     * @param tagName A valid tag name.
+     * @param tagContent valid tag content.
      */
-    public Tag(TagType tagType, String tagName) {
-        requireNonNull(tagName);
-        requireNonNull(tagName);
+    public Tag(TagType tagType, String tagContent) {
+        requireNonNull(tagType);
+        requireNonNull(tagContent);
 
-        checkArgument(isValidTagName(tagName, tagType), MESSAGE_CONSTRAINTS);
+        checkArgument(isValidTagName(tagContent, tagType), MESSAGE_CONSTRAINTS);
 
-        this.tagName = getNormalisedTagName(tagName, tagType);
+        this.tagName = getNormalisedTagName(tagContent, tagType);
         this.tagType = tagType;
     }
 
@@ -37,7 +37,7 @@ public class Tag {
      */
     public static boolean isValidTagName(String test, TagType type) {
         requireNonNull(type);
-        return type.isValidTagName(getNormalisedTagName(test, type));
+        return type.isValidTagContent(getNormalisedTagName(test, type));
     }
 
     public static String getNormalisedTagName(String test, TagType type) {
@@ -45,16 +45,10 @@ public class Tag {
         return type == TagType.GENDER ? test.toLowerCase() : test;
     }
 
-    /**
-     * @return the tag name of this tag.
-     */
     public String getTagName() {
         return tagName;
     }
 
-    /**
-     * @return the tag type of this tag.
-     */
     public TagType getTagType() {
         return tagType;
     }
@@ -75,9 +69,7 @@ public class Tag {
         return tagName.hashCode();
     }
 
-    /**
-     * Format state as text for viewing.
-     */
+    @Override
     public String toString() {
         return '[' + tagName + ']';
     }
