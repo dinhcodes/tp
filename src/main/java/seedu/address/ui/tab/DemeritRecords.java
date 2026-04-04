@@ -23,14 +23,6 @@ public class DemeritRecords extends UiPart<Region> {
 
     private static final String FXML = "DemeritRecords.fxml";
 
-    private static final String BODY_CELL_STYLE =
-            "-fx-background-color: #2b2b2b; "
-                    + "-fx-border-color: #555555; "
-                    + "-fx-text-fill: white;";
-
-    private static final String WRAPPED_TEXT_STYLE =
-            "-fx-fill: white;";
-
     private final ObservableValue<Person> selectedPerson;
 
     @FXML
@@ -89,8 +81,9 @@ public class DemeritRecords extends UiPart<Region> {
             private final Text text = new Text();
 
             {
+                getStyleClass().add("demerit-record-body-cell");
                 text.wrappingWidthProperty().bind(widthProperty().subtract(16));
-                text.setStyle(WRAPPED_TEXT_STYLE);
+                text.getStyleClass().add("demerit-record-wrapped-text");
                 setGraphic(text);
                 setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
                 setPrefHeight(Region.USE_COMPUTED_SIZE);
@@ -103,21 +96,23 @@ public class DemeritRecords extends UiPart<Region> {
                 if (empty || item == null) {
                     text.setText(null);
                     setGraphic(null);
-                    setStyle("");
                 } else {
                     text.setText(item);
                     setGraphic(text);
-                    setStyle(BODY_CELL_STYLE);
                 }
             }
         };
     }
 
     /**
-     * Creates a centered white-text cell for short values such as index and points.
+     * Creates a centered cell for short values such as index and points.
      */
     private TableCell<DemeritRecordRow, String> createCenteredCell() {
         return new TableCell<>() {
+            {
+                getStyleClass().addAll("demerit-record-body-cell", "demerit-record-centered-cell");
+            }
+
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -125,10 +120,8 @@ public class DemeritRecords extends UiPart<Region> {
                 if (empty || item == null) {
                     setText(null);
                     setGraphic(null);
-                    setStyle("");
                 } else {
                     setText(item);
-                    setStyle(BODY_CELL_STYLE + " -fx-alignment: CENTER; -fx-text-fill: white;");
                 }
             }
         };
