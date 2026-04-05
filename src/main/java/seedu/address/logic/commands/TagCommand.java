@@ -80,17 +80,7 @@ public class TagCommand extends Command {
      * Creates and returns a {@code Person} with the details of {@code taggedPerson}
      */
     private static Person createTaggedPerson(Person personToTag, Map<TagType, Tag> tags) {
-        HashMap<TagType, Tag> updatedTags = new HashMap<>(personToTag.getTags());
-
-        tags.forEach((type, tag) -> {
-            if (tag == null) {
-                updatedTags.remove(type); // remove the tag
-            } else {
-                updatedTags.put(type, tag);
-            }
-        });
-
-        assert updatedTags.size() <= TagType.values().length : "Cannot exceed number of TagTypes";
+        Map<TagType, Tag> updatedTags = computeUpdatedTags(personToTag.getTags(), tags);
         return new Person(
                 personToTag.getName(),
                 personToTag.getPhone(),
@@ -102,6 +92,25 @@ public class TagCommand extends Command {
                 updatedTags,
                 personToTag.getDemeritIncidents()
         );
+    }
+
+    /* *
+     * Computes the updated tags by applying the new tags to the existing tags.
+     * If a new tag has a null value, it indicates that the tag should be removed.
+     */
+    private static Map<TagType, Tag> computeUpdatedTags(Map<TagType, Tag> existingTags, Map<TagType, Tag> newTags) {
+
+        HashMap<TagType, Tag> updatedTags = new HashMap<>(existingTags);
+        newTags.forEach((type, tag) -> {
+            if (tag == null) {
+                updatedTags.remove(type); // Remove the tag if the new tag value is null
+            } else {
+                updatedTags.put(type, tag);
+            }
+        });
+
+        assert updatedTags.size() <= TagType.values().length : "Cannot exceed number of TagTypes";
+        return updatedTags;
     }
 
     @Override
