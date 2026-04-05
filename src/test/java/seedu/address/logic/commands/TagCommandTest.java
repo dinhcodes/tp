@@ -139,6 +139,6 @@ public class TagCommandTest {
         tags.put(TagType.YEAR, new Tag(TagType.YEAR, "2"));
         CommandResult result = new TagCommand(VALID_STUDENT_ID, tags).execute(model);
 
-        assertTrue(result.getFeedbackToUser().startsWith("Added Tag to Resident"));
+        assertTrue(result.getFeedbackToUser().startsWith("Updated Tag for Resident"));
     }
 }
