@@ -34,8 +34,8 @@ public class FindCommandParser implements Parser<FindCommand> {
             "Warning: Ignored invalid y= value(s): %1$s. Please use year values from 1 to 6.";
 
     private static final Prefix[] PREFIXES_TO_CHECK = new Prefix[]{
-            PREFIX_NAME, PREFIX_EMAIL, PREFIX_PHONE, PREFIX_ROOM_NUMBER, PREFIX_STUDENT_ID,
-            PREFIX_EMERGENCY_CONTACT, PREFIX_TAG_YEAR, PREFIX_TAG_MAJOR, PREFIX_TAG_GENDER
+        PREFIX_NAME, PREFIX_EMAIL, PREFIX_PHONE, PREFIX_ROOM_NUMBER, PREFIX_STUDENT_ID,
+        PREFIX_EMERGENCY_CONTACT, PREFIX_TAG_YEAR, PREFIX_TAG_MAJOR, PREFIX_TAG_GENDER
     };
 
     /**
