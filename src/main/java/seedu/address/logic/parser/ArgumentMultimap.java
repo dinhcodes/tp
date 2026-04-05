@@ -94,7 +94,7 @@ public class ArgumentMultimap {
      *
      * @return a new {@code ArgumentMultimap} with empty string values and empty prefixes removed
      */
-    public ArgumentMultimap removeEmptyValuesAndPrefixes() {
+    public ArgumentMultimap removeEmptyKeywordsAndPrefixes() {
         ArgumentMultimap cleanedMap = new ArgumentMultimap();
         for (Map.Entry<Prefix, List<String>> entry : argMultimap.entrySet()) {
             List<String> nonEmptyValues = new ArrayList<>();

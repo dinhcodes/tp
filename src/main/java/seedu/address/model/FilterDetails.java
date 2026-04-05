@@ -11,6 +11,13 @@ import javafx.collections.ObservableSet;
 
 /**
  * Stores the details of the filter to be applied to the address book.
+ *
+ * <p><b>Validation:</b> This class is responsible for validating keyword limits via
+ * {@link #validateKeywordLimits()}. Each prefix can have at most
+ * {@code MAX_VALUES_PER_PREFIX} (10) keywords to prevent performance issues.
+ *
+ * <p><b>Data Structure:</b> Uses ObservableSet for each field to allow the UI to
+ * react to changes in real-time.
  */
 public class FilterDetails implements ReadOnlyFilterDetails {
     // Limit the number of values for each prefix to prevent performance issues with large filters.
@@ -152,7 +159,7 @@ public class FilterDetails implements ReadOnlyFilterDetails {
      *
      * @throws IllegalArgumentException if one or more prefixes exceed the allowed limit
      */
-    public void validateKeywordLimits() {
+    public void validateKeywordLimits() throws IllegalArgumentException {
         List<String> prefixesOverLimit = new ArrayList<>();
         collectOverLimitPrefix("n=", nameKeywords, prefixesOverLimit);
         collectOverLimitPrefix("e=", emailKeywords, prefixesOverLimit);

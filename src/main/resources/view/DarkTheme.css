@@ -551,6 +551,47 @@
     -fx-border-width: 1;
 }
 
+/* === FILTER PANEL COMBO BOX === */
+.filter-panel-combo-box,
+.filter-panel-combo-box:hover {
+    -fx-background-color: medium-grey;
+    -fx-background-insets: 0;
+    -fx-border-width: 0 0 0 0;
+    -fx-font-family: "SansSerif";
+    -fx-font-size: 10pt;
+    -fx-text-fill: derive(light-grey, -50%);
+    -fx-background-color: medium-grey;
+    -fx-padding: 2px 0px 2px 3px;
+}
+
+.filter-panel-combo-box:focused,
+.filter-panel-combo-box:showing {
+    -fx-background-insets: 0;
+    -fx-border-width: 0 0 2 0;
+    -fx-border-color: transparent transparent primary-yellow transparent;
+}
+
+.filter-panel-combo-box > .list-cell {
+    -fx-background-color: medium-grey;
+    -fx-text-fill: derive(light-grey, 50%);
+}
+
+.filter-panel-combo-box > .list-cell > .text {
+    -fx-fill: derive(light-grey, 50%);
+}
+
+.combo-box-popup .list-view .list-cell {
+    -fx-background-color: medium-grey;
+    -fx-text-fill: white;
+}
+
+.combo-box-popup .list-view .list-cell:hover,
+.combo-box-popup .list-view .list-cell:filled:selected,
+.combo-box-popup .list-view .list-cell:focused {
+    -fx-background-color: secondary-blue;
+    -fx-text-fill: white;
+}
+
 /* === REUSABLE PANELS === */
 .panel-container {
     -fx-padding: 30 30 30 30;

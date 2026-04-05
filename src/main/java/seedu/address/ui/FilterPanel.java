@@ -13,6 +13,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.FilterDetails;
 import seedu.address.model.ReadOnlyFilterDetails;
 import seedu.address.ui.executors.FilterExecutor;
+import seedu.address.ui.filter.FilterPanelComboBox;
 import seedu.address.ui.filter.FilterPanelField;
 
 /**
@@ -56,50 +57,55 @@ public class FilterPanel extends UiPart<Region> {
      * Fills inner placeholders with reusable field components.
      */
     private void fillInnerParts() {
-        bindField(nameFilterFieldPlaceholder, "Search by Name", "E.g: Alex",
+        bindTextField(nameFilterFieldPlaceholder, "Search by Name", "E.g: Alex",
                 filterDetails.getNameKeywords(), FilterDetails::setNameKeywords);
 
-        bindField(phoneFilterFieldPlaceholder, "Search by Phone", "E.g: +65 91234567",
+        bindTextField(phoneFilterFieldPlaceholder, "Search by Phone", "E.g: +65 91234567",
                 filterDetails.getPhoneNumberKeywords(), FilterDetails::setPhoneNumberKeywords);
 
-        bindField(emailFilterFieldPlaceholder, "Search by Email", "E.g: alex@example.com",
+        bindTextField(emailFilterFieldPlaceholder, "Search by Email", "E.g: alex@example.com",
                 filterDetails.getEmailKeywords(), FilterDetails::setEmailKeywords);
 
-        bindField(studentIdFilterFieldPlaceholder, "Search by Student ID", "E.g: A1234567X",
+        bindTextField(studentIdFilterFieldPlaceholder, "Search by Student ID", "E.g: A1234567X",
                 filterDetails.getStudentIdKeywords(), FilterDetails::setStudentIdKeywords);
 
-        bindField(roomNumberFilterFieldPlaceholder, "Search by Room Number", "E.g: 12A or 12",
+        bindTextField(roomNumberFilterFieldPlaceholder, "Search by Room Number", "E.g: 12A or 12",
                 filterDetails.getRoomNumberKeywords(), FilterDetails::setRoomNumberKeywords);
 
-        bindField(majorFilterFieldPlaceholder, "Search by Major", "E.g: Computer Science",
+        bindTextField(majorFilterFieldPlaceholder, "Search by Major", "E.g: Computer Science",
                 filterDetails.getTagMajorKeywords(), FilterDetails::setTagMajorKeywords);
 
-        bindField(emergencyContactFilterFieldPlaceholder, "Search by Emergency Contact", "E.g: +65 98765432",
+        bindTextField(emergencyContactFilterFieldPlaceholder, "Search by Emergency Contact", "E.g: +65 98765432",
                 filterDetails.getEmergencyContactKeywords(), FilterDetails::setEmergencyContactKeywords);
 
-        bindField(yearFilterFieldPlaceholder, "Search by Year", "E.g: Y1",
+        bindComboBoxField(yearFilterFieldPlaceholder, "Search by Year", "E.g: 1",
+                List.of("1", "2", "3", "4", "5", "6"),
                 filterDetails.getTagYearKeywords(), FilterDetails::setTagYearKeywords);
 
-        bindField(genderFilterFieldPlaceholder, "Search by Gender (exact)", "E.g: Female",
+        bindComboBoxField(genderFilterFieldPlaceholder, "Search by Gender", "E.g: he/him",
+                List.of("he/him", "she/her", "they/them"),
                 filterDetails.getTagGenderKeywords(), FilterDetails::setTagGenderKeywords);
     }
 
     /**
-     * Binds a Filter Panel field to the keywords it is supposed to display
+     * Binds a Filter Panel text field to the keywords it is supposed to display
      *
      * <p>When users edit tags in the field, this method sets the {@link ReadOnlyFilterDetails} via
      * {@link #applyKeywordsAndExecuteFilter(KeywordSetter, ObservableSet, Set)}.
      *
      * <p>When {@code sourceKeywords} are changes from logic or model, the field UI is updated through a listener
      *
-     * @param placeholder   target UI container
-     * @param title         section label
-     * @param promptText    placeholder text
+     * @param placeholder    target UI container
+     * @param title          section label
+     * @param promptText     placeholder text
      * @param sourceKeywords observable keyword set from {@link ReadOnlyFilterDetails} for this field.
-     * @param keywordSetter setter that writes updated keywords.
+     * @param keywordSetter  setter that writes updated keywords.
      */
-    private void bindField(StackPane placeholder, String title, String promptText,
-                           ObservableSet<String> sourceKeywords, KeywordSetter keywordSetter) {
+    private void bindTextField(StackPane placeholder,
+                               String title,
+                               String promptText,
+                               ObservableSet<String> sourceKeywords,
+                               KeywordSetter keywordSetter) {
         FilterPanelField field = new FilterPanelField(
                 title,
                 promptText,
@@ -109,6 +115,39 @@ public class FilterPanel extends UiPart<Region> {
                         sourceKeywords,
                         new LinkedHashSet<>(keywords)));
 
+        // Initialize the field with the current keywords from the source
+        field.setKeywords(List.copyOf(sourceKeywords));
+        placeholder.getChildren().setAll(field.getRoot());
+
+        // Listen for changes in the source keyword set and update the field UI accordingly
+        sourceKeywords.addListener((SetChangeListener<? super String>) ignoredChange ->
+                field.setKeywords(List.copyOf(sourceKeywords)));
+    }
+
+    /**
+     * Binds a combo-box based filter field to the keywords it is supposed to display.
+     *
+     * <p>When users edit tags in the field, this method sets the {@link ReadOnlyFilterDetails} via
+     * {@link #applyKeywordsAndExecuteFilter(KeywordSetter, ObservableSet, Set)}.
+     *
+     */
+    private void bindComboBoxField(StackPane placeholder,
+                                   String title,
+                                   String promptText,
+                                   List<String> options,
+                                   ObservableSet<String> sourceKeywords,
+                                   KeywordSetter keywordSetter) {
+        FilterPanelComboBox field = new FilterPanelComboBox(
+                title,
+                promptText,
+                options,
+                // When the field updates, apply the change and execute filtering with the new keywords
+                keywords -> applyKeywordsAndExecuteFilter(
+                        keywordSetter,
+                        sourceKeywords,
+                        new LinkedHashSet<>(keywords)));
+
+        // Initialize the field with the current keywords from the source
         field.setKeywords(List.copyOf(sourceKeywords));
         placeholder.getChildren().setAll(field.getRoot());
 
