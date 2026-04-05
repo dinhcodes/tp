@@ -131,6 +131,12 @@ public abstract class AbstractFilterPanelInput extends UiPart<Region> {
         keywordsFlowPane.getChildren().clear();
         currentKeywords.forEach(keyword -> keywordsFlowPane.getChildren()
                 .add(new FilterPanelTag(keyword, this::handleDeleteTag).getRoot()));
+
+        // If there are no keywords left after validation, clear the input control to reset the UI state.
+        // This is necessary to reset the prompt text in FilterPanelComboBox.
+        if (currentKeywords.isEmpty()) {
+            clearInputControl();
+        }
     }
 
     /**

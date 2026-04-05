@@ -32,12 +32,6 @@ public class FilterPanelComboBox extends AbstractFilterPanelInput {
 
         keywordComboBox.setPromptText(promptText);
         keywordComboBox.getItems().setAll(choices);
-
-        // If there are no choices, disable the combo box and clear any existing selection so that the prompt text
-        // is shown instead of stale data
-        if (choices.isEmpty()) {
-            clearInputControl();
-        }
     }
 
     @FXML
