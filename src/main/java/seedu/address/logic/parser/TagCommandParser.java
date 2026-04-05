@@ -43,13 +43,9 @@ public class TagCommandParser implements Parser<TagCommand> {
      */
     public TagCommand parse(String args) throws ParseException {
         requireNonNull(args);
-        ParserUtil.checkForUnknownPrefixes(args, MESSAGE_USAGE, PREFIX_STUDENT_ID,
-                CliSyntax.PREFIX_TAG_GENDER,
-                CliSyntax.PREFIX_TAG_MAJOR,
-                CliSyntax.PREFIX_TAG_YEAR);
+        ParserUtil.checkForUnknownPrefixes(args, MESSAGE_USAGE, ALL_PREFIXES);
 
         ArgumentMultimap argumentMultimap = ArgumentTokenizer.tokenize(args, ALL_PREFIXES);
-
         argumentMultimap.verifyNoDuplicatePrefixesFor(ALL_PREFIXES);
 
         if (argumentMultimap.getValue(PREFIX_STUDENT_ID).isEmpty() || !argumentMultimap.getPreamble().isEmpty()) {
@@ -71,6 +67,7 @@ public class TagCommandParser implements Parser<TagCommand> {
      */
     private Map<TagType, Tag> parseTags(ArgumentMultimap argumentMultimap) throws ParseException {
         Map<TagType, Tag> tags = new HashMap<>();
+
         try {
             argumentMultimap.getValue(CliSyntax.PREFIX_TAG_GENDER)
                     .ifPresent(gender -> tags.put(TagType.GENDER, new Tag(TagType.GENDER, gender)));

@@ -145,7 +145,7 @@ public class ParserUtil {
             throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
         }
 
-        return new Tag(type, trimmedTag); // uses the simple constructor
+        return new Tag(type, trimmedTag);
     }
 
     /**

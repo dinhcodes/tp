@@ -53,9 +53,7 @@ public class TagCommand extends Command {
         requireNonNull(studentId);
         requireNonNull(tags);
 
-        if (tags.isEmpty()) {
-            throw new IllegalArgumentException(MESSAGE_TAG_NOT_ADDED);
-        }
+        assert !tags.isEmpty() : "Tags should not be empty (should be caught by parser)";
 
         this.targetStudentId = studentId;
         this.tags = tags;
@@ -66,7 +64,6 @@ public class TagCommand extends Command {
         requireNonNull(model);
 
         Person personToTag = getPersonByStudentIdOrThrow(model, targetStudentId);
-
         Person taggedPerson = createTaggedPerson(personToTag, tags);
 
         model.setPerson(personToTag, taggedPerson);
