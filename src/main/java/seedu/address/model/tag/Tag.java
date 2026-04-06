@@ -20,7 +20,7 @@ public class Tag {
             + "\nGender tags can be: she/her, he/him or they/them"
             + "\nYear tags should be a positive integer between 1 and 6 inclusive.";
 
-    public final String tagName;
+    public final String tagContent;
     public final TagType tagType;
 
     /**
@@ -35,7 +35,7 @@ public class Tag {
 
         checkArgument(isValidTagContent(tagContent, tagType), MESSAGE_CONSTRAINTS);
 
-        this.tagName = getNormalisedTagContent(tagContent, tagType);
+        this.tagContent = tagContent;
         this.tagType = tagType;
     }
 
@@ -50,19 +50,11 @@ public class Tag {
      */
     public static boolean isValidTagContent(String test, TagType type) {
         requireNonNull(type);
-        return type.isValidTagContent(getNormalisedTagContent(test, type));
+        return type.isValidTagContent(test);
     }
 
-    /**
-     * Returns the normalised form of the given {@link String} for the specified {@link TagType}.
-     */
-    public static String getNormalisedTagContent(String test, TagType type) {
-        // check for gender as it is the only case-insensitive tag type
-        return type == TagType.GENDER ? test.toLowerCase() : test;
-    }
-
-    public String getTagName() {
-        return tagName;
+    public String getTagContent() {
+        return tagContent;
     }
 
     public TagType getTagType() {
@@ -77,17 +69,17 @@ public class Tag {
         if (!(other instanceof Tag otherTag)) {
             return false;
         }
-        return tagType == otherTag.tagType && tagName.equals(otherTag.tagName);
+        return tagType == otherTag.tagType && tagContent.equals(otherTag.tagContent);
     }
 
     @Override
     public int hashCode() {
-        return tagName.hashCode();
+        return tagContent.hashCode();
     }
 
     @Override
     public String toString() {
-        return '[' + tagName + ']';
+        return '[' + tagContent + ']';
     }
 
 }

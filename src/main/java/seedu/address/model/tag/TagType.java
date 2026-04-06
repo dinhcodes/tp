@@ -1,5 +1,8 @@
 package seedu.address.model.tag;
 
+import java.util.List;
+import java.util.Optional;
+
 /**
  * Represents the category of a {@link Tag} in the hall ledger.
  *
@@ -14,25 +17,27 @@ public enum TagType {
      * Tag representing the resident's year of study.
      * Valid content is a single digit from {@code 1} to {@code 6} inclusive.
      */
-    YEAR("^[1-6]$"),
+    YEAR(List.of("1", "2", "3", "4", "5", "6"), null),
 
     /**
      * Tag representing the resident's academic major.
      * Valid content is an alphanumeric string; internal spaces between words are permitted,
      * but leading and trailing spaces are not.
      */
-    MAJOR("[\\p{Alnum} ]*[\\p{Alnum}]+[\\p{Alnum} ]*"),
+    MAJOR(null, "[A-Za-z0-9&]+( [A-Za-z0-9&]+)*"),
 
     /**
      * Tag representing the resident's gender pronouns.
      * Valid content is one of {@code she/her}, {@code he/him}, or {@code they/them}.
      * Input is normalised to lowercase before validation — see {@link Tag#getNormalisedTagContent}.
      */
-    GENDER("^(she/her|he/him|they/them)$");
+    GENDER(List.of("she/her", "he/him", "they/them"), null);
 
+    private final List<String> allowedValues;
     private final String validationRegex;
 
-    TagType(String validationRegex) {
+    TagType(List<String> allowedValues, String validationRegex) {
+        this.allowedValues = allowedValues;
         this.validationRegex = validationRegex;
     }
 
@@ -46,6 +51,19 @@ public enum TagType {
         if (tagContent == null) {
             return true;
         }
+
+        // Case 1: Use allowed values (closed set)
+        if (allowedValues != null) {
+            return allowedValues.contains(tagContent);
+        }
+
+        // Case 2: Use regex (open set)
         return tagContent.matches(validationRegex);
+    }
+
+    public Optional<List<String>> getAllowedValues() {
+        return allowedValues == null
+                ? Optional.empty()
+                : Optional.of(List.copyOf(allowedValues)); // immutable copy
     }
 }
