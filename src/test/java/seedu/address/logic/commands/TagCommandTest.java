@@ -2,7 +2,6 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import java.util.HashMap;
@@ -180,6 +179,7 @@ public class TagCommandTest {
         CommandResult result = new TagCommand(VALID_STUDENT_ID, tags).execute(model);
 
         Person taggedPerson = model.getFilteredPersonList().get(0);
-        assertEquals(String.format(TagCommand.MESSAGE_SUCCESS, Messages.format(taggedPerson)), result.getFeedbackToUser());
+        assertEquals(String.format(TagCommand.MESSAGE_SUCCESS, Messages.format(taggedPerson)),
+                result.getFeedbackToUser());
     }
 }

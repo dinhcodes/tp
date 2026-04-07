@@ -3,10 +3,6 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_PREFIX;
 import static seedu.address.logic.commands.CommandTestUtil.STUDENTID_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.STUDENTID_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_GENDER;
-import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_MAJOR;
-import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_YEAR;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_STUDENTID_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_STUDENTID_BOB;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STUDENT_ID;
@@ -15,7 +11,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG_MAJOR;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG_YEAR;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
-import static seedu.address.testutil.TypicalPersons.BOB;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +19,6 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.TagCommand;
-import seedu.address.logic.parser.TagCommandParser;
 import seedu.address.model.person.StudentId;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.TagType;
@@ -70,9 +64,12 @@ public class TagCommandParserTest {
         expectedTags.put(TagType.GENDER, new Tag(TagType.GENDER, "she/her"));
 
         // Test various gender inputs that should normalize to "she/her"
-        assertParseSuccess(parser, " i=A1234567Y g=she", new TagCommand(new StudentId(VALID_STUDENTID_AMY), expectedTags));
-        assertParseSuccess(parser, " i=A1234567Y g=her", new TagCommand(new StudentId(VALID_STUDENTID_AMY), expectedTags));
-        assertParseSuccess(parser, " i=A1234567Y g=she/her", new TagCommand(new StudentId(VALID_STUDENTID_AMY), expectedTags));
+        assertParseSuccess(parser, " i=A1234567Y g=she",
+                new TagCommand(new StudentId(VALID_STUDENTID_AMY), expectedTags));
+        assertParseSuccess(parser, " i=A1234567Y g=her",
+                new TagCommand(new StudentId(VALID_STUDENTID_AMY), expectedTags));
+        assertParseSuccess(parser, " i=A1234567Y g=she/her",
+                new TagCommand(new StudentId(VALID_STUDENTID_AMY), expectedTags));
     }
 
     @Test
