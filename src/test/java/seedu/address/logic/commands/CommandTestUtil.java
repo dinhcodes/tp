@@ -8,6 +8,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ROOM_NUMBER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STUDENT_ID;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG_GENDER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG_MAJOR;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG_YEAR;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -45,6 +46,7 @@ public class CommandTestUtil {
     public static final String VALID_EMERGENCY_CONTACT_BOB = "+65 98765432";
     public static final Object[] VALID_TAG_MAJOR = {TagType.MAJOR, "CS"};
     public static final Object[] VALID_TAG_YEAR = {TagType.YEAR, "1"};
+    public static final Object[] VALID_TAG_GENDER = {TagType.GENDER, "he/him"};
     public static final String VALID_REMARK = "Allergic to peanuts";
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
@@ -63,6 +65,7 @@ public class CommandTestUtil {
             + VALID_EMERGENCY_CONTACT_BOB;
     public static final String TAG_DESC_YEAR = " " + PREFIX_TAG_YEAR + VALID_TAG_YEAR;
     public static final String TAG_DESC_MAJOR = " " + PREFIX_TAG_MAJOR + VALID_TAG_MAJOR[1];
+    public static final String TAG_DESC_GENDER = " " + PREFIX_TAG_GENDER + VALID_TAG_GENDER[1];
 
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
