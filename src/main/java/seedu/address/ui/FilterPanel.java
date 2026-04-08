@@ -12,17 +12,37 @@ import javafx.scene.layout.StackPane;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.FilterDetails;
 import seedu.address.model.ReadOnlyFilterDetails;
+import seedu.address.model.tag.TagType;
 import seedu.address.ui.executors.FilterExecutor;
 import seedu.address.ui.filter.FilterPanelComboBox;
 import seedu.address.ui.filter.FilterPanelField;
 import seedu.address.ui.filter.KeywordSetter;
 
 /**
- * Panel containing the list of filtering and sorting options.
+ * Panel containing the list of filtering options.
+ *
+ * <p>This class does two main jobs:
+ * <ul>
+ *   <li>It creates the small reusable filter inputs (text fields / combo boxes).</li>
+ *   <li>It keeps those inputs in sync with the current {@link ReadOnlyFilterDetails}.</li>
+ * </ul>
+ *
+ * <p><b>What happens when the user edits a filter:</b>
+ * <ol>
+ *   <li>The user adds/removes a keyword in a filter input.</li>
+ *   <li>The input calls back into this panel with the new keyword list.</li>
+ *   <li>We build a new {@link FilterDetails} (a copy of the current one), update the relevant field,
+ *       then ask {@link FilterExecutor} to apply the filter.</li>
+ *   <li>If applying the filter fails (throws {@link CommandException}), we keep showing the last accepted keywords.</li>
+ * </ol>
+ *
+ * <p><b>What happens when filters change elsewhere </b> If filters are updated by non-GUI
+ * action(e.g. CLI find commands), we listen to the {@link ObservableSet}s and refresh the UI so it stays up-to-date.
  */
 public class FilterPanel extends UiPart<Region> {
     private static final String FXML = "FilterPanel.fxml";
     private final ReadOnlyFilterDetails filterDetails;
+    // The callback used to execute filtering when there are changes from the GUI (e.g. user edits keywords in a field)
     private final FilterExecutor filterExecutor;
 
     @FXML
@@ -46,6 +66,9 @@ public class FilterPanel extends UiPart<Region> {
 
     /**
      * Creates a {@code FilterPanel} with the given {@code ReadOnlyFilterDetails}.
+     *
+     * @param filterDetails source-of-truth keyword sets to display
+     * @param filterExecutor callback used to apply filtering when the user edits keywords in the GUI
      */
     public FilterPanel(ReadOnlyFilterDetails filterDetails, FilterExecutor filterExecutor) {
         super(FXML);
@@ -56,6 +79,16 @@ public class FilterPanel extends UiPart<Region> {
 
     /**
      * Fills inner placeholders with reusable field components.
+     *
+     * <p>This sets up each filter field and connects it to:
+     * <ul>
+     *   <li>an {@link ObservableSet} in {@link ReadOnlyFilterDetails} (so the UI can refresh when filters change), and</li>
+     *   <li>a {@link KeywordSetter} (so we can call this function to write the edited keywords into a new
+     *   {@link FilterDetails} snapshot).</li>
+     * </ul>
+     *
+     * <p><b>Example:</b> For "Search by Name", we pass {@code FilterDetails::setNameKeywords} so that when the user
+     * edits the name keywords, the filter input field knows which part of {@link FilterDetails} to update.
      */
     private void fillInnerParts() {
         bindTextField(nameFilterFieldPlaceholder, "Search by Name", "E.g: Alex",
@@ -89,18 +122,22 @@ public class FilterPanel extends UiPart<Region> {
     }
 
     /**
-     * Binds a Filter Panel text field to the keywords it is supposed to display
+     * Creates and binds a keyword field to an observable keyword source.
      *
-     * <p>When users edit tags in the field, this method sets the {@link ReadOnlyFilterDetails} via
-     * {@link #applyKeywordsAndExecuteFilter(KeywordSetter, ObservableSet, Set)}.
+     * <p><b>When the user edits keywords:</b>
+     * <ol>
+     *   <li>The field calls the {@code keywordsSetter} callback with the edited keyword list.</li>
+     *   <li>We try to apply those keywords and run filtering.</li>
+     *   <li>If something goes wrong, we return the old keywords.</li>
+     * </ol>
      *
-     * <p>When {@code sourceKeywords} are changes from logic or model, the field UI is updated through a listener
+     * <p><b>When keywords change externally:</b> We listen to {@code sourceKeywords} and re-render the field.
      *
      * @param placeholder    target UI container
      * @param title          section label
      * @param promptText     placeholder text
-     * @param sourceKeywords observable keyword set from {@link ReadOnlyFilterDetails} for this field.
-     * @param keywordSetter  setter that writes updated keywords.
+     * @param sourceKeywords observable keyword set from {@link ReadOnlyFilterDetails} for this field
+     * @param keywordSetter  setter that writes updated keywords
      */
     private void bindTextField(StackPane placeholder,
                                String title,
@@ -110,7 +147,7 @@ public class FilterPanel extends UiPart<Region> {
         FilterPanelField field = new FilterPanelField(
                 title,
                 promptText,
-                // When the field updates, apply the change and execute filtering with the new keywords
+                // Callback: the field updates, apply the change and execute filtering with the new keywords
                 keywords -> applyKeywordsAndExecuteFilter(
                         keywordSetter,
                         sourceKeywords,
@@ -128,9 +165,16 @@ public class FilterPanel extends UiPart<Region> {
     /**
      * Binds a combo-box based filter field to the keywords it is supposed to display.
      *
-     * <p>When users edit tags in the field, this method sets the {@link ReadOnlyFilterDetails} via
-     * {@link #applyKeywordsAndExecuteFilter(KeywordSetter, ObservableSet, Set)}.
+     * <p>This is the combo-box version of {@link #bindTextField(StackPane, String, String, ObservableSet, KeywordSetter)}.
+     * The idea is the same: the user picks values, we attempt to apply them, and the UI stays in sync with
+     * {@code sourceKeywords}.
      *
+     * @param placeholder target UI container to populate with the field
+     * @param title section label
+     * @param promptText placeholder text displayed in the input control
+     * @param options allowed options shown in the combo-box dropdown
+     * @param sourceKeywords observable keyword set from {@link ReadOnlyFilterDetails} for this field
+     * @param keywordSetter setter for writing updated keywords into a {@link FilterDetails} snapshot
      */
     private void bindComboBoxField(StackPane placeholder,
                                    String title,
@@ -142,27 +186,40 @@ public class FilterPanel extends UiPart<Region> {
                 title,
                 promptText,
                 options,
-                // When the field updates, apply the change and execute filtering with the new keywords
+                // Callback: When the field updates, apply the change and execute filtering with the new keywords
                 keywords -> applyKeywordsAndExecuteFilter(
                         keywordSetter,
                         sourceKeywords,
                         new LinkedHashSet<>(keywords)));
 
-        // Initialize the field with the current keywords from the source
+        // Initialize the field with the current keywords
         field.setKeywords(List.copyOf(sourceKeywords));
         placeholder.getChildren().setAll(field.getRoot());
 
-        // Listen for changes in the source keyword set and update the field UI accordingly
+        // If keywords change externally (from CLI commands or other logic-triggered updates), re-set the field to
+        // reflect the new state.
         sourceKeywords.addListener((SetChangeListener<? super String>) ignoredChange ->
                 field.setKeywords(List.copyOf(sourceKeywords)));
     }
 
     /**
-     * Applies one field type update to a fresh {@link FilterDetails} copy then executes filtering.
+     * Attempts to apply a single field's keyword update and execute filtering.
      *
-     * @param keywordSetter   method that sets old Filter Details keywords to new ones
-     * @param updatedKeywords updated keywords from UI
+     * <p>Think of this as: "user edited a field -> try applying it".
      *
+     * <p><b>Process:</b>
+     * <ol>
+     *   <li>Create a fresh {@link FilterDetails} snapshot copied from the current
+     *       {@link ReadOnlyFilterDetails}.</li>
+     *   <li>Apply the updated keyword set to that snapshot via {@code keywordSetter}.</li>
+     *   <li>Execute filtering via {@link FilterExecutor}.</li>
+     *   <li>If execution fails, return {@code sourceKeywords} (the last accepted keywords) so the UI can revert.</li>
+     * </ol>
+     *
+     * @param keywordSetter method that sets the specified keyword field within a {@link FilterDetails}
+     * @param sourceKeywords the last accepted keywords
+     * @param updatedKeywords updated keywords proposed by the UI for this field
+     * @return the keywords that should be displayed by the UI after validation/execution
      */
     private List<String> applyKeywordsAndExecuteFilter(
             KeywordSetter keywordSetter,
@@ -174,7 +231,8 @@ public class FilterPanel extends UiPart<Region> {
         try {
             filterExecutor.executeFilter(newFilterDetails);
         } catch (CommandException e) {
-            // Rebuild UI from last accepted values.
+            // If there is a problem with the proposed keywords (e.g. invalid format, logic error), keep the
+            // old keywords.
             return List.copyOf(sourceKeywords);
         }
 
