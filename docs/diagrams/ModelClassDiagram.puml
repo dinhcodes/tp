@@ -51,6 +51,7 @@ Person *--> "1" RoomNumber
 Person *--> "1" EmergencyContact
 Person *--> "0..1" Remark
 Person *--> "0..3" Tag
+Person *--> "*" DemeritIncident
 Tag --> TagType
 
 Person -[hidden]up--> I
@@ -60,6 +61,11 @@ Name -[hidden]right-> StudentId
 StudentId -[hidden]right-> Phone
 Phone -[hidden]right-> Email
 Email -[hidden]right-> RoomNumber
+RoomNumber -[hidden]right-> EmergencyContact
+
+EmergencyContact -[hidden]down-> Remark
+Remark -[hidden]right-> Tag
+Tag -[hidden]right-> DemeritIncident
 
 ModelManager --> "~* filtered" Person
 @enduml
