@@ -23,6 +23,7 @@ public class DashboardTab extends UiPart<Region> {
     @FXML private Label maleCountLabel;
     @FXML private Label femaleCountLabel;
     @FXML private Label otherCountLabel;
+    @FXML private Label unknownCountLabel;
 
     @FXML private Label y1CountLabel;
     @FXML private Label y2CountLabel;
@@ -55,11 +56,13 @@ public class DashboardTab extends UiPart<Region> {
         long male = countByTag(list, MALE_PRONOUN);
         long female = countByTag(list, FEMALE_PRONOUN);
         long other = countByTag(list, OTHER_PRONOUN);
+        long unknown = totalCount - male - female - other;
 
         totalCountLabel.setText(String.valueOf(totalCount));
         maleCountLabel.setText(String.valueOf(male));
         femaleCountLabel.setText(String.valueOf(female));
         otherCountLabel.setText(String.valueOf(other));
+        unknownCountLabel.setText(String.valueOf(unknown));
 
         // --- Year groups via tags ---
         for (int i = 0; i < yearLabels.length; i++) {
