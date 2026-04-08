@@ -15,51 +15,33 @@
    1.1. [Installation Guide](installation-guide)  
    1.2. [Introduction to the Interface](introduction-to-the-interface)  
    1.3. [Brief Walkthrough](brief-walkthrough)
-
 2. [General Command Format](general-command-format)
-
 3. [Adding a Resident](#3-adding-a-resident)
-
 4. [Editing a Resident](#4-editing-a-resident)
-
 5. [Viewing and Finding Residents](#5-viewing-and-retrieving-data)  
    5.1. [Listing All Residents](#51-listing-all-residents)  
    5.2. [Finding Residents](#52-searching-residents)  
    &nbsp;&nbsp;&nbsp;&nbsp;5.2.1. [Using the Command Line](#521-using-the-command-line)  
    &nbsp;&nbsp;&nbsp;&nbsp;5.2.2. [Using the User Interface](#522-using-the-user-interface)
-
 6. [Tagging a Resident](#6-tagging-a-resident)  
    6.1. [Adding or Editing Tags](#61-adding-or-editing-tags)  
    6.2. [Clearing Tags](#62-clearing-tags)
-
 7. [Adding a Remark to a Resident](#7-adding-a-remark-to-a-resident)  
    7.1. [Adding or Editing a Remark](#71-adding-or-editing-a-remark)  
    7.2. [Clearing a Remark](#72-clearing-a-remark)
-
 8. [Adding a Demerit Record to a Resident](#8-adding-a-demerit-record-to-a-resident)  
    8.1. [Listing Demerit Rules](#81-listing-demerit-rules)  
    8.2. [Adding a Demerit Record](#82-adding-a-demerit-record)
-
 9. [Deleting a Resident](#9-deleting-a-resident)
-
-10. [Clearing All Residenrs](#10-clearing-all-entries)
-
+10. [Clearing All Residents](#10-clearing-all-entries)
 11. [Viewing Help](#11-viewing-help)
-
 12. [Exiting the Program](#12-exiting-the-program)
-
 13. [Saving the Data](#13-saving-the-data)
-
 14. [Editing the Data File](#14-editing-the-data-file)
-
 15. [Prefix Table](#15-prefix-table)
-
 16. [Format Errors](#16-format-errors)
-
 17. [FAQ](#17-faq)
-
 18. [Known Issues](#18-known-issues)
-
 19. [Command Summary](#19-command-summary)
 
 ---
@@ -302,22 +284,29 @@ If the command format is invalid, HallLedger will show an error message instead 
 
 ![Delete confirmation dialog](images/deleteConfirmation.png)
 
-### Clearing all entries : `clear`
+### Clearing all residents : `clear`
 
-Clears all entries from the address book.
+Clears all residents from HallLedger all at once.
 
-Format: `clear`
+Command: `clear`
+
+<box type="warning" seamless>
+
+**Caution:**
+This action **permanently deletes all resident data**. We recommend creating a backup of your data file before running this command. Once cleared, the **deletion cannot be undone**.
+
 
 ### Exiting the program : `exit`
 
 Exits the program.
 
-Format: `exit`
+Command: `exit`
 
 ### Saving the data
 
-HallLedger data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+HallLedger automatically saves your data on your device whenever you make changes. There is no need to manually save your work.
 
+When you exit the program and open it again later, all your data will still be available.
 ### Editing the data file
 
 HallLedger data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
@@ -329,6 +318,8 @@ If your changes to the data file make its format invalid, HallLedger will discar
 Furthermore, certain edits can cause HallLedger to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 
 </box>
+
+For more details on editing the JSON file, please refer to our [Developer Guide](DeveloperGuide.md)
 
 ### Archiving data files `[coming in v2.0]`
 
