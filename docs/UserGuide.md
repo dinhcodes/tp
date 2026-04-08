@@ -26,8 +26,8 @@
 6. [Tagging a Resident](#6-tagging-a-resident)
    6.1. [Adding or Editing Tags](#61-adding-or-editing-tags)
    6.2. [Clearing Tags](#62-clearing-tags)
-7. [Adding a Remark to a Resident](#7-adding-a-remark-remark)  
-   7.1. [Adding or Editing a Remark](#71-adding-or-editing-a-remark)  
+7. [Adding a Remark to a Resident](#7-adding-a-remark-remark)
+   7.1. [Adding or Editing a Remark](#71-adding-or-editing-a-remark)
    7.2. [Clearing a Remark](#72-clearing-a-remark)
 8. [Adding a Demerit Record to a Resident](#8-adding-a-demerit-record-to-a-resident)
    8.1. [Listing Demerit Rules](#81-listing-demerit-rules)
@@ -129,7 +129,7 @@ Examples:
 * `add n=Betsy Crowe i=A202020Y e=betsycrowe@example.com p=+65 1234567 r=14L ec=+6512345678`
 
 > ___NOTE___
-> 
+>
 > A newly added person will not have any tags
 
 ### Listing all persons : `list`
@@ -179,7 +179,7 @@ right of the screen.
 Format: `list`
 
 <box type="info">
-**Tip**: You may use the `list` command to reset the resident list after performing a search with the `find` command or 
+**Tip**: You may use the `list` command to reset the resident list after performing a search with the `find` command or
 after using the Filter panel. This will allow you to see all residents again.
 </box>
 
@@ -259,12 +259,12 @@ Entering a command in the command box will reset the Filter panel.
 ### 7. Adding a remark: `remark`
 
 Remarks are **optional short notes** that can be added to a resident’s profile.
-They can be used to store important information about the resident that does not fit into the other fields, such as allergies, medical conditions, or other special notes. 
+They can be used to store important information about the resident that does not fit into the other fields, such as allergies, medical conditions, or other special notes.
 
 **Command:** `remark`
 
 #### 7.1 Adding or Editing a Remark
- 
+
 **Usage:** `remark i=STUDENT_ID rm=REMARK`
 
 - If a remark already exists for the resident, it will be **overwritten** by the new remark.
@@ -277,7 +277,7 @@ Example usages:
 ---
 
 #### 7.2 Clearing a Remark
- 
+
 **Usage:** `remark i=STUDENT_ID rm=`
 
 - Providing an empty `rm=` field clears the existing remark for the specified resident.
@@ -381,13 +381,13 @@ For more details on editing the JSON file, please refer to our [Developer Guide]
 
 ## FAQ
 
-**Q**: How do I transfer my data to another Computer?  
+**Q**: How do I transfer my data to another Computer?
 **A**: Install the app on the other computer and overwrite the empty data file it creates with the file that contains the data of your previous HallLedger home folder.
 
-**Q**: Can I edit the data file manually?  
+**Q**: Can I edit the data file manually?
 **A**: Yes. HallLedger stores data locally in a human-editable text file. However, manual edits should be done carefully, because invalid edits may prevent HallLedger from loading the data correctly.
 
-**Q**: How do I go back to seeing the list of all residents after running `find`?  
+**Q**: How do I go back to seeing the list of all residents after running `find`?
 **A**: Run the `list` command to see the full list of residents again.
 
 --------------------------------------------------------------------------------------------------------------------
