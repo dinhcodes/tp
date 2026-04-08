@@ -9,5 +9,5 @@ import seedu.address.model.FilterDetails;
  */
 @FunctionalInterface
 public interface FilterExecutor {
-    CommandResult execute(FilterDetails filterDetails) throws CommandException;
+    CommandResult executeFilter(FilterDetails filterDetails) throws CommandException;
 }
