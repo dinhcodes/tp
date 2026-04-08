@@ -20,14 +20,13 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
-import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.logic.parser.AddressBookParser;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.FilterDetails;
 
 /**
- * The main application window containing the primary UI regions of HallLedger.
+ * The Main Window. Provides the basic application layout containing a menu bar and space where other JavaFX elements
+ * can be placed.
  */
 public class MainWindow extends UiPart<Stage> {
 
@@ -64,7 +63,7 @@ public class MainWindow extends UiPart<Stage> {
      * Creates a {@code MainWindow} with the given stage and logic component.
      *
      * @param primaryStage primary stage of the application
-     * @param logic logic component used to execute commands and retrieve state
+     * @param logic        logic component used to execute commands and retrieve state
      */
     public MainWindow(Stage primaryStage, Logic logic) {
         super(FXML, primaryStage);
@@ -133,7 +132,7 @@ public class MainWindow extends UiPart<Stage> {
      * Sets the accelerator of a menu item and ensures it still works
      * when focus is inside a text input control.
      *
-     * @param menuItem menu item receiving the accelerator
+     * @param menuItem       menu item receiving the accelerator
      * @param keyCombination accelerator key combination
      */
     private void setAccelerator(MenuItem menuItem, KeyCombination keyCombination) {
@@ -225,19 +224,15 @@ public class MainWindow extends UiPart<Stage> {
      * @param commandText raw command entered by the user
      * @return the result of executing the command
      * @throws CommandException if command execution fails
-     * @throws ParseException if command parsing fails
+     * @throws ParseException   if command parsing fails
      */
     private CommandResult executeCommand(String commandText) throws CommandException, ParseException {
         try {
-            Optional<DeleteCommand> deleteCommand = parseDeleteCommand(commandText);
-
-            if (deleteCommand.isPresent() && deleteTargetExists(deleteCommand.get())) {
-                if (!showDeleteConfirmationDialog()) {
-                    CommandResult cancelResult = new CommandResult(MESSAGE_DELETE_CANCELLED);
-                    logger.info("Result: " + cancelResult.getFeedbackToUser());
-                    resultDisplay.setFeedbackToUser(cancelResult.getFeedbackToUser());
-                    return cancelResult;
-                }
+            if (logic.requiresDeleteConfirmation(commandText) && !showDeleteConfirmationDialog()) {
+                CommandResult cancelResult = new CommandResult(MESSAGE_DELETE_CANCELLED);
+                logger.info("Result: " + cancelResult.getFeedbackToUser());
+                resultDisplay.setFeedbackToUser(cancelResult.getFeedbackToUser());
+                return cancelResult;
             }
 
             CommandResult commandResult = logic.execute(commandText);
@@ -258,34 +253,6 @@ public class MainWindow extends UiPart<Stage> {
             resultDisplay.setFeedbackToUser(e.getMessage());
             throw e;
         }
-    }
-
-    /**
-     * Returns the parsed {@code DeleteCommand} if the given command text is a valid delete command.
-     *
-     * @param commandText raw command entered by the user
-     * @return the parsed delete command, or an empty optional if parsing fails or the command is not delete
-     */
-    private Optional<DeleteCommand> parseDeleteCommand(String commandText) {
-        try {
-            if (new AddressBookParser().parseCommand(commandText) instanceof DeleteCommand deleteCommand) {
-                return Optional.of(deleteCommand);
-            }
-            return Optional.empty();
-        } catch (ParseException e) {
-            return Optional.empty();
-        }
-    }
-
-    /**
-     * Returns whether the given delete command targets an existing resident.
-     *
-     * @param deleteCommand parsed delete command
-     * @return true if the resident exists in the address book
-     */
-    private boolean deleteTargetExists(DeleteCommand deleteCommand) {
-        return logic.getAddressBook().getPersonList().stream()
-                .anyMatch(person -> person.getStudentId().equals(deleteCommand.getTargetStudentId()));
     }
 
     /**
@@ -319,8 +286,6 @@ public class MainWindow extends UiPart<Stage> {
             helpWindow.focus();
         }
     }
-
-    // =============================== Executing Commands  ================================
 
     /**
      * Saves the current GUI settings and closes the application.

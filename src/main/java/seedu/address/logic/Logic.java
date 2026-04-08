@@ -20,6 +20,7 @@ public interface Logic {
     // ============= Command Executors =========================================================
     /**
      * Executes the command and returns the result.
+     *
      * @param commandText The command as entered by the user.
      * @return the result of the command execution.
      * @throws CommandException If an error occurs during command execution.
@@ -36,6 +37,11 @@ public interface Logic {
      */
     CommandResult executeFilter(FilterDetails filterDetails) throws CommandException;
 
+    /**
+     * Returns true if the given command is a valid delete command targeting an existing resident,
+     * and therefore should trigger a delete confirmation dialog.
+     */
+    boolean requiresDeleteConfirmation(String commandText);
 
     /**
      * Returns the AddressBook.

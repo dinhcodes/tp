@@ -11,6 +11,7 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.AddressBookParser;
@@ -52,17 +53,16 @@ public class LogicManager implements Logic {
      * Executes the command and returns the result.
      *
      * @param commandText The command as entered by the user.
-     * @return
+     * @return the result of the command execution.
      * @throws CommandException if an error occurs during command execution.
-     * @throws ParseException   if an error occurs during parsing the command.
+     * @throws ParseException if an error occurs during parsing the command.
      */
     @Override
     public CommandResult execute(String commandText) throws CommandException, ParseException {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
-        CommandResult commandResult;
         Command command = addressBookParser.parseCommand(commandText);
-        commandResult = command.execute(model);
+        CommandResult commandResult = command.execute(model);
 
         try {
             storage.saveAddressBook(model.getAddressBook());
@@ -75,7 +75,6 @@ public class LogicManager implements Logic {
         return commandResult;
     }
 
-
     /**
      * Executes the filter command and returns the result. Calls on {@code FindCommand} to perform the filtering based
      * on the {@link FilterDetails} called.
@@ -86,7 +85,7 @@ public class LogicManager implements Logic {
      */
     @Override
     public CommandResult executeFilter(FilterDetails filterDetails) throws CommandException {
-        assert(filterDetails != null);
+        assert (filterDetails != null);
 
         try {
             filterDetails.validateKeywordLimits();
@@ -96,8 +95,26 @@ public class LogicManager implements Logic {
 
         logger.info("----------------[FILTER DETAILS FROM UI] " + filterDetails);
         Command command = new FindCommand(filterDetails);
-        CommandResult commandResult = command.execute(model);
-        return commandResult;
+        return command.execute(model);
+    }
+
+    /**
+     * Returns true if the given command is a valid delete command targeting an existing resident,
+     * and therefore should trigger a delete confirmation dialog.
+     */
+    @Override
+    public boolean requiresDeleteConfirmation(String commandText) {
+        try {
+            Command command = addressBookParser.parseCommand(commandText);
+            if (!(command instanceof DeleteCommand deleteCommand)) {
+                return false;
+            }
+
+            return model.getAddressBook().getPersonList().stream()
+                    .anyMatch(person -> person.getStudentId().equals(deleteCommand.getTargetStudentId()));
+        } catch (ParseException e) {
+            return false;
+        }
     }
 
     @Override
@@ -139,5 +156,4 @@ public class LogicManager implements Logic {
     public void setSelectedPerson(Person person) {
         model.setSelectedPerson(person);
     }
-
 }
