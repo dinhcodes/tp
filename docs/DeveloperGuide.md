@@ -11,6 +11,8 @@ pageNav: 3
 
 --------------------------------------------------------------------------------------------------------------------
 
+<div class = section>
+
 ## **Acknowledgements**
 
 * Hall Ledger’s demerit rule catalogue is adapted from the NUS Office of Student Affairs **Demerit Point Structure (DPS)
@@ -19,13 +21,22 @@ pageNav: 3
 * dinhcodes has used co-pilot complete to help write some of the code in this project, as well as to answer 
   questions on architectural, class designs, and menial tasks such as creating css styles, but dinhcodes has made 
   sure to understand and review all code written by co-pilot.
+
+</div>
+
 --------------------------------------------------------------------------------------------------------------------
+
+<div class = section>
 
 ## **Setting up, getting started**
 
 Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
+</div>
+
 --------------------------------------------------------------------------------------------------------------------
+
+<div class = section>
 
 ## **Design**
 
@@ -72,6 +83,8 @@ For example, the `Logic` component defines its API in the `Logic.java` interface
 
 The sections below give more details of each component.
 
+---
+
 ### UI component
 
 The **API** of this component is specified in [
@@ -97,6 +110,8 @@ The `UI` component,
 * keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
 * depends on some classes in the `Model` component, as it displays `Person` objects residing in the `Model`.
 
+---
+
 ### Logic component
 
 **API** : [
@@ -111,7 +126,7 @@ command as an example.
 
 <puml src="diagrams/DeleteSequenceDiagram.puml" width="800" alt="Interactions Inside the Logic Component for a delete command" />
 
-<box type="info" seamless>
+<box type="info">
 
 **Note:** The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
 
@@ -133,6 +148,8 @@ How the parsing works:
 
 * When called upon to parse a user command, the `AddressBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `AddressBookParser` returns back as a `Command` object.
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g., during testing.
+
+---
 
 ### Model component
 
@@ -157,6 +174,8 @@ Hall Ledger’s core domain entity is `Person`, which represents a resident. In 
 
 This keeps Hall Ledger’s domain model centered around hall-resident administration rather than a generic contact list.
 
+---
+
 ### Storage component
 
 **API** : [
@@ -173,11 +192,17 @@ The `Storage` component:
 
 This allows Hall Ledger to persist hall-administration data without coupling persistence logic to the model or UI layers.
 
+---
+
 ### Common classes
 
 Classes used by multiple components are placed in the `seedu.address.commons` package.
 
+</div>
+
 --------------------------------------------------------------------------------------------------------------------
+
+<div class = section>
 
 ## **Implementation**
 
@@ -227,6 +252,8 @@ CommandResult result = filterExecutor.executeFilter(updatedFilterDetails);
 This separation keeps responsibilities clear: UI components handle user input, while command and filter execution
 remain centralized behind injected callbacks.
 
+---
+
 ### Demerit point tracking
 
 Hall Ledger stores demerit incidents as resident-level records instead of storing only a mutable running total.
@@ -262,6 +289,8 @@ By storing incidents individually, Hall Ledger can:
 Hall Ledger currently records resident demerit incidents and computes accumulated totals. It does **not** yet 
 automatically enforce semester-based or lifetime housing sanctions tied to DPS thresholds.
 
+---
+
 ### Demerit records UI
 
 Hall Ledger provides a dedicated **Demerit Records** tab for the currently selected resident.
@@ -281,9 +310,27 @@ This design was chosen because:
 * showing only a running total would hide important context,
 * and separating demerit records into a dedicated tab keeps the interface organized.
 
+</div>
+
 --------------------------------------------------------------------------------------------------------------------
 
-## Appendix: Requirements
+<div class = section>
+
+## **Documentation, logging, testing, configuration, dev-ops**
+
+* [Documentation guide](Documentation.md)
+* [Testing guide](Testing.md)
+* [Logging guide](Logging.md)
+* [Configuration guide](Configuration.md)
+* [DevOps guide](DevOps.md)
+
+</div>
+
+--------------------------------------------------------------------------------------------------------------------
+
+<div class = section>
+
+## **Appendix: Requirements**
 
 ### Product scope
 
@@ -483,13 +530,17 @@ Use case ends.
 * **Field**: A piece of information about a resident, such as name, phone number, email, room number, tags, remark, or demerit incidents.
 * **Keyword**: A string used to search for residents in the `find` command. For example, `John` is a keyword that can be used to find residents whose names contain "John".
 
---------------------------------------------------------------------------------------------------------------------
+</div>
+
+---
+
+<div class = section>
 
 ## Appendix: Instructions for Manual Testing
 
 Given below are instructions to test the app manually.
 
-<box type="info" seamless>
+<box type="info">
 
 These instructions provide a starting point. Testers are expected to do exploratory testing beyond them.
 
@@ -586,7 +637,11 @@ These instructions provide a starting point. Testers are expected to do explorat
 4. Repeat and confirm the deletion.
    Expected: the resident is removed.
 
+</div>
+
 --------------------------------------------------------------------------------------------------------------------
+
+<div class = section>
 
 ## Appendix: Planned Enhancements
 
@@ -615,3 +670,6 @@ Team size: 5
 9. Improve documentation alignment for platform-specific behavior: Hall Ledger currently documents known issues such as dialog behavior and write-protected folders. We plan to keep refining the UG/DG wording and screenshots so platform-specific caveats remain easy to understand.
 
 10. Improve handling of very long resident remarks: Hall Ledger currently stores and displays resident remarks, but very long remarks may be less readable in some UI contexts. We plan to improve readability for unusually long remarks without changing the underlying data model.
+
+</div>
+
