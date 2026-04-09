@@ -4,7 +4,7 @@ title: "Developer Guide"
 pageNav: 3
 ---
 
-# HallLedger Developer Guide
+# Hall Ledger Developer Guide
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -13,7 +13,8 @@ pageNav: 3
 
 ## **Acknowledgements**
 
-* HallLedger’s demerit rule catalogue is adapted from the NUS Office of Student Affairs **Demerit Point Structure (DPS) for Breach of Housing Agreement**, dated 9 January 2026.
+* Hall Ledger’s demerit rule catalogue is adapted from the NUS Office of Student Affairs **Demerit Point Structure (DPS)
+  for Breach of Housing Agreement**, dated 9 January 2026.
 * This project is based on the **AddressBook-Level3 (AB3)** codebase from [se-education/addressbook-level3](https://github.com/se-edu/addressbook-level3).
 
 --------------------------------------------------------------------------------------------------------------------
@@ -210,7 +211,7 @@ remain centralized behind injected callbacks.
 
 ### Demerit point tracking
 
-HallLedger stores demerit incidents as resident-level records instead of storing only a mutable running total.
+Hall Ledger stores demerit incidents as resident-level records instead of storing only a mutable running total.
 
 Each demerit incident records:
 * the DPS rule index,
@@ -233,14 +234,15 @@ A resident may commit the same rule multiple times, and the DPS applies differen
 * how many times it has already been committed by that resident,
 * and what exact points were awarded for that occurrence.
 
-By storing incidents individually, HallLedger can:
+By storing incidents individually, Hall Ledger can:
 * reconstruct total demerit points at any time,
 * preserve a readable incident history,
 * and support future enhancements such as warnings, alerts, or administrative review.
 
 #### Current scope note
 
-HallLedger currently records resident demerit incidents and computes accumulated totals. It does **not** yet automatically enforce semester-based or lifetime housing sanctions tied to DPS thresholds.
+Hall Ledger currently records resident demerit incidents and computes accumulated totals. It does **not** yet
+automatically enforce semester-based or lifetime housing sanctions tied to DPS thresholds.
 
 ### \[Proposed\] Undo/redo feature
 
@@ -353,11 +355,18 @@ _{Explain here how the data archiving feature will be implemented}_
 
 ### Product scope
 
-HallLedger is a desktop application for Resident Assistants (RAs) and other hall administrators who need to manage resident contact records quickly and accurately. It is optimized for hall-level resident administration, where users frequently need to search, update, and maintain resident details such as student ID, room assignment, contact information, and emergency contact details.
+Hall Ledger is a desktop application for Resident Assistants (RAs) and other hall administrators who need to manage
+resident contact records quickly and accurately. It is optimized for hall-level resident administration, where users
+frequently need to search, update, and maintain resident details such as student ID, room assignment, contact
+information, and emergency contact details.
 
-Beyond basic resident record management, HallLedger is intended to support common hall-administration workflows such as tagging residents by attributes (e.g. year of study, major, gender), monitoring occupancy at the room level, tracking demerit incidents, and serving as a foundation for future hall-management features such as retention-related review and other resident administration tasks.
+Beyond basic resident record management, Hall Ledger is intended to support common hall-administration workflows such as
+tagging residents by attributes (e.g. year of study, major, gender), monitoring occupancy at the room level, tracking
+demerit incidents, and serving as a foundation for future hall-management features such as retention-related review and
+other resident administration tasks.
 
-HallLedger is not intended to replace university-wide housing allocation systems, payment systems, or institutional access-control systems. Its scope is limited to block-level or hall-level resident management and operational tracking.
+Hall Ledger is not intended to replace university-wide housing allocation systems, payment systems, or institutional
+access-control systems. Its scope is limited to block-level or hall-level resident management and operational tracking.
 
 **Target user profile:**
 * has a need to manage a significant number of resident records within a hall or block
@@ -369,7 +378,8 @@ HallLedger is not intended to replace university-wide housing allocation systems
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI-style commands
 
-**Value proposition:** HallLedger helps hall administrators manage resident records faster and with fewer errors than spreadsheets or manual lists, while providing a centralized and command-driven workflow tailored to hall operations.
+**Value proposition:** Hall Ledger helps hall administrators manage resident records faster and with fewer errors than
+spreadsheets or manual lists, while providing a centralized and command-driven workflow tailored to hall operations.
 
 ### User stories
 
@@ -399,29 +409,30 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is HallLedger and the **Actor** is the Residential Assistant (RA), unless specified otherwise)
+(For all use cases below, the **System** is Hall Ledger and the **Actor** is the Residential Assistant (RA), unless
+specified otherwise)
 
 **Use case: UC01 - Add a new student**
 
 **MSS**
 
 1. RA requests to add a new student, providing the student's details (e.g., name, phone, email, room number, tags).
-2. HallLedger adds the new student.
-3. HallLedger displays a success message with the added student's details.
+2. Hall Ledger adds the new student.
+3. Hall Ledger displays a success message with the added student's details.
 
 Use case ends.
 
 **Extensions**
 
 * 1a. RA provides an invalid format for the details (e.g., incorrect phone number format).
-  * 1a1. HallLedger shows an error message indicating the correct format.
+    * 1a1. Hall Ledger shows an error message indicating the correct format.
     Use case resumes from step 1.
 
 * 1b. A student with a provided unique identifier (Student ID, room) already exists in the system.
-    * 1b1. HallLedger detects the duplicate entry and displays an errors message. Use case ends.
+    * 1b1. Hall Ledger detects the duplicate entry and displays an errors message. Use case ends.
 
 * 1c. RA fails to provide compulsory details (name, phone, email, room number).
-  * 1c1. HallLedger shows an error message indicating the compulsory details.
+    * 1c1. Hall Ledger shows an error message indicating the compulsory details.
     Use case resumes from step 1.
 
 **Use case: UC02 - View a student's details (basic info, demerit records)**
@@ -429,16 +440,16 @@ Use case ends.
 **MSS**
 
 1. RA requests to list all students.
-2. HallLedger shows a list of students.
+2. Hall Ledger shows a list of students.
 3. RA identifies a specific student from the list.
-4. HallLedger displays the student's basic information and current demerit total in the UI.
+4. Hall Ledger displays the student's basic information and current demerit total in the UI.
 
 Use case ends.
 
 **Extensions**
 
 * 2a. The student list is empty.
-  * 2a1. HallLedger indicates that the student list is empty.
+    * 2a1. Hall Ledger indicates that the student list is empty.
     Use case ends.
 
 **Use case: UC03 - Edit a student's info**
@@ -446,19 +457,19 @@ Use case ends.
 **MSS**
 
 1. RA requests to edit specific details (e.g., phone, email, room number, tags) of a student using their student ID.
-2. HallLedger updates the student's details.
-3. HallLedger displays a success message with the updated student's details.
+2. Hall Ledger updates the student's details.
+3. Hall Ledger displays a success message with the updated student's details.
 
 Use case ends.
 
 **Extensions**
 
 * 1a. The given student ID does not exist.
-  * 1a1. HallLedger shows an error message indicating that the student was not found.
+    * 1a1. Hall Ledger shows an error message indicating that the student was not found.
     Use case ends.
 
 * 1b. RA provides an invalid format for the details to be updated.
-  * 1b1. HallLedger shows an error message indicating the correct format.
+    * 1b1. Hall Ledger shows an error message indicating the correct format.
     Use case resumes from step 1.
 
 * 1c. RA provides details that are exactly the same as the existing ones, resulting in no changes.
@@ -469,8 +480,8 @@ Use case ends.
 **MSS**
 
 1. RA requests to delete a specific student or clear all current student records.
-2. HallLedger deletes the specified student or clears all data.
-3. HallLedger displays a success message reflecting the changes.
+2. Hall Ledger deletes the specified student or clears all data.
+3. Hall Ledger displays a success message reflecting the changes.
 
 Use case ends.
 
@@ -480,7 +491,7 @@ Use case ends.
   Use case ends.
 
 * 1b. If deleting, the given student ID is invalid.
-  * 1b1. HallLedger shows an error message.
+    * 1b1. Hall Ledger shows an error message.
     Use case resumes from step 1.
 
 **Use case: UC05 - Search and filter students**
@@ -488,23 +499,23 @@ Use case ends.
 **MSS**
 
 1. RA requests to search by name or filter by specific attributes (e.g., room, year, tags).
-2. HallLedger processes the query.
-3. HallLedger shows a list of matching students.
+2. Hall Ledger processes the query.
+3. Hall Ledger shows a list of matching students.
 
 Use case ends.
 
 **Extensions**
 
 * 1a. RA provides empty keywords or invalid command format.
-  * 1a1. HallLedger shows an error message indicating how to use the specific command correctly.
+    * 1a1. Hall Ledger shows an error message indicating how to use the specific command correctly.
     Use case ends.
 
 * 1b. RA provides invalid keywords for an attribute that only accept a fixed set of values (year, gender).
-    * 1b1. HallLedger displays a warning that invalid keywords will be ignored in search.
+    * 1b1. Hall Ledger displays a warning that invalid keywords will be ignored in search.
       Use case ends.
 
 * 2a. No students match the given criteria.
-  * 2a1. HallLedger shows an empty list and indicates that 0 students were found.
+    * 2a1. Hall Ledger shows an empty list and indicates that 0 students were found.
     Use case ends.
 
 **Use case: UC06 - Add a demerit record**
@@ -512,26 +523,26 @@ Use case ends.
 **MSS**
 
 1. RA requests to list the available demerit rules.
-2. HallLedger displays the indexed demerit rule catalogue.
+2. Hall Ledger displays the indexed demerit rule catalogue.
 3. RA requests to add a demerit record to a specific student using the student's ID and the rule index.
-4. HallLedger records the demerit incident for that student.
-5. HallLedger updates the resident's total demerit points.
-6. HallLedger displays a success message showing the applied rule and updated total.
+4. Hall Ledger records the demerit incident for that student.
+5. Hall Ledger updates the resident's total demerit points.
+6. Hall Ledger displays a success message showing the applied rule and updated total.
 
 Use case ends.
 
 **Extensions**
 
 * 1a. No demerit rules are available.
-  * 1a1. HallLedger displays an empty result.
+    * 1a1. Hall Ledger displays an empty result.
     Use case ends.
 
 * 3a. The given student ID is invalid.
-  * 3a1. HallLedger shows an error message indicating that the student was not found.
+    * 3a1. Hall Ledger shows an error message indicating that the student was not found.
     Use case resumes at step 2.
 
 * 3b. The given rule index does not exist.
-  * 3b1. HallLedger shows an error message indicating that the rule index is invalid.
+    * 3b1. Hall Ledger shows an error message indicating that the rule index is invalid.
     Use case resumes at step 2.
 
 **Use case: UC07 - Export data**
@@ -539,15 +550,15 @@ Use case ends.
 **MSS**
 
 1. RA requests to export all student details data to a CSV file.
-2. HallLedger gathers the relevant data.
-3. HallLedger exports the file to the user's system.
+2. Hall Ledger gathers the relevant data.
+3. Hall Ledger exports the file to the user's system.
 
 Use case ends.
 
 **Extensions**
 
 * 1a. The student list is empty.
-  * 1a1. HallLedger indicates that there is no data to generate a report or export.
+    * 1a1. Hall Ledger indicates that there is no data to generate a report or export.
     Use case ends.
 
 ### Non-Functional Requirements
@@ -573,7 +584,7 @@ Use case ends.
 * **Hall** : A residential building on campus that houses students. Each hall is made up of multiple blocks, and each block is made up of multiple rooms.
 * **RA** : Resident Assistant, a student leader who is responsible for managing a block of rooms in a hall and the students living in those rooms.
 * **CCA** : Co-Curricular Activities, which are activities that students participate in outside of their academic curriculum.
-* **DPS** : Demerit Point Structure used as the source reference for HallLedger’s demerit rule catalogue.
+* **DPS** : Demerit Point Structure used as the source reference for Hall Ledger’s demerit rule catalogue.
 * **Mainstream OS** : Windows, Linux, Unix, macOS.
 * **Non-technical users** : Users who are not familiar with technical jargon, command-line interfaces, or programming concepts.
 
@@ -649,7 +660,8 @@ testers are expected to do more *exploratory* testing.
 1. Dealing with missing/corrupted data files
 
    1. Delete or rename the `data/addressbook.json` file, then relaunch the app.<br>
-      Expected: HallLedger starts with sample data or an empty initialized data file instead of crashing.
+      Expected: Hall Ledger starts with sample data or an empty initialized data file instead of crashing.
 
    1. Edit `data/addressbook.json` into an invalid JSON format, then relaunch the app.<br>
-      Expected: HallLedger detects that the data file cannot be loaded and starts safely without using the corrupted data.
+      Expected: Hall Ledger detects that the data file cannot be loaded and starts safely without using the corrupted
+      data.
