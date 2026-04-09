@@ -581,7 +581,9 @@ Team size: 5
 
 1. Enable command to be executed by filtered list index instead of Student ID: Hall Ledger currently requires targeting residents by Student ID. We plan to also support targeting by the index shown in the currently displayed resident list, which may be more convenient for some users.
 
-2. Improve robustness when users manually edit `addressbook.json`: Hall Ledger currently expects manually edited JSON data to remain logically valid. We plan to detect and explain more invalid manual edits instead of only failing at load time.
+2. Improve robustness when users manually edit `hall-ledger.json`: Hall Ledger currently expects manually edited JSON
+   data to
+   remain logically valid. We plan to detect and explain more invalid manual edits instead of only failing at load time.
 
 3. Refine demerit-table behavior for extremely narrow layouts: The demerit tab currently keeps detailed incident information visible, but very narrow layouts can still feel cramped. We plan to improve the layout behavior further while keeping the incident history readable.
 
