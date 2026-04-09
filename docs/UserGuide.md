@@ -11,42 +11,41 @@
 ---
 ## **Table of Contents**
 
-1. [Quick Start](#quick-start)
-   1.1. [Installation Guide](installation-guide)
-   1.2. [Introduction to the Interface](introduction-to-the-interface)
-   1.3. [Brief Walkthrough](brief-walkthrough)
-2. [General Command Format](general-command-format)
-3. [Adding a Resident](#3-adding-a-resident)
+1. [Quick Start](#1-quick-start)  
+   1.1. [Installation Guide](installation-guide)  
+   1.2. [Introduction to the Interface](introduction-to-the-interface)  
+   1.3. [Brief Walkthrough](brief-walkthrough)  
+2. [General Command Format](#2-general-command-format)  
+3. [Adding a Resident](#3-adding-a-resident)  
 4. [Editing a Resident](#4-editing-a-resident)
-5. [Viewing Residents](#5-viewing-residents)
-    - [Listing All Residents](#51-listing-all-residents-list)
-    - [Finding Residents](#52-finding-residents-find)
-        - [Using the Command Line](#521-using-the-command-line)
-        - [Using the User Interface](#522-using-the-user-interface)
-6. [Tagging a Resident](#6-tagging-a-resident)
-   6.1. [Adding or Editing Tags](#61-adding-or-editing-tags)
-   6.2. [Clearing Tags](#62-clearing-tags)
-7. [Adding a Remark to a Resident](#7-adding-a-remark-remark)
-   7.1. [Adding or Editing a Remark](#71-adding-or-editing-a-remark)
-   7.2. [Clearing a Remark](#72-clearing-a-remark)
-8. [Adding a Demerit Record to a Resident](#8-adding-a-demerit-record-to-a-resident)
-   8.1. [Listing Demerit Rules](#81-listing-demerit-rules)
-   8.2. [Adding a Demerit Record](#82-adding-a-demerit-record)
-9. [Deleting a Resident](#9-deleting-a-resident)
-10. [Clearing All Residents](#10-clearing-all-entries)
-11. [Viewing Help](#11-viewing-help)
-12. [Exiting the Program](#12-exiting-the-program)
-13. [Saving the Data](#13-saving-the-data)
-14. [Editing the Data File](#14-editing-the-data-file)
-15. [Prefix Table](#15-prefix-table)
-16. [Format Errors](#16-format-errors)
-17. [FAQ](#17-faq)
-18. [Known Issues](#18-known-issues)
-19. [Command Summary](#command-summary)
+5. [Tagging a Resident](#5-tagging-a-resident)  
+5.1. [Adding or Editing Tags](#51-adding-or-editing-tags)  
+5.2 [Clearing Tags](#52-clearing-tags)
+6. [Viewing Residents](#6-viewing-residents)
+7. [Finding Residents](#7-finding-residents)  
+7.1. [Using the Command Line](#71-using-typed-commands)  
+7.2 [Using the User Interface](#72-using-the-filter-panel)
+8. [Managing Resident Remarks](#8-managing-resident-remarks-)  
+   8.1. [Adding or Editing a Remark](#81-adding-or-editing-a-remark)  
+   8.2. [Clearing a Remark](#82-clearing-a-remark)  
+9. [Adding a Demerit Record to a Resident](#9-adding-a-demerit-record-to-a-resident)  
+   9.1. [Listing Demerit Rules](#91-listing-demerit-rules)  
+   9.2. [Adding a Demerit Record](#92-adding-a-demerit-record)  
+10. [Deleting a Resident](#10-deleting-a-resident)  
+11. [Clearing All Residents](#11-clearing-all-residents)  
+12. [Viewing Help](#12-viewing-help)  
+13. [Exiting the Program](#13-exiting-the-program)  
+14. [Saving the Data](#14-saving-the-data)  
+15. [Editing the Data File](#15-editing-the-data-file)  
+16. [Prefix Table](#16-prefix-table)  
+17. [Format Errors](#17-format-errors)  
+18. [FAQ](#18-faq)  
+19. [Known Issues](#19-known-issues)  
+20. [Command Summary](#20-command-summary)  
 
 ---
 
-## Quick start
+### 1. Quick start
 
 1. Ensure you have Java `17` or above installed in your Computer.<br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
@@ -105,20 +104,9 @@
 
 </box>
 
-### Viewing help : `help`
+### 2. General Command Format
 
-Opens the HallLedger Help window, which displays the available commands and their usage formats.
-
-Format: `help`
-
-Example:
-* `help`
-
-When the command is entered, HallLedger opens a Help window containing a quick reference list of supported commands. The Help window also includes a reference to the HallLedger User Guide for more detailed explanations.
-
-![Help window](images/helpWindow.png)
-
-### Adding a person: `add`
+### 3. Adding a Resident
 
 Adds a person to the hall ledger.
 
@@ -129,33 +117,11 @@ Examples:
 * `add n=Betsy Crowe i=A202020Y e=betsycrowe@example.com p=+65 1234567 r=14L ec=+6512345678`
 
 > ___NOTE___
->
+> 
 > A newly added person will not have any tags
 
-### Listing all persons : `list`
-
-Shows a list of all persons in the address book.
-
-Format: `list`
-
-### Tagging a resident: `tag`
-
-Adds **Major**, **Year** and **Gender** tags to an existing resident.
-
-Format: `tag i=STUDENT_ID [m=MAJOR] [y=YEAR] [g=GENDER]`
-
-* Adds or edits tags for the resident uniquely identified by *STUDENT_ID*.
-* *STUDENT_ID* must be in a valid format and exist in the Hall Ledger
-* At least one of the optional tag fields (m=, y=, g=) must be provided.
-* Existing tags are replaced **(not cumulative)**.
-* Each resident can have **at most** **one** Year, **one** Major, and **one** Gender tag at any time.
-* Re-tagging a resident will **overwrite** previously assigned tags with the new values provided.
-
-Examples:
-* `tag i=A0123456N y=Y3 m=Information Systems`: Assigns Year 3 and Information Systems as the student’s tags (any existing tags are replaced).
-* `tag i=A0101010X g=Female`: Updates the resident’s Gender to Female and leaves other tags unchanged.
-
-### Editing a person : `edit`
+***
+### 4. Editing a Resident
 
 Edits an existing resident in the _Hall Ledger_.
 
@@ -168,31 +134,86 @@ Format: `edit i=STUDENT_ID [n=NAME] [p=PHONE] [e=EMAIL] [r=ROOM_NUMBER] [ec=EMER
 Examples:
 * `edit i=A1234567X p=91234567 e=johndoe@example.com` edits the phone number and email address of the resident with student ID `A1234567X` to be `91234567` and `johndoe@example.com` respectively.
 * `edit i=A8765432Y n=Betsy Crower ec=98765432` edits the name and emergency contact of the resident with student ID `A8765432Y` to be `Betsy Crower` and `98765432` respectively.
+***
 
-### 5. Viewing Residents
+### 5. Tagging a Resident
 
-#### 5.1 Listing all residents: `list`
+Tags are **optional labels** that can be added to a resident’s profile.  
 
-Use `list` to view all residents in the Hall Ledger. The residents would appear in the resident list panel on the
-right of the screen.
+**Command:** `tag`
 
-Format: `list`
+There are three types of tags in Hall Ledger:
+| Tag Type            | Constraints                                                                 | Examples                          | Prefix |
+|---------------------|------------------------------------------------------------------------------|-----------------------------------|-------|
+| **Major**           | Must be a valid academic major. Letters, spaces, and `&` are allowed.       | Computer Science, Economics & Business | `m=`   |
+| **Year**            | Must be a number from 1 to 6 (inclusive).                                   | 1, 4                              | `y=`   |
+| **Gender Pronouns** | Accepts `he/him`, `she/her`, or `they/them`. Input is flexible (e.g. `he`, `her`), and will be standardised automatically. | she/her, they/them | `g=`   |
 
-<box type="info">
+<box type="info" seamless>
+For residents with double majors, you can separate the two majors with an `&` symbol (e.g. `Computer Science & Mathematics`). However, Hall Ledger will treat that as a single Major tag, and not as two separate Major tags.
+</box>
+
+
+
+#### 5.1 Adding or Editing Tags
+
+**Usage:** `tag i=STUDENT_ID [m=MAJOR] [y=YEAR] [g=GENDER]`
+
+* Adds or edits tags for the resident uniquely identified by `STUDENT_ID`
+* At least one of the optional tag fields (`m=`, `y=`, `g=`) must be provided
+* Only tag types specified in the command will be added or edited. All other tags will remain unchanged
+* Re-tagging a resident will **overwrite** previously assigned tags of that type
+
+Usage Examples:
+* `tag i=A0123456N y=3 m=Information Systems` 
+* `tag i=A0101010X g=she/her`
+
+#### 5.2 Clearing Tags
+
+**Usage:** `tag i=STUDENT_ID [m=] [y=] [g=]`
+
+* Providing an empty value for a tag field (e.g. `m=`, `y=`, `g=`) will clear the existing tag of that type for the specified resident.
+
+Example usage:
+* `tag i=A0123456N y=` clears the Year tag but leaves Major and Gender tag unchanged.
+* `tag i=A0101010X g= y= m=` clears all tags for the resident
+
+***
+### 6. Viewing Residents
+
+Displays all residents the resident list panel on the right 
+
+
+**Command:** `list`
+
+***
+
+### 7. Finding Residents
+
+Hall Ledger allows you to search for residents by:
+* **Name**
+* **Phone Number**
+* **Email**
+* **Room Number**
+* **Student ID**
+* **Emergency Contact**
+* **Year**
+* **Major**
+* **Gender**   
+
+You can perform searches either through the **typed commands** or through the **filter panel**.
+
+<box type="info" seamless>
 **Tip**: You may use the `list` command to reset the resident list after performing a search with the `find` command or
 after using the Filter panel. This will allow you to see all residents again.
 </box>
 
-#### 5.2 Finding residents: `find`
 
-Hall Ledger allows you to search for residents by various criteria such as name, phone number, email, room number,
-student ID, emergency contact, year, major, and gender. You can perform searches either through the command line or
-through the user interface.
+#### 7.1 Using Typed Commands
 
-#### 5.2.1 Using the Command Line
+**Command:** `find`
 
-**Format:**
-`find [n=NAME] [p=PHONE] [e=EMAIL] [r=ROOM_NUMBER] [i=STUDENT_ID] [ec=EMERGENCY_CONTACT] [y=YEAR] [m=MAJOR] [g=GENDER]`
+**Usage:** `find [n=NAME] [p=PHONE] [e=EMAIL] [r=ROOM_NUMBER] [i=STUDENT_ID] [ec=EMERGENCY_CONTACT] [y=YEAR] [m=MAJOR] [g=GENDER]`
 
 **Example**
 Suppose you want to find all residents named "Alex":
@@ -213,10 +234,9 @@ criterion by repeating that field:
 * Type in the command box: `find n=Alex n=Bernice`
 * The resident list updates to show only residents whose name match either "Alex" **or** Bernice
 
-#### 5.2.2 Using the User Interface
+#### 7.2 Using the Filter Panel
 
-You can also use the **Filter panel** to search using the user interface. The Filter panel supports the same matching
-behaviour as the command-line `find` command.
+The Filter Panel supports the same sea behaviour as the typed `find` command.
 
 **Steps:**
 
@@ -256,28 +276,33 @@ Entering a command in the command box will reset the Filter panel.
 
 </box>
 
-### 7. Adding a remark: `remark`
+### 8. Managing Resident Remarks: 
 
 Remarks are **optional short notes** that can be added to a resident’s profile.
-They can be used to store important information about the resident that does not fit into the other fields, such as allergies, medical conditions, or other special notes.
+They can be used to store important information about the resident that does not fit into the other fields, such as allergies, medical conditions, or other special notes. 
+You can view remarks in the resident's profile tab.    
 
 **Command:** `remark`
 
-#### 7.1 Adding or Editing a Remark
-
+#### 8.1 Adding or Editing a Remark
+ 
 **Usage:** `remark i=STUDENT_ID rm=REMARK`
 
-- If a remark already exists for the resident, it will be **overwritten** by the new remark.
+- Adds or edits a remark for the resident uniquely identified by `STUDENT_ID`.
+- If a remark **already exists** for the resident, it will be **overwritten** by the new remark.
 - There is no character limit for remarks, but keeping them concise is recommended for readability.
-- Remarks can contain any content. However, avoid using special characters that may interfere with the command format (e.g., `=` or `i=`), as they may cause issues when editing or clearing remarks.
+<box type="warning" seamless>
+Remarks can contain any content. However, avoid using special characters that may interfere with the command format (e.g., `=` or `i=`), as they may cause issues when editing or clearing remarks.
+</box>
 
 Example usages:
 - `remark i=A1234567X rm=Allergic to peanuts`
-- `remark i=A1121212X rm=Has asthma, needs inhaler nearby`
----
+- `remark i=A1121212X rm=Has asthma, needs inhaler nearby`      
 
-#### 7.2 Clearing a Remark
 
+
+#### 8.2 Clearing a Remark
+ 
 **Usage:** `remark i=STUDENT_ID rm=`
 
 - Providing an empty `rm=` field clears the existing remark for the specified resident.
@@ -285,23 +310,27 @@ Example usages:
 Example usage:
 - `remark i=A1121212X rm=`
 
-### Listing demerit rules: `demeritlist`
+***
+
+### 9. Adding a Demerit Record to a Resident
+
+#### 9.1 Listing Demerit Rules
 
 Shows the indexed demerit rules available in HallLedger.
 
-Format: `demeritlist`
+**Command:** `demeritlist`
 
 * Displays the demerit rule catalogue together with the rule index and point tiers.
-* Use the displayed rule index together with the `demerit` command when recording a resident’s demerit incident.
+* You can use the displayed rule index together with the `demerit` command when recording a resident’s demerit incident.
+* This list can also be viewed in the Demerit List tab
 
-Example:
-* `demeritlist`
-
-### Adding a demerit record: `demerit`
+#### 9.2 Adding a Demerit Record
 
 Adds a demerit record to an existing resident.
 
-Format: `demerit i=STUDENT_ID di=RULE_INDEX [rm=REMARK]`
+**Command:** `demerit`
+
+**Usage:** `demerit i=STUDENT_ID di=RULE_INDEX [rm=REMARK]`
 
 * Applies the demerit rule identified by `RULE_INDEX` to the resident identified by `STUDENT_ID`.
 * `STUDENT_ID` must refer to an existing resident in HallLedger.
@@ -315,13 +344,8 @@ Examples:
 * `demerit i=A1234567X di=18 rm=Visitor during quiet hours`
 * `demerit i=A0312075X di=28 rm=Common pantry left dirty`
 
-<box type="info" seamless>
-
-**Current scope note:** HallLedger records resident demerit incidents and their accumulated totals. It does not yet automatically enforce semester-based or lifetime housing sanctions.
-
-</box>
-
-### Deleting a resident : `delete`
+*** 
+### 10. Deleting a Resident
 
 Deletes the resident identified by student ID from HallLedger.
 
@@ -339,7 +363,8 @@ If the command format is invalid, HallLedger will show an error message instead 
 
 ![Delete confirmation dialog](images/deleteConfirmation.png)
 
-### Clearing all residents : `clear`
+***
+### 11. Clearing all Residents
 
 Clears all residents from HallLedger all at once.
 
@@ -349,50 +374,72 @@ Command: `clear`
 
 **Caution:**
 This action **permanently deletes all resident data**. We recommend creating a backup of your data file before running this command. Once cleared, the **deletion cannot be undone**.
-
 </box>
 
-### Exiting the program : `exit`
+***
+
+### 12. Viewing Help
+
+Opens the HallLedger Help window, which displays the available commands and their usage formats.
+
+Command: `help`
+<div align="center">
+<img src="images/help-window.png" alt="Help Window 2" width="500" align="center"/>      
+</div>
+<br>
+<br>
+
+***
+
+### 13. Exiting the program
 
 Exits the program.
 
 Command: `exit`
+***
 
-### Saving the data
+### 14. Saving the Data
 
 HallLedger automatically saves your data on your device whenever you make changes. There is no need to manually save your work.
 
 When you exit the program and open it again later, all your data will still be available.
-### Editing the data file
+***
+### 15. Editing the Data File
 
 HallLedger data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
-<box type="warning" seamless>
+***
+
+### 16. Prefix Table
+
+***
+
+### 17. Format Errors
 
 **Caution:**
 If your changes to the data file make its format invalid, HallLedger will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
 Furthermore, certain edits can cause HallLedger to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 
-</box>
+
 
 For more details on editing the JSON file, please refer to our [Developer Guide](DeveloperGuide.md)
 
 --------------------------------------------------------------------------------------------------------------------
 
-## FAQ
+### 18. FAQ
 
-**Q**: How do I transfer my data to another Computer?
+**Q**: How do I transfer my data to another Computer?  
 **A**: Install the app on the other computer and overwrite the empty data file it creates with the file that contains the data of your previous HallLedger home folder.
 
-**Q**: Can I edit the data file manually?
+**Q**: Can I edit the data file manually?  
 **A**: Yes. HallLedger stores data locally in a human-editable text file. However, manual edits should be done carefully, because invalid edits may prevent HallLedger from loading the data correctly.
 
-**Q**: How do I go back to seeing the list of all residents after running `find`?
+**Q**: How do I go back to seeing the list of all residents after running `find`?  
 **A**: Run the `list` command to see the full list of residents again.
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Known issues
+### 19. Known issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
