@@ -417,9 +417,8 @@ Use case ends.
   * 1a1. HallLedger shows an error message indicating the correct format.
     Use case resumes from step 1.
 
-* 1b. A student with the exact same details already exists in the system.
-  * 1b1. HallLedger indicates that the student already exists.
-    Use case ends.
+* 1b. A student with a provided unique identifier (Student ID, room) already exists in the system.
+    * 1b1. HallLedger detects the duplicate entry and displays an errors message. Use case ends.
 
 * 1c. RA fails to provide compulsory details (name, phone, email, room number).
   * 1c1. HallLedger shows an error message indicating the compulsory details.
@@ -496,9 +495,13 @@ Use case ends.
 
 **Extensions**
 
-* 1a. RA provides empty keywords or invalid criteria format.
+* 1a. RA provides empty keywords or invalid command format.
   * 1a1. HallLedger shows an error message indicating how to use the specific command correctly.
     Use case ends.
+
+* 1b. RA provides invalid keywords for an attribute that only accept a fixed set of values (year, gender).
+    * 1b1. HallLedger displays a warning that invalid keywords will be ignored in search.
+      Use case ends.
 
 * 2a. No students match the given criteria.
   * 2a1. HallLedger shows an empty list and indicates that 0 students were found.
@@ -551,9 +554,9 @@ Use case ends.
 
 1. Should work on any mainstream OS as long as it has Java 17 or above installed.
 
-2. Should be able to store up to 1000 students without noticeable sluggishness in performance for typical usage.
+2. Should be able to store up to 250 students without noticeable sluggishness in performance for typical usage.
 
-3. Should have a response time of < 2 seconds for all instructions.
+3. Should have a response time of < 3 seconds for all instructions.
 
 4. A user with above-average typing speed for regular English text (i.e., not code, not system admin commands) should be able to accomplish most tasks faster using commands than using the mouse.
 
