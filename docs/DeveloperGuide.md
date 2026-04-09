@@ -507,9 +507,9 @@ Use case ends.
 
 1. Should work on any mainstream OS as long as it has Java 17 or above installed.
 
-2. Should be able to store up to 1000 students without noticeable sluggishness in performance for typical usage.
+2. Should be able to store up to 250 students without noticeable sluggishness in performance for typical usage.
 
-3. Should have a response time of < 2 seconds for all instructions.
+3. Should have a response time of < 3 seconds for all instructions.
 
 4. A user with above-average typing speed for regular English text (i.e., not code, not system admin commands) should be able to accomplish most tasks faster using commands than using the mouse.
 
