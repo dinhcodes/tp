@@ -160,13 +160,12 @@ The `UI` component,
 
 Here's a (partial) class diagram of the `Logic` component:
 
-<puml src="diagrams/LogicClassDiagram.puml" width="550" />
+<puml src="diagrams/LogicClassDiagram.puml" width="450" />
 
 The simplified sequence diagram below illustrates the interactions within the `Logic` component, taking a delete
 command as an example.
 
-<puml src="diagrams/DeleteSequenceDiagram.puml" width="900" alt="Interactions Inside the Logic Component for a delete
-command" />
+<puml src="diagrams/DeleteSequenceDiagram.puml" width="900" />
 
 <box type="info">
 
@@ -184,7 +183,7 @@ How the `Logic` component works:
 
 Here are the other classes in `Logic` (omitted from the class diagram above) that are used for parsing a user command:
 
-<puml src="diagrams/ParserClasses.puml" width="600"/>
+<puml src="diagrams/ParserClasses.puml" width="600" />
 
 How the parsing works:
 
@@ -293,6 +292,36 @@ CommandResult result = filterExecutor.executeFilter(updatedFilterDetails);
 
 This separation keeps responsibilities clear: UI components handle user input, while command and filter execution
 remain centralized behind injected callbacks.
+
+---
+
+### Deep dive: How editing keywords from the UI triggers a `FindCommand`
+
+This section details the callback chain that propagates keyword edits from a low-level UI component to higher-level
+components, ultimately reaching the `Logic` module and triggering a `FindCommand`.
+
+This sequence diagram illustrates the flow when a user modifies keywords to find residents from the UI:
+
+<puml src="diagrams/find/FindUiTriggerSequenceDiagram.puml" width="850" />
+
+When a user modifies keywords in a `FilterPanelField`, the field notifies its parent `FilterPanel` via a callback.
+`FilterPanel` then forwards the change to `MainWindow` through the `FilterExecutor` callback.
+
+`MainWindow` passes the updated filter details to `Logic`, which creates and executes a `FindCommand` based on the new
+filter criteria.
+
+---
+
+### How the UI stays synced with the Model
+
+As described above, changes originating from low-level UI components propagate upward to `Logic` and `Model` via
+callbacks. But what about updates flowing in the opposite direction, from the `Model` back to the `UI`?
+
+Hall Ledger leverages JavaFX's `ObservableList`, `ListView`, and property bindings to automatically synchronize the
+UI with changes in the Model. When the `Model` updates any of its observable values, registered UI observers are
+notified and refresh their displays accordingly—without any passing of properties or callbacks.
+
+<puml src="diagrams/find/FindUiFilterDetailsSequenceDiagram.puml" width="850" />
 
 ---
 
