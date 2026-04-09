@@ -60,7 +60,7 @@
    * To install on Windows follow this [guide](https://se-education.org/guides/tutorials/javaInstallationWindows.html)
    * To install on MacOS, follow this [guide](https://se-education.org/guides/tutorials/javaInstallationMac.html)
    * To install on Linux, follow this [guide](https://se-education.org/guides/tutorials/javaInstallationLinux.html)
-4. Download the HallLedger application by clicking on this [link](). The download should start immedietely.
+4. Download the HallLedger application by clicking on this [link](https://github.com/AY2526S2-CS2103T-T15-1/tp/releases/download/v1.5.1/hall-ledger.jar). The download should start immedietely.
 5. On your computer, move the ``hall-ledger.jar`` file into an empty folder.
 6. Using the Terminal (refer to step 1), navigate to the folder where you placed the ``HallLedger.jar`` file. Use the [`cd`](https://www.geeksforgeeks.org/linux-unix/cd-command-in-linux-with-examples/) command for this step.
 7. Type `java -jar hall-ledger.jar` in the Terminal and enter to start the application. 
