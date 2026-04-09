@@ -435,12 +435,12 @@ These instructions provide a starting point. Testers are expected to do explorat
 
 1. Initial launch
    1. Download the jar file into an empty folder.
-   2. Run the app.  
+   2. Run the app.
       Expected: HallLedger starts with sample data.
 
 2. Closing and reopening
    1. Close the app.
-   2. Launch it again.  
+   2. Launch it again.
       Expected: previously saved data and preferences are restored.
 
 ---
@@ -448,7 +448,7 @@ These instructions provide a starting point. Testers are expected to do explorat
 ### Adding a resident
 
 1. Valid add
-   1. Enter  
+   1. Enter
       `add n=John Doe p=+6598765432 e=johnd@example.com i=A1234567X r=15R ec=+65 91234567`
    2. Verify that the resident is added and the result box shows success.
 
@@ -460,11 +460,11 @@ These instructions provide a starting point. Testers are expected to do explorat
 
 ### Finding residents
 
-1. Enter  
+1. Enter
    `find n=John`
 2. Verify that the list is filtered appropriately.
 
-3. Enter  
+3. Enter
    `find y=2 m=Computer Science`
 4. Verify that the list is filtered accordingly.
 
@@ -472,7 +472,7 @@ These instructions provide a starting point. Testers are expected to do explorat
 
 ### Tagging a resident
 
-1. Enter  
+1. Enter
    `tag i=A1234567X y=2 m=Computer Science g=he/him`
 2. Verify that the target resident’s tags are updated.
 
@@ -480,7 +480,7 @@ These instructions provide a starting point. Testers are expected to do explorat
 
 ### Adding a remark
 
-1. Enter  
+1. Enter
    `remark i=A1234567X rm=Peanut allergy`
 2. Verify that the resident remark is updated.
 
@@ -493,7 +493,7 @@ These instructions provide a starting point. Testers are expected to do explorat
    2. Verify that HallLedger shows the supported rule list.
 
 2. Add a demerit incident
-   1. Enter  
+   1. Enter
       `demerit i=A1234567X di=18 rm=Visitor during quiet hours`
    2. Verify that:
       * the command succeeds,
@@ -506,7 +506,7 @@ These instructions provide a starting point. Testers are expected to do explorat
    2. Verify that the offence number and points reflect a repeated offence for that rule.
 
 4. Invalid rule
-   1. Enter  
+   1. Enter
       `demerit i=A1234567X di=999`
    2. Verify that HallLedger rejects the command.
 
@@ -514,12 +514,12 @@ These instructions provide a starting point. Testers are expected to do explorat
 
 ### Deleting a resident
 
-1. Enter  
+1. Enter
    `delete i=A1234567X`
 2. Verify that a confirmation dialog appears.
-3. Cancel the deletion.  
+3. Cancel the deletion.
    Expected: the resident remains.
-4. Repeat and confirm the deletion.  
+4. Repeat and confirm the deletion.
    Expected: the resident is removed.
 
 --------------------------------------------------------------------------------------------------------------------
