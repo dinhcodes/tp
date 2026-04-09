@@ -4,17 +4,20 @@
   pageNav: 3
  ---
 
-# Hall Ledger User Guide
+# **Hall Ledger User Guide**
 
 **Hall Ledger (HL)** is a desktop application that helps **Resident Assistants (RAs) efficiently manage residents in NUS halls**. It is optimised for users who prefer typing commands, while still offering an intuitive visual interface for viewing resident data at a glance.
 <!-- * Table of Contents -->
+
 ---
+<div class="section table-of-contents">
+
 ## **Table of Contents**
 
 1. [Quick Start](#1-quick-start)  
-   1.1. [Installation Guide](installation-guide)  
-   1.2. [Introduction to the Interface](introduction-to-the-interface)  
-   1.3. [Brief Walkthrough](brief-walkthrough)  
+   1.1. [Installation Guide](#1-1-installation-guide)  
+   1.2. [Understanding the Interface](#1-2-understanding-the-interface)  
+   1.3. [Brief Walkthrough](#1-3-brief-walkthrough)  
 2. [General Command Format](#2-general-command-format)  
 3. [Adding a Resident](#3-adding-a-resident)  
 4. [Editing a Resident](#4-editing-a-resident)
@@ -45,80 +48,82 @@
 
 ---
 
+<div class="section">
+
 ### 1. Quick start
 
-1. Ensure you have Java `17` or above installed in your Computer.<br>
-   **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
+##### 1.1 Installation Guide
 
-1. Download the latest `.jar` file from [here](https://github.com/AY2526S2-CS2103T-T15-1/tp/releases).
+1. Open the Terminal/Command Prompt
+   * On MacOS, refer to this [guide](https://support.apple.com/en-sg/guide/terminal/apd5265185d-f365-44cb-8b09-71a064a42125/mac)
+   * On Windows, refer to this [guide](https://www.lifewire.com/how-to-open-command-prompt-2618089)
+2. Ensure you have ``Java 17`` installed on your computer. To check, type and enter `java –version` in the Terminal.
+3. If the previous step gives an error, you do not have Java 17. 
+   * To install on Windows follow this [guide](https://se-education.org/guides/tutorials/javaInstallationWindows.html)
+   * To install on MacOS, follow this [guide](https://se-education.org/guides/tutorials/javaInstallationMac.html)
+   * To install on Linux, follow this [guide](https://se-education.org/guides/tutorials/javaInstallationLinux.html)
+4. Download the HallLedger application by clicking on this [link](). The download should start immedietely.
+5. On your computer, move the ``hall-ledger.jar`` file into an empty folder.
+6. Using the Terminal (refer to step 1), navigate to the folder where you placed the ``HallLedger.jar`` file. Use the [`cd`](https://www.geeksforgeeks.org/linux-unix/cd-command-in-linux-with-examples/) command for this step.
+7. Type `java -jar hall-ledger.jar` in the Terminal and enter to start the application. 
+8. A HallLedger window similar to the below should appear in a few seconds. Note that the app will contain some sample data.
 
-1. Copy the file to the folder you want to use as the _home folder_ for your HallLedger.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar hall-ledger.jar` command to run the application.<br>
-   A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
-   ![Ui](images/Ui.png)
+##### 1.2 Understanding the Interface
+When HallLedger is opened, you will see an interface like the image below. The interface consists of the following components:
 
-1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
-   Some example commands you can try:
+##### 1.3 Brief Walkthrough
+This section gives a brief walkthrough of how to get started with using HallLedger. You'll learn how to add a resident, edit their details, tag their major and finally delete them from the Ledger.
 
-   * `list` : Lists all residents.
+To start, type the following instructions into the command box (in the given order)and press Enter after each:
+1. `add n=Vera Tan i=A1234567X e=vera.tan@gmail.com p=+6598765432 r=1A ec=+6512345678` to add a resident named `Vera Tan` to the ledger.
+2. `edit i=A1234567X p=+6512345678` to edit Vera's phone number to `+6512345678`.
+3. `tag i=A1234567X m=Computer Science` to tag Vera's major as `Computer Science`
+4. Finally, `delete i=A1234567X` to delete Vera from the ledger. After entering this command, a confirmation dialog will appear. Click **Confirm** to proceed with the deletion, or click **Cancel** to stop the deletion.
 
-   * `add n=John Doe p=+6598765432 e=johnd@example.com i=A1234567X r=1A ec=+65 12345678` : Adds a resident named `John Doe` to HallLedger.
+<box type="tip">
+<b>Tip:  </b>  Type and enter `help` in the command box to see a list of available commands and their usage formats.
+</box>
 
-   * `demeritlist` : Shows the indexed demerit rules available in HallLedger.
+</div>
 
-   * `demerit i=A1234567X di=18 rm=Visitor during quiet hours` : Adds a demerit record to the resident with student ID `A1234567X`.
-
-   * `delete i=A1234567X` : Deletes the resident with student ID `A1234567X`.
-
-   * `clear` : Deletes all residents.
-
-   * `exit` : Exits the app.
-
-1. Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Features
-
-<box type="info" seamless>
-
-**Notes about the command format:**<br>
-
-* Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
-  e.g. in `add n=NAME`, `NAME` is a parameter which can be used as `add n=John Doe`.
-
-* Items in square brackets are optional.<br>
-  e.g `n=NAME [e=EMAIL]` can be used as `n=John Doe e=johnd@example.com` or as `n=John Doe`.
-
-* Items with `…`​ after them can be used multiple times including zero times.<br>
-  e.g. `[t=TAG]…​` can be used as ` ` (i.e. 0 times), `t=friend`, `t=friend t=family` etc.
-
-* Parameters can be in any order.<br>
-  e.g. if the command specifies `n=NAME p=PHONE_NUMBER`, `p=PHONE_NUMBER n=NAME` is also acceptable.
-
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
-  e.g. if the command specifies `help 123`, it will be interpreted as `help`.
-
-* If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
-
-</box>
-
 ### 2. General Command Format
+The commands used in HallLedger generally follow the format: `COMMAND i=STUDENT_ID PREFIX=...` where:
+* `COMMAND` is the action you want to perform (e.g. `add`, `edit`, `delete`, etc.)
+* `i=STUDENT_ID` is used to specify the resident you want to perform the action on.
+* `PREFIX=...` are used to specify the details of the action you want to perform. The specific prefixes used depend on the command.
+
+**Example:**  
+`remark i=A1234567X rm="Allergic to peanuts"` adds the remark "Allergic to peanuts" to the resident with student ID A1234567X.
+<box type="info">
+<b>Note:</b> This is a general command format, not all commands follow this format. For example, the `list` command does not require a student ID or any prefixes. Refer to the specific command's usage format for details.
+</box>
+</div>
+
+<div class="section">
 
 ### 3. Adding a Resident
 
-Adds a person to the hall ledger.
+Adds a new person to the hall ledger.
 
-Format: `add n=NAME p=PHONE_NUMBER e=EMAIL i=STUDENT_ID r=ROOM_NUMBER ec=EMERGENCY_CONTACT`
+**Command:** `add`
+
+**Usage**: `add n=NAME p=PHONE_NUMBER e=EMAIL i=STUDENT_ID r=ROOM_NUMBER ec=EMERGENCY_CONTACT`
+
+<box type="wrong">
+<b>Duplicate student IDs and room numbers are not allowed.</b> If you try to add a resident with a student ID/room number that already exists in the ledger, HallLedger will show an error message and the command will fail.
+</box>
 
 Examples:
-* `add n=John Doe p=+6598765432 e=johnd@example.com i=A101010X r=1A ec=+91 2345 9876`
-* `add n=Betsy Crowe i=A202020Y e=betsycrowe@example.com p=+65 1234567 r=14L ec=+6512345678`
+* `add n=John Doe p=+6598765432 e=johnd@example.com i=A101010X r=10A ec=+9123459876`
 
-> ___NOTE___
-> 
-> A newly added person will not have any tags
+
+</div>
+
+<div class="section">
 
 ***
 ### 4. Editing a Resident
@@ -134,7 +139,12 @@ Format: `edit STUDENT_ID [n=NAME] [p=PHONE] [e=EMAIL] [r=ROOM_NUMBER] [ec=EMERGE
 Examples:
 * `edit A1234567X p=91234567 e=johndoe@example.com` edits the phone number and email address of the resident with student ID `A1234567X` to be `91234567` and `johndoe@example.com` respectively.
 * `edit A8765432Y n=Betsy Crower ec=98765432` edits the name and emergency contact of the resident with student ID `A8765432Y` to be `Betsy Crower` and `98765432` respectively.
+
+</div>
+
 ***
+
+<div class="section">
 
 ### 5. Tagging a Resident
 
@@ -152,8 +162,6 @@ There are three types of tags in Hall Ledger:
 <box type="info" seamless>
 For residents with double majors, you can separate the two majors with an `&` symbol (e.g. `Computer Science & Mathematics`). However, Hall Ledger will treat that as a single Major tag, and not as two separate Major tags.
 </box>
-
-
 
 #### 5.1 Adding or Editing Tags
 
@@ -178,14 +186,23 @@ Example usage:
 * `tag i=A0123456N y=` clears the Year tag but leaves Major and Gender tag unchanged.
 * `tag i=A0101010X g= y= m=` clears all tags for the resident
 
+</div>
+
 ***
+
+<div class="section">
+
 ### 6. Viewing Residents
 
 Displays all residents the resident list panel on the right 
 
 **Command:** `list`
 
+</div>
+
 ***
+
+<div class="section">
 
 ### 7. Finding Residents
 
@@ -275,6 +292,12 @@ Entering a command in the command box will reset the Filter panel.
 
 </box>
 
+</div>
+
+***
+
+<div class="section">
+
 ### 8. Managing Resident Remarks: 
 
 Remarks are **optional short notes** that can be added to a resident’s profile.
@@ -309,7 +332,11 @@ Example usages:
 Example usage:
 - `remark i=A1121212X rm=`
 
+</div>
+
 ***
+
+<div class="section">
 
 ### 9. Adding a Demerit Record to a Resident
 
@@ -343,7 +370,12 @@ Examples:
 * `demerit i=A1234567X di=18 rm=Visitor during quiet hours`
 * `demerit i=A0312075X di=28 rm=Common pantry left dirty`
 
-*** 
+</div>
+
+***
+
+<div class="section">
+
 ### 10. Deleting a Resident
 
 Deletes the resident identified by student ID from HallLedger.
@@ -362,7 +394,12 @@ If the command format is invalid, HallLedger will show an error message instead 
 
 ![Delete confirmation dialog](images/deleteConfirmation.png)
 
+</div>
+
 ***
+
+<div class="section">
+
 ### 11. Clearing all Residents
 
 Clears all residents from HallLedger all at once.
@@ -373,9 +410,14 @@ Command: `clear`
 
 **Caution:**
 This action **permanently deletes all resident data**. We recommend creating a backup of your data file before running this command. Once cleared, the **deletion cannot be undone**.
+
 </box>
 
+</div>
+
 ***
+
+<div class="section">
 
 ### 12. Viewing Help
 
@@ -388,30 +430,53 @@ Command: `help`
 <br>
 <br>
 
+</div>
+
 ***
+
+<div class="section">
 
 ### 13. Exiting the program
 
 Exits the program.
 
 Command: `exit`
+
+</div>
+
 ***
+
+<div class="section">
 
 ### 14. Saving the Data
 
 HallLedger automatically saves your data on your device whenever you make changes. There is no need to manually save your work.
 
 When you exit the program and open it again later, all your data will still be available.
+
+</div>
+
 ***
+
+<div class="section">
+
 ### 15. Editing the Data File
 
 HallLedger data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
+</div>
+
 ***
+
+<div class="section">
 
 ### 16. Prefix Table
 
+</div>
+
 ***
+
+<div class="section">
 
 ### 17. Format Errors
 
@@ -420,10 +485,13 @@ If your changes to the data file make its format invalid, HallLedger will discar
 Furthermore, certain edits can cause HallLedger to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 
 
-
 For more details on editing the JSON file, please refer to our [Developer Guide](DeveloperGuide.md)
 
+</div>
+
 --------------------------------------------------------------------------------------------------------------------
+
+<div class="section">
 
 ### 18. FAQ
 
@@ -436,14 +504,23 @@ For more details on editing the JSON file, please refer to our [Developer Guide]
 **Q**: How do I go back to seeing the list of all residents after running `find`?  
 **A**: Run the `list` command to see the full list of residents again.
 
+</div>
+
+
 --------------------------------------------------------------------------------------------------------------------
+
+<div class="section">
 
 ### 19. Known issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 
+</div>
+
 --------------------------------------------------------------------------------------------------------------------
+
+<div class="section">
 
 ### 20. Command summary
 
@@ -460,3 +537,5 @@ Action     | Format, Examples
 **[Add Demerit](#adding-a-demerit-record-demerit)** | `demerit i=STUDENT_ID di=RULE_INDEX [rm=REMARK]`<br> e.g., `demerit i=A1234567X di=18 rm=Visitor during quiet hours`
 **[List](#listing-all-persons-list)** | `list`
 **[Help](#viewing-help--help)** | `help`
+
+</div>
