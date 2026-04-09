@@ -9,6 +9,46 @@ pageNav: 3
 <!-- * Table of Contents -->
 <page-nav-print />
 
+---
+
+<div class="section table-of-contents">
+
+### **Table of Contents**
+
+1. [Acknowledgements](#acknowledgements)
+2. [Setting up, getting started](#setting-up-getting-started)
+3. [Design](#design)
+   3.1. [Architecture](#architecture)
+   3.2. [UI component](#ui-component)
+   3.3. [Logic component](#logic-component)
+   3.4. [Model component](#model-component)
+   3.5. [Storage component](#storage-component)
+   3.6. [Common classes](#common-classes)
+4. [Implementation](#implementation)
+   4.1. [How UI triggers command execution](#how-ui-triggers-command-execution)
+   4.2. [Demerit point tracking](#demerit-point-tracking)
+   4.2.1. [Rationale for the current design](#rationale-for-the-current-design)
+   4.2.2. [Current scope note](#current-scope-note)
+   4.3. [Demerit records UI](#demerit-records-ui)
+5. [Documentation, logging, testing, configuration, dev-ops](#documentation-logging-testing-configuration-dev-ops)
+6. [Appendix: Requirements](#appendix-requirements)
+   6.1. [Product scope](#product-scope)
+   6.2. [User stories](#user-stories)
+   6.3. [Use cases](#use-cases)
+   6.4. [Non-Functional Requirements](#non-functional-requirements)
+   6.5. [Glossary](#glossary)
+7. [Appendix: Instructions for Manual Testing](#appendix-instructions-for-manual-testing)
+   7.1. [Launch and shutdown](#launch-and-shutdown)
+   7.2. [Adding a resident](#adding-a-resident)
+   7.3. [Finding residents](#finding-residents)
+   7.4. [Tagging a resident](#tagging-a-resident)
+   7.5. [Adding a remark](#adding-a-remark)
+   7.6. [Demerit features](#demerit-features)
+   7.7. [Deleting a resident](#deleting-a-resident)
+8. [Appendix: Planned Enhancements](#appendix-planned-enhancements)
+
+</div>
+
 --------------------------------------------------------------------------------------------------------------------
 
 <div class = section>
@@ -232,8 +272,8 @@ public class MainWindow extends UiPart<Stage>
         implements CommandExecutor, FilterExecutor {
 
     public MainWindow(Logic logic) {
-        commandBox = new CommandBox(this); // 'this' (MainWindow) implements CommandExecutor
-        filterPanel = new FilterPanel(logic.getFilterDetails(), this); // 'this' (MainWindow) implements FilterExecutor
+        commandBox = new CommandBox(this); // MainWindow as an instance of CommandExecutor
+        filterPanel = new FilterPanel(logic.getFilterDetails(), this); // MainWindow as an instance of FilterExecutor
     }
 }
 ```
