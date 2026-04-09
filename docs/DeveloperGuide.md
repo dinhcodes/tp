@@ -451,9 +451,13 @@ Use case ends.
 
 **Extensions**
 
-* 1a. RA provides empty keywords or invalid criteria format.
+* 1a. RA provides empty keywords or invalid command format.
   * 1a1. HallLedger shows an error message indicating how to use the specific command correctly.
     Use case ends.
+
+* 1b. RA provides invalid keywords for an attribute that only accept a fixed set of values (year, gender).
+    * 1b1. HallLedger displays a warning that invalid keywords will be ignored in search.
+      Use case ends.
 
 * 2a. No students match the given criteria.
   * 2a1. HallLedger shows an empty list and indicates that 0 students were found.
