@@ -8,8 +8,6 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.ui.executors.CommandExecutor;
 
-import java.util.Locale;
-
 /**
  * The UI component that is responsible for receiving user command inputs.
  */
