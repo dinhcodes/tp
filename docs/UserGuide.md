@@ -322,7 +322,7 @@ Entering a command in the command box will reset the Filter panel.
 
 <div class="section">
 
-### 8. Managing Resident Remarks: 
+### 8. Managing Resident Remarks
 
 Remarks are **optional short notes** that can be added to a resident’s profile.
 They can be used to store important information about the resident that does not fit into the other fields, such as allergies, medical conditions, or other special notes. 
@@ -544,14 +544,14 @@ Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 **[Add](#3-adding-a-resident)** | `add n=NAME p=PHONE_NUMBER e=EMAIL i=STUDENT_ID r=ROOM_NUMBER ec=EMERGENCY_CONTACT` <br> e.g., `add n=James Lee p=+6598765432 e=james@example.com i=A1234567X r=15R ec=+65 98765432`
 **[Edit](#4-editing-a-resident)** | `edit i=STUDENT_ID [n=NAME] [p=PHONE_NUMBER] [e=EMAIL] [r=ROOM_NUMBER] [ec=EMERGENCY_CONTACT]`<br> e.g., `edit i=A1234567X n=James Lee e=jameslee@example.com`
-**[Tag](#51-adding-or-editing-tags)** | `tag i=STUDENT_ID [m=MAJOR] [y=YEAR] [g=GENDER]`<br> e.g., `tag i=A1234567X m=Computer Science y=3`
+**[Tag](#5-tagging-a-resident)** | `tag i=STUDENT_ID [m=MAJOR] [y=YEAR] [g=GENDER]`<br> e.g., `tag i=A1234567X m=Computer Science y=3`
 **[List](#6-viewing-residents)** | `list`
 **[Find](#7-finding-residents)** | `find [n=NAME] [p=PHONE] [e=EMAIL] [r=ROOM_NUMBER] [i=STUDENT_ID] [ec=EMERGENCY_CONTACT] [y=YEAR] [m=MAJOR] [g=GENDER]`<br> e.g., `find n=James y=1`
-**[Remark](#81-adding-or-editing-a-remark)** | `remark i=STUDENT_ID rm=REMARK`<br> e.g., `remark i=A1234567X rm=Allergic to peanuts`
+**[Remark](#8-managing-resident-remarks-)** | `remark i=STUDENT_ID rm=REMARK`<br> e.g., `remark i=A1234567X rm=Allergic to peanuts`
 **[Demerit List](#91-listing-demerit-rules)** | `demeritlist`
 **[Add Demerit](#92-adding-a-demerit-record)** | `demerit i=STUDENT_ID di=RULE_INDEX [rm=REMARK]`<br> e.g., `demerit i=A1234567X di=18 rm=Visitor during quiet hours`
 **[Delete](#10-deleting-a-resident)** | `delete i=STUDENT_ID`<br> e.g., `delete i=A1234567X`
-**[Clear](#52-clearing-tags)** | `clear`
+**[Clear](#11-clearing-all-residents)** | `clear`
 **[Help](#12-viewing-help)** | `help`
   
 </div>
