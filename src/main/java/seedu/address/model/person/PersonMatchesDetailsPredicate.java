@@ -52,7 +52,7 @@ public class PersonMatchesDetailsPredicate implements Predicate<Person> {
                 && isFuzzyMatch(personEmailString, filterDetails.getEmailKeywords())
                 && isFuzzyMatch(personPhoneString, filterDetails.getPhoneNumberKeywords())
                 && isFuzzyMatch(personRoomNumberString, filterDetails.getRoomNumberKeywords())
-                && isFuzzyMatch(personStudentIdString, filterDetails.getStudentIdKeywords())
+                && isExactMatch(personStudentIdString, filterDetails.getStudentIdKeywords())
                 && isFuzzyMatch(personEmergencyContactString, filterDetails.getEmergencyContactKeywords())
                 && isFuzzyMatch(personYearString, filterDetails.getTagYearKeywords())
                 && isFuzzyMatch(personMajorString, filterDetails.getTagMajorKeywords())
