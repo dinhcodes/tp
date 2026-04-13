@@ -326,7 +326,8 @@ Entering a command in the command box will reset the Filter panel.
 * Using more keywords in one field helps you find residents matching any of those keywords.
 * Hall Ledger supports fuzzy matching, so you can still find results even when you type a partial keyword or make a
   small typo. For more details, see [Fuzzy Matching Details](FuzzyMatching.md).
-* **Student ID** requires an **exact match** (case-insensitive). Partial or fuzzy keywords will not match these fields.
+* **Student ID** require an **exact, full keyword** to match (case-insensitive). Partial keywords or typos will not
+  return any results — you must enter the complete Student ID (e.g. `i=A1234567X`).
 
 </box>
 
