@@ -84,22 +84,23 @@
       "headingKeywords": {}
     },
     {
-      "src": "FuzzyMatching.md",
-      "title": "Fuzzy Matching Details",
-      "headings": {
-        "fuzzy-matching-details": "Fuzzy Matching Details",
-        "1-quick-idea": "1. Quick idea",
-        "2-which-fields-use-which-matching-style": "2. Which fields use which matching style?",
-        "3-how-multiple-filters-combine": "3. How multiple filters combine",
-        "4-case-sensitivity": "4. Case sensitivity"
-      },
-      "headingKeywords": {}
-    },
-    {
       "src": "Logging.md",
       "title": "Logging guide",
       "headings": {
         "logging-guide": "Logging guide"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "MoreDetailsOnFind.md",
+      "title": "Fuzzy Matching Details",
+      "headings": {
+        "more-details-on-matching": "More Details on Matching",
+        "1-types-of-matching": "1. Types of matching",
+        "2-which-fields-use-which-matching-style": "2. Which fields use which matching style?",
+        "3-notes-on-exact-match-fields": "3. Notes on exact-match fields",
+        "4-note-on-year-and-gender": "4. Note on Year and Gender",
+        "5-how-multiple-filters-combine": "5. How multiple filters combine"
       },
       "headingKeywords": {}
     },
