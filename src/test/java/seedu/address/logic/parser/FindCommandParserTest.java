@@ -96,6 +96,6 @@ public class FindCommandParserTest {
                 + "Warning: Ignored invalid y= keyword(s): [Y7]. Please use one of these values: [1, 2, 3, 4, 5, 6]";
 
         FindCommand expectedFindCommand = new FindCommand(filterDetails, warning);
-        assertParseSuccess(parser, " n=Alice g=she g=female y=2 y=Y7", expectedFindCommand);
+        assertParseSuccess(parser, " n=Alice g=she g=female y=2 y=7", expectedFindCommand);
     }
 }
