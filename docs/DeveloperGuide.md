@@ -860,7 +860,8 @@ Team size: 5
 
 9. Improve documentation alignment for platform-specific behavior: Hall Ledger currently documents known issues such as dialog behavior and write-protected folders. We plan to keep refining the UG/DG wording and screenshots so platform-specific caveats remain easy to understand.
 
-10. Long names and emails may seem cut off in the student list and profile details. To make the residents' details
+10. Long names and emails may seem cut off in the resident list section and profile details. To make the residents'
+    details
     selectable, we had to use `TextField` rather than `Label` to represent the residents' details. However, JavaFx
     does not allow text-wrapping or elipsis-creation for `TextField`, so users may have the impression that these
     personal fields are cut off, when they are actually fully visible if one were to select the text and scroll
