@@ -844,9 +844,9 @@ Team size: 5
    data to
    remain logically valid. We plan to detect and explain more invalid manual edits instead of only failing at load time.
 
-3. Currently, there is no way to view some components: dashboard, details, profile, demerit records, and
-   filter panel without using the mouse. We plan to add keyboard shortcuts for tab navigation to improve accessibility
-   and
+3. Currently, in order to toggle and/or view certain UI components without a mouse (dashboard, details,
+   profile, demerit records, filter panel), users can only do so through arrow keys or pressing Tab with a lot of
+   maneuver. We plan to add specific CLI commands to toggle and/or view these components, which may improve
    efficiency for typing-preferred users.
 
 4. Make tag-validation error messages more specific: Hall Ledger currently rejects invalid tag inputs, but some error messages can still be made more precise. We plan to state more clearly which tag field failed validation and why.
